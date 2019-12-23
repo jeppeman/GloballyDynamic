@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">LocallyDynamic</string>
+    <string name="title_installtimefeature">Install Time Feature</string>
+    <string name="title_ondemandfeature">On Demand Feature</string>
+    <string name="install_dialog_title">Feature: %s</string>
+    <string name="install_dialog_step_downloading">Downloading…</string>
+    <string name="install_dialog_installing">Installing…</string>
+    <string name="install_dialog_failed">Failed to install, error: %s</string>
+    <string name="install_dialog_installed">Installed successfully</string>
+    <string name="install_dialog_canceled">Canceled</string>
+    <string name="cancel">Cancel</string>
+</resources>

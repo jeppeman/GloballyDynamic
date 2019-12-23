@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+
+set -e
+
+function print_help_and_exit() {
+    echo "run_tests_in_testlab [options]"
+    echo "Options:"
+    echo "--apk-file [apk file]            : The path of the apk to upload."
+    echo "--test-apk-file [test apk  file] : The path of the proguard mapping file to upload"
+    echo "--project [project]              : The firebase project name"
+    echo "--device [dimension=value,[...]] : The device to run the tests on, can be specified multiple times"
+    echo "--use-orchestrator [true|false]  : Whether to use the test android orchestrator or not (defaults to true)"
+    echo "--test-target [test target,[...]]: A list of one or more test target filters to apply"
+    echo "--timeout [timeout]              : The time limit for the test suite"
+    echo "--num-shards [number of shards]  : The amount shards to break the tests into"
+    echo "--shard-index [shard index]      : The index of the shard to run"
+    exit 1 
+}
+
+declare -a devices=()
+declare -a test_targets=()
+use_orchestrator=true
+timeout=30m
+n_shards=1
+shard_index=0
+
+while [[ $# -gt 1 ]]
+do
+key="$1"
+
+case ${key} in
+    --project)
+    project="$2"
+    shift
+    ;;
+    --apk-file)
+    apk_file_path="$2"
+    shift
+    ;;
+    --test-apk-file)
+    test_apk_file_path="$2"
+    shift
+    ;;
+    --device)
+    devices+=(--device "$2")
+    shift
+    ;;
+    --test-target)
+    test_targets+=(--test-targets "$2")
+    shift
+    ;;
+    --timeout)
+    timeout="$2"
+    shift
+    ;;
+    --num-shards)
+    n_shards="$2"
+    shift
+    ;;
+    --shard-index)
+    shard_index="$2"
+    shift
+    ;;
+    --use-orchestrator)
+    use_orchestrator=$2
+    shift
+    ;;
+    *)
+    # unknown option
+    echo "unknown argument ${key}"
+    print_help_and_exit
+    ;;
+esac
+shift
+done
+
+if [[ "${#devices[@]}" == "0" ]]
+then
+    echo "No devices specified"
+    print_help_and_exit
+fi
+
+if [[ -z "${GCLOUD_CREDENTIALS_FILE}" ||  -z "$(cat ${GCLOUD_CREDENTIALS_FILE})" ]]
+then
+    echo "Contents of \$GCLOUD_CREDENTIALS_FILE must not be empty"
+    exit 1
+fi
+
+if [[ -z "${apk_file_path}" ]]
+then
+    echo "No argument specified for --apk-file"
+    print_help_and_exit
+fi
+
+if [[ -z "${test_apk_file_path}" ]]
+then
+    echo "No argument specified for --test-apk-file"
+    print_help_and_exit
+fi
+
+if [[ "${use_orchestrator}" == true ]]
+then
+    orchestrator_arg=--use-orchestrator
+fi
+
+gcloud auth activate-service-account testlabrunner@android-jetpack-playground.iam.gserviceaccount.com --key-file=${GCLOUD_CREDENTIALS_FILE}
+
+gcloud firebase test android models list
+
+gcloud firebase test android run --project ${project} \
+    --app ${apk_file_path} \
+    --test ${test_apk_file_path} \
+    --timeout ${timeout} \
+    --environment-variables "numShards=${n_shards},shardIndex=${shard_index}" \
+    ${orchestrator_arg} \
+    "${devices[@]}" \
+    "${test_targets[@]}"
+

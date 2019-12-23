@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p ~/.gradle
+
+props="org.gradle.daemon=false\n\
+org.gradle.workers.max=2\n\
+kotlin.incremental=false\n\
+kotlin.compiler.execution.strategy=in-process\n\
+org.gradle.jvmargs=-Xmx3g\n\
+LOCALLY_DYNAMIC_KEYSTORE_PATH=${LOCALLY_DYNAMIC_KEYSTORE_PATH}\n\
+LOCALLY_DYNAMIC_KEYSTORE_PASSWORD=${LOCALLY_DYNAMIC_KEYSTORE_PASSWORD}\n\
+LOCALLY_DYNAMIC_KEY_ALIAS=${LOCALLY_DYNAMIC_KEY_ALIAS}\n\
+LOCALLY_DYNAMIC_KEY_PASSWORD=${LOCALLY_DYNAMIC_KEY_PASSWORD}\n\
+LOCALLY_DYNAMIC_USERNAME=${LOCALLY_DYNAMIC_USERNAME}\n\
+LOCALLY_DYNAMIC_PASSWORD=${LOCALLY_DYNAMIC_PASSWORD}\n"
+
+printf ${props} > ~/.gradle/gradle.properties

@@ -1,0 +1,60 @@
+plugins {
+    id 'org.jetbrains.intellij' version '0.4.13'
+    id 'org.jetbrains.kotlin.jvm' version "1.3.50"
+}
+
+apply from: 'deps.gradle'
+
+group GROUP
+version VERSION_NAME
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+    compile deps.kotlin.stdlib
+    compile deps.locallydynamic.server
+
+    testCompile deps.truth
+    testCompile deps.junit.api
+    testCompile deps.junit.params
+    testCompile deps.junit.engine
+    testCompile deps.junit.runner
+    testCompile deps.mockito.core
+    testCompile deps.mockito.jupiter
+    testCompile deps.mockito.kotlin
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+intellij {
+    plugins 'android'
+    type 'IC'
+    version '2019.1.4'
+//    alternativeIdePath "${ANDROID_STUDIO_STABLE_PATH}"
+    //localPath "${ANDROID_STUDIO_PREVIEW_PATH}" // android studio 3.6
+}
+
+publishPlugin {
+   // channels 'alpha'
+    token project.hasProperty("intellijPublishToken") ? "${intellijPublishToken}" : ""
+}
+
+patchPluginXml {
+    changeNotes """
+      Compatible with Android Studio 3.6
+      <ul>
+        <li>Embedded LocallyDynamic server that apps using the <a href="https://github.com/jeppeman/LocallyDynamic/tree/master/locallydynamic-android-lib">LocallyDynamic Android library</a> can get their splits from</li>
+        <li>Tool window with a log from the server for debugging and visualization purposes</li>
+        <li>Action menu items to manually start/stop a server</li>
+        <li>Adds a step before running a bundle app that automatically starts the server</li>
+      <ul>
+      """
+}

@@ -1,0 +1,49 @@
+<idea-plugin>
+    <id>com.jeppeman.locallydynamic</id>
+    <name>LocallyDynamic</name>
+    <vendor email="jesperaamann@gmail.com" url="https://github.com/jeppeman">jeppeman</vendor>
+
+    <description>
+        Dynamic delivery without Google Play; Embeds a LocallyDynamic server into Android Studio that apps using the
+        LocallyDynamic Android library will download their splits from.
+        <![CDATA[  <br/> ]]>
+        A server log tool window is also included for debugging purposes.
+    </description>
+
+    <depends>org.jetbrains.android</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <stepsBeforeRunProvider
+                implementation="com.jeppeman.locallydynamic.idea.LocallyDynamicBuildPreparationProvider"/>
+<!--                    conditionClass="com.jeppeman.locallydynamic.idea.LocallyDynamicConsoleWindowCondition"-->
+        <toolWindow id="LocallyDynamic Log"
+                    icon="PluginIcons.logo1616"
+                    anchor="bottom"
+                    factoryClass="com.jeppeman.locallydynamic.idea.LocallyDynamicConsoleWindowFactory"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.android.gradle.sync">
+        <postSyncModuleSetupStep implementation="com.jeppeman.locallydynamic.idea.PostModuleSyncStep"/>
+        <postSyncProjectSetupStep implementation="com.jeppeman.locallydynamic.idea.PostProjectSyncStep"/>
+    </extensions>
+
+    <actions>
+        <group id="LocallyDynamic.TopMenu"
+               text="_LocallyDynamic"
+               description="LocallyDynamic toolbar menu">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action id="LocallyDynamic.StartServer"
+                    icon="PluginIcons.startServer"
+                    class="com.jeppeman.locallydynamic.idea.StartServerAction"
+                    text="_Start Server"
+                    description="Start LocallyDynamic server">
+            </action>
+            <action id="LocallyDynamic.StopServer"
+                    icon="PluginIcons.stopServer"
+                    class="com.jeppeman.locallydynamic.idea.StopServerAction"
+                    text="Sto_p Server"
+                    description="Stop LocallyDynamic server">
+            </action>
+        </group>
+    </actions>
+</idea-plugin>

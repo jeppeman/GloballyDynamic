@@ -1,0 +1,15 @@
+apply plugin: 'java-library'
+
+jar {
+    archiveFileName = 'locallydynamic-net.jar'
+}
+
+dependencies {
+    api project(':locallydynamic-serialization')
+
+    testImplementation deps.mockito.core
+    testImplementation deps.test.junit
+    testImplementation deps.test.truth
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

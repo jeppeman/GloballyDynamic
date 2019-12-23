@@ -1,0 +1,220 @@
+version: 2.1
+
+executors:
+  android:
+    docker:
+      - image: circleci/android:api-29
+
+aliases:
+  - &restore_cache_android
+    restore_cache:
+      keys:
+        - v1-android-dependencies-{{ checksum "locallydynamic-android-lib/build.gradle" }}
+        - v1-android-dependencies-
+  - &save_cache_android
+    save_cache:
+      paths:
+        - ~/.gradle
+      key: v1-android-dependencies-{{ checksum "locallydynamic-android-lib/build.gradle" }}
+
+
+commands:
+  initialize:
+    description: "Checks out code, restores caches, bootstraps the build environment"
+    steps:
+      - checkout
+      - run:
+          name: Bootstrap Environment
+          command: ./.circleci/bootstrap_env
+      - run:
+          name: Configure Gradle
+          command: configure_gradle
+      - *restore_cache_android
+
+  android_lib_run_instrumentation_tests:
+    description: "Run tests in test lab"
+    steps:
+      - initialize
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run android instrumentation tests
+          command: |
+            cd locallydynamic-android-lib
+            apk_file=integration-tests/build/intermediates/extracted_apks/debug/extractApksForDebug/out/base-master.apk
+            test_apk_file=integration-tests/build/outputs/apk/androidTest/debug/integration-tests-debug-androidTest.apk 
+            pixel4_api29="model=flame,version=29"
+            pixel2_api28="model=blueline,version=28"
+            samsung_galaxy_note9_api27="model=crownqlteue,version=27"
+            xiaomi_mix_api26="model=lithium,version=26"
+            sony_xperia_api25="model=G8142,version=25"
+            lg_g6_api24="model=lucye,version=24"
+
+            run_tests_in_testlab --apk-file "${apk_file}" \
+                                 --test-apk-file "${test_apk_file}" \
+                                 --project android-jetpack-playground \
+                                 --use-orchestrator false \
+                                 --timeout 7m\
+                                 --device "${pixel4_api29}" \
+                                 --device "${pixel2_api28}" \
+                                 --device "${samsung_galaxy_note9_api27}" \
+                                 --device "${xiaomi_mix_api26}" \
+                                 --device "${sony_xperia_api25}" \
+                                 --device "${lg_g6_api24}"
+
+jobs:
+  android_lib_build_debug_apk:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Build android debug APK
+          command: cd locallydynamic-android-lib && ./gradlew :integration-tests:extractApksForDebug -Pandroid.inject.apkselect.config=${LOCALLY_DYNAMIC_DEVICE_PATH}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - locallydynamic-android-lib/integration-tests/build/intermediates/extracted_apks/debug/extractApksForDebug/out/base-master.apk
+      - *save_cache_android
+
+  android_lib_build_test_apk:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Build android test APK
+          command: cd locallydynamic-android-lib && ./gradlew assembleAndroidTest
+      - persist_to_workspace:
+          root: .
+          paths:
+            - locallydynamic-android-lib/integration-tests/build/outputs/apk/androidTest/debug/integration-tests-debug-androidTest.apk
+      - *save_cache_android
+
+  android_lib_lint:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Run android lint
+          command: cd locallydynamic-android-lib && ./gradlew lint
+      - *save_cache_android
+
+  android_lib_run_unit_tests:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Run android tests
+          command: cd locallydynamic-android-lib && ./gradlew test
+      - *save_cache_android
+
+  android_lib_run_instrumentation_tests:
+    executor: android
+    steps:
+      - android_lib_run_instrumentation_tests
+
+  server_lib_tests:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Run server lib tests
+          command: cd locallydynamic-server-library && ./gradlew test
+
+  gradle_plugin_tests_agp353:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Run gradle plugin tests with AGP 3.5.3
+          command: cd locallydynamic-gradle-plugin && ./gradlew test -PagpVersion=3.5.3
+
+  gradle_plugin_tests_agp360:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Run gradle plugin tests with AGP 3.6.0
+          command: cd locallydynamic-gradle-plugin && ./gradlew test -PagpVersion=3.6.0-rc01
+
+  studio_plugin_tests:
+    executor: android
+    resource_class: xlarge
+    steps:
+      - initialize
+      - run:
+          name: Run studio plugin tests
+          command: cd locallydynamic-studio-plugin && ./gradlew test
+
+workflows:
+  version: 2
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - develop
+    jobs:
+      - android_lib_build_debug_apk:
+          context: Android
+
+      - android_lib_build_test_apk:
+          context: Android
+
+      - android_lib_lint:
+          context: Android
+
+      - android_lib_run_unit_tests:
+          context: Android
+
+      - android_lib_run_instrumentation_tests:
+          context: Android
+          requires:
+            - android_lib_build_debug_apk
+            - android_lib_build_test_apk
+
+      - server_lib_tests:
+          context: Android
+
+      - gradle_plugin_tests_agp353:
+          context: Android
+
+      - gradle_plugin_tests_agp360:
+          context: Android
+
+      - studio_plugin_tests:
+          context: Android
+
+  build_and_test:
+    jobs:
+      - android_lib_build_debug_apk:
+          context: Android
+
+      - android_lib_build_test_apk:
+          context: Android
+
+      - android_lib_lint:
+          context: Android
+
+      - android_lib_run_unit_tests:
+          context: Android
+
+      - server_lib_tests:
+          context: Android
+
+      - gradle_plugin_tests_agp353:
+          context: Android
+
+      - gradle_plugin_tests_agp360:
+          context: Android
+
+      - studio_plugin_tests:
+          context: Android

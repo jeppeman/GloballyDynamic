@@ -1,0 +1,78 @@
+buildscript {
+    apply from: 'deps.gradle'
+
+    repositories {
+        jcenter()
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+        classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
+        classpath "com.github.jengelman.gradle.plugins:shadow:$versions.shadowjar"
+    }
+}
+
+ext {
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_8
+    targetCompatibilityVersion = JavaVersion.VERSION_1_8
+    jvmTargetVersion = "1.8"
+}
+
+subprojects {
+    apply plugin: "com.github.johnrengelman.shadow"
+
+    afterEvaluate { project ->
+        tasks.withType(Test) {
+            testLogging {
+                exceptionFormat "full"
+                showCauses true
+                showExceptions true
+                showStackTraces true
+                showStandardStreams true
+                events = ["passed", "skipped", "failed", "standardOut", "standardError"]
+            }
+        }
+
+        repositories {
+            jcenter()
+            google()
+            mavenCentral()
+        }
+
+        if (project.hasProperty('java')) {
+            sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+            targetCompatibility = rootProject.ext.targetCompatibilityVersion
+
+            compileKotlin {
+                kotlinOptions {
+                    jvmTarget = rootProject.ext.jvmTargetVersion
+                }
+            }
+            compileTestKotlin {
+                kotlinOptions {
+                    jvmTarget = rootProject.ext.jvmTargetVersion
+                }
+            }
+        }
+    }
+}
+
+apply plugin: "com.github.ben-manes.versions"
+
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

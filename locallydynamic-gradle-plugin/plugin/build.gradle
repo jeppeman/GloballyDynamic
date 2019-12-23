@@ -1,0 +1,44 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'java'
+    id 'kotlin'
+    id 'com.gradle.plugin-publish' version '0.10.1'
+}
+
+dependencies {
+  implementation gradleApi()
+  implementation localGroovy()
+  implementation deps.kotlin.stdlib
+  implementation deps.androidplugin
+  implementation deps.javapoet
+
+  testImplementation deps.locallydynamic_server
+  testImplementation deps.junit.api
+  testImplementation deps.junit.params
+  testImplementation deps.junit.engine
+  testImplementation deps.junit.runner
+  testImplementation deps.mockito.core
+  testImplementation deps.mockito.jupiter
+  testImplementation deps.mockito.kotlin
+  testImplementation deps.truth
+}
+
+gradlePlugin {
+  plugins {
+    locallyDynamicPlugin {
+      id = 'com.jeppeman.locallydynamic'
+      implementationClass = 'com.jeppeman.locallydynamic.gradle.LocallyDynamicPlugin'
+      displayName = 'LocallyDynamic'
+      description = "LocallyDynamic - Dynamic Delivery without Google Play"
+    }
+  }
+}
+
+pluginBundle {
+    website = POM_URL
+    vcsUrl = POM_SCM_URL
+    description = POM_DESCRIPTION
+    tags = ['android', 'dynamic-delivery']
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

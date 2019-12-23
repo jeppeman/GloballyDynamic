@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jeppeman.locallydynamic'
+
+android {
+    buildTypes {
+        debug {
+            locallyDynamic {
+                enabled = true
+                throttleDownloadBy = 1000
+                disableDependencyCheck = true // Do not use this in your project, this is a workaround for when the locallydynamic library is declared as project(':locallydynamic') instead of having actual maven coordinates
+            }
+        }
+        release {
+            minifyEnabled true
+        }
+    }
+
+    dynamicFeatures = [":sample:installtimefeature", ":sample:ondemandfeature"]
+}
+
+dependencies {
+    api deps.constraintlayout.constraintlayout
+    api deps.autoservice.annotations
+    api deps.appcompat.appcompat
+    api deps.kotlin.stdlib
+    api deps.lifecycle.livedata
+    api deps.lifecycle.viewmodel
+    api deps.lifecycle.extensions
+    api deps.material.material
+    api project(':locallydynamic')
+
+    kapt deps.autoservice.processor
+}

@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jeppeman.locallydynamic'
+
+android {
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.androidVersionCode
+        versionName rootProject.ext.androidVersionName
+        applicationId "com.jeppeman.locallydynamic.integration_tests"
+        testApplicationId "com.jeppeman.locallydynamic.integration_tests.test"
+        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+    }
+
+    if (project.hasProperty("LOCALLY_DYNAMIC_KEYSTORE_PATH")) {
+        signingConfigs {
+            debug {
+                storeFile file(getProperty("LOCALLY_DYNAMIC_KEYSTORE_PATH"))
+                storePassword project.hasProperty("LOCALLY_DYNAMIC_KEYSTORE_PASSWORD")
+                        ? getProperty("LOCALLY_DYNAMIC_KEYSTORE_PASSWORD")
+                        : ""
+                keyAlias project.hasProperty("LOCALLY_DYNAMIC_KEY_ALIAS")
+                        ? getProperty("LOCALLY_DYNAMIC_KEY_ALIAS")
+                        : ""
+                keyPassword project.hasProperty("LOCALLY_DYNAMIC_KEY_PASSWORD")
+                        ? getProperty("LOCALLY_DYNAMIC_KEY_PASSWORD")
+                        : ""
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            locallyDynamic {
+                enabled = true
+                disableDependencyCheck = true// Do not use this in your project, this is a workaround for when the locallydynamic library is declared as project(':locallydynamic') instead of having actual maven coordinates
+                serverUrl = "https://locallydynamic.io"
+                username = project.hasProperty("LOCALLY_DYNAMIC_USERNAME")
+                        ? getProperty("LOCALLY_DYNAMIC_USERNAME")
+                        : ""
+                password = project.hasProperty("LOCALLY_DYNAMIC_PASSWORD")
+                        ? getProperty("LOCALLY_DYNAMIC_PASSWORD")
+                        : ""
+            }
+            if (project.hasProperty("LOCALLY_DYNAMIC_KEYSTORE_PATH")) {
+                signingConfig signingConfigs.debug
+            }
+        }
+        release {
+            minifyEnabled true
+        }
+    }
+
+    dynamicFeatures = [":integration-tests:installtimefeature", ":integration-tests:ondemandfeature"]
+}
+
+dependencies {
+    api deps.constraintlayout.constraintlayout
+    api deps.autoservice.annotations
+    api deps.appcompat.appcompat
+    api deps.kotlin.stdlib
+    api deps.lifecycle.livedata
+    api deps.lifecycle.viewmodel
+    api deps.lifecycle.extensions
+    api deps.material.material
+    api project(':locallydynamic')
+
+    kapt deps.autoservice.processor
+
+    androidTestImplementation deps.espresso.core
+    androidTestImplementation deps.espresso.contrib
+    androidTestImplementation deps.espresso.intents
+    androidTestImplementation deps.espresso.idling
+    androidTestImplementation deps.uiautomator
+}

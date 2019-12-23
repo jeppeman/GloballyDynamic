@@ -1,0 +1,4 @@
+rootProject.name = 'locallydynamic-server'
+include ':server'
+include ':integration-tests'
+

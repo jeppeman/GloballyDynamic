@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+
+android {
+    sourceSets {
+        test {
+            java.srcDirs += "src/debug/java"
+        }
+    }
+}
+
+dependencies {
+    api deps.play.core
+
+    debugApi deps.core.core
+    debugApi project(':locallydynamic-serialization')
+    debugApi project(':locallydynamic-net')
+
+    compileOnly project(':locallydynamic-generated')
+
+    testImplementation deps.kotlin.stdlib
+    testImplementation deps.mockito.core
+    testImplementation deps.test.junit
+    testImplementation deps.test.truth
+    testImplementation deps.core.core
+    testImplementation deps.robolectric.robolectric
+    testImplementation project(':locallydynamic-serialization')
+    testImplementation project(':locallydynamic-net')
+    testImplementation project(':locallydynamic-generated')
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

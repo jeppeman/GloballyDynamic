@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+
+set -e
+
+function print_help_and_exit() {
+    echo "github_releases_upload [options]"
+    echo "Options:"
+    echo "--file-path [apk file]         : The path of the file to upload."
+    echo "--repo-name [repo name]        : The name of the repository to upload to."
+    echo "--git-commit [git commit hash] : The hash of the git commit that the release points to."
+    echo "--version [version]            : The version of the release."
+    echo "--apk-name [apk file]          : The name of the uploaded apk."
+    echo "--draft [draft]                : Whether or not this release is a draft."
+    echo "--prerelease [prerelease]      : Whether or not this release is prerelease."
+    exit 0
+}
+
+draft=false
+prerelease=false
+body=""
+
+while [[ $# -gt 1 ]]
+do
+key="$1"
+
+case ${key} in
+    --file-path)
+    file_path="$2"
+    shift
+    ;;
+    --repo-name)
+    repo_name="$2"
+    shift
+    ;;
+    --version)
+    version="$2"
+    shift
+    ;;
+    --apk-name)
+    apk_name="$2"
+    shift
+    ;;
+    --git-commit)
+    git_commit="$2"
+    shift
+    ;;
+    --draft)
+    draft="$2"
+    shift
+    ;;
+    --prerelease)
+    prerelease="$2"
+    shift
+    ;;
+    --body)
+    body="$2"
+    shift
+    ;;
+    *)
+    # unknown option
+    echo "unknown argument ${key}"
+    print_help_and_exit
+    ;;
+esac
+shift
+done
+
+if [[ -z "${file_path}" ]]
+then
+    echo "No argument specified for --file-path"
+    print_help_and_exit
+fi
+
+if [[ -z "${repo_name}" ]]
+then
+    echo "No argument specified for --repo-name"
+    print_help_and_exit
+fi
+
+if [[ -z "${version}" ]]
+then
+    echo "No argument specified for --version"
+    print_help_and_exit
+fi
+
+if [[ -z "${apk_name}" ]]
+then
+    echo "No argument specified for --apk-name"
+    print_help_and_exit
+fi
+
+if [[ -z "${git_commit}" ]]
+then
+    echo "No argument specified for --git-commit"
+    print_help_and_exit
+fi
+
+check_github_credentials
+
+releases_url=https://api.github.com/repos/jeppeman/${repo_name}/releases
+auth_header="Authorization: token ${GITHUB_API_TOKEN}"
+
+release_json=$(curl -H "${auth_header}" "${releases_url}/tags/${version}")
+release_id=$(echo ${release_json} | jq .id)
+
+if [[ "${release_id}" == "null" ]]
+then
+    release_payload="{ \
+        \"tag_name\": \"${version}\", \
+        \"target_commitish\": \"${git_commit}\", \
+        \"name\": \"${version}\", \
+        \"body\": \"${body}\", \
+        \"draft\": ${draft}, \
+        \"prerelease\": ${prerelease} \
+    }"
+
+    echo "No release found for version ${version}, creating a new one..."
+
+    release_json=$(curl --fail -X POST -H "Content-Type:application/json" -H "${auth_header}" ${releases_url} --data "${release_payload}")
+
+    echo "Release created for version ${version}, payload: ${release_json}"
+else
+    echo "Release found for version ${version} with payload ${release_json}"
+fi
+
+upload_url=$(echo ${release_json} | jq .upload_url | sed "s/{?name,label}/?name=${apk_name}/g" | sed "s/\"//g")
+
+echo "Resolved upload url: ${upload_url}"
+
+content_type=$(file -b --mime-type ${file_path})
+content_length=$(stat -c "%s" ${file_path})
+
+echo "Content type: ${content_type}"
+echo "Content lenght: ${content_length}"
+
+curl --fail \
+    -X POST \
+    -H "${auth_header}" \
+    -H "Content-Type: ${content_type}" \
+    -H "Content-Length: ${content_length}" \
+    ${upload_url} \
+    --data-binary @"${file_path}" 

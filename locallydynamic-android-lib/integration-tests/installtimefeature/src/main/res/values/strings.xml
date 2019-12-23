@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="install_time_feature_string">Hi, I am a fragment from an install time feature</string>
+</resources>

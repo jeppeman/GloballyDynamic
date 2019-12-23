@@ -1,0 +1,13 @@
+apply plugin: 'java-library'
+
+jar {
+    archiveFileName = 'locallydynamic-serialization.jar'
+}
+
+dependencies {
+    testImplementation deps.mockito.core
+    testImplementation deps.test.junit
+    testImplementation deps.test.truth
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

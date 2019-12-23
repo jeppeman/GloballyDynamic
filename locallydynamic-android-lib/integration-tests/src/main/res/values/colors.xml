@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4b7786</color>
+    <color name="colorPrimaryDark">#436b78</color>
+    <color name="colorAccent">#debd74</color>
+    <color name="statusBarColor">#99548595</color>
+    <color name="fabDisabled">#ccc</color>
+    <color name="background">#293542</color>
+</resources>

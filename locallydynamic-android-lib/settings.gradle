@@ -1,0 +1,10 @@
+include ':locallydynamic',
+        ':locallydynamic-generated',
+        ':locallydynamic-serialization',
+        ':locallydynamic-net',
+        ':sample',
+        ':sample:installtimefeature',
+        ':sample:ondemandfeature',
+        ':integration-tests',
+        ':integration-tests:installtimefeature',
+        ':integration-tests:ondemandfeature'

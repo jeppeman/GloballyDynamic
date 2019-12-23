@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:constraintSetEnd="@+id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="400" />
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/loader"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:indeterminateOnly="false"
+            android:padding="@null"
+            android:progressDrawable="@drawable/install_progress_drawable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/indeterminateLoader"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:alpha="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/progressValueText"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:alpha="0"
+            android:gravity="center"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/loader"
+            app:layout_constraintEnd_toEndOf="@+id/loader"
+            app:layout_constraintStart_toStartOf="@+id/loader"
+            app:layout_constraintTop_toTopOf="@+id/loader" />
+
+        <Constraint
+            android:id="@+id/progressText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="25dp"
+            android:alpha="0"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/loader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/loader"
+            app:layout_constraintTop_toTopOf="@+id/loader" />
+
+        <Constraint
+            android:id="@+id/cancelInstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:background="?selectableItemBackground"
+            android:text="@string/cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loader" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/loader"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:alpha="1"
+            android:indeterminateOnly="false"
+            android:padding="@null"
+            android:progressDrawable="@drawable/install_progress_drawable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/indeterminateLoader"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:alpha="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/progressValueText"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:alpha="1"
+            android:gravity="center"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/loader"
+            app:layout_constraintEnd_toEndOf="@+id/loader"
+            app:layout_constraintStart_toStartOf="@+id/loader"
+            app:layout_constraintTop_toTopOf="@+id/loader" />
+
+        <Constraint
+            android:id="@+id/progressText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="25dp"
+            android:alpha="1"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/loader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/loader"
+            app:layout_constraintTop_toTopOf="@+id/loader" />
+
+        <Constraint
+            android:id="@+id/cancelInstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            android:background="?selectableItemBackground"
+            android:text="@string/cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loader" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/installing">
+        <Constraint
+            android:id="@+id/loader"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:indeterminateOnly="false"
+            android:padding="@null"
+            android:progressDrawable="@drawable/install_progress_drawable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/indeterminateLoader"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:alpha="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/progressValueText"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:alpha="0"
+            android:gravity="center"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/loader"
+            app:layout_constraintEnd_toEndOf="@+id/loader"
+            app:layout_constraintStart_toStartOf="@+id/loader"
+            app:layout_constraintTop_toTopOf="@+id/loader" />
+
+        <Constraint
+            android:id="@+id/progressText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="25dp"
+            android:alpha="1"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/loader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/loader"
+            app:layout_constraintTop_toTopOf="@+id/loader" />
+
+        <Constraint
+            android:id="@+id/cancelInstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:background="?selectableItemBackground"
+            android:text="@string/cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loader" />
+    </ConstraintSet>
+
+</MotionScene>

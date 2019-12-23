@@ -1,0 +1,16 @@
+apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    defaultConfig {
+        minSdkVersion 18
+    }
+}
+
+dependencies {
+    implementation project(':integration-tests')
+    androidTestImplementation project(':integration-tests')
+    kapt deps.autoservice.processor
+}

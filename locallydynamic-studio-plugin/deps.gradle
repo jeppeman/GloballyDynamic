@@ -1,0 +1,38 @@
+def versions = [
+        kotlin               : '1.3.50',
+        locallydynamic_server: '0.1',
+        junit                : '5.5.2',
+        junit_platform       : '1.5.2',
+        truth                : '1.1.0',
+        mockito              : '2.23.4',
+        mockito_kotlin       : '2.1.0',
+]
+
+ext.versions = versions
+
+def deps = [:]
+
+deps.kotlin = [
+        stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+]
+
+deps.locallydynamic = [
+        server: "com.jeppeman.locallydynamic.server:server:$versions.locallydynamic_server"
+]
+
+deps.junit = [
+        api   : "org.junit.jupiter:junit-jupiter-api:$versions.junit",
+        params: "org.junit.jupiter:junit-jupiter-params:$versions.junit",
+        engine: "org.junit.jupiter:junit-jupiter-engine:$versions.junit",
+        runner: "org.junit.platform:junit-platform-runner:$versions.junit_platform",
+]
+
+deps.mockito = [
+        core   : "org.mockito:mockito-core:$versions.mockito",
+        jupiter: "org.mockito:mockito-junit-jupiter:$versions.mockito",
+        kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+]
+
+deps.truth = "androidx.test.ext:truth:$versions.truth"
+
+ext.deps = deps

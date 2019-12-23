@@ -1,0 +1,13 @@
+apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+dependencies {
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+    implementation project(':sample')
+    androidTestImplementation project(':sample')
+
+    kapt deps.autoservice.processor
+}
