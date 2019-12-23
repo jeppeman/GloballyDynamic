@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -e
+
+bucket_id=globallydynamic_storage
+
+echo "
+export GLOBALLY_DYNAMIC_PORT=9090
+export GLOBALLY_DYNAMIC_USERNAME=${GLOBALLY_DYNAMIC_PROD_USERNAME}
+export GLOBALLY_DYNAMIC_PASSWORD=${GLOBALLY_DYNAMIC_PROD_PASSWORD}
+export GLOBALLY_DYNAMIC_STORAGE_BACKEND=gcp
+export GLOBALLY_DYNAMIC_GCP_BUCKET_ID=${bucket_id}
+export GLOBALLY_DYNAMIC_HTTPS_REDIRECT=false
+export GLOBALLY_DYNAMIC_OVERRIDE_EXISTING_BUNDLES=false
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+export ANDROID_SDK_ROOT=/opt/android/sdk
+export ANDROID_HOME=/opt/android/sdk
+" > vm_environment
+
+#Create VM instance
+gcloud compute instance-templates create globallydynamic-instance-template \
+    --tags=http-server,https-server \
+    --image-family=globallydynamic \
+    --machine-type=n1-standard-2 \
+    --scopes=cloud-platform \
+    --metadata-from-file=environment=vm_environment,startup-script=$(pwd)/managed_instance_startup
+
+rm vm_environment

@@ -1,0 +1,128 @@
+buildscript {
+    apply from: 'deps.gradle'
+
+    repositories {
+        jcenter()
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$versions.androidplugin"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+        classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:$versions.globallydynamic_gradle"
+        classpath "digital.wup:android-maven-publish:$versions.publish"
+        classpath "com.vanniktech:gradle-android-javadoc-plugin:$versions.javadoc"
+    }
+}
+
+ext {
+    minSdkVersion = 16
+    targetSdkVersion = 29
+    compileSdkVersion = 29
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_6
+    targetCompatibilityVersion = JavaVersion.VERSION_1_6
+    applicationIdBase = "com.example.globallydynamic"
+    testApplicationId = "${applicationIdBase}.test"
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    jvmTargetVersion = "1.6"
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        google()
+        mavenCentral()
+        maven { url 'http://developer.huawei.com/repo' }
+    }
+}
+
+apply plugin: 'aggregate-javadoc'
+
+subprojects {
+    afterEvaluate { project ->
+        tasks.withType(Test) {
+            testLogging {
+                exceptionFormat "full"
+                showCauses true
+                showExceptions true
+                showStackTraces true
+                showStandardStreams true
+                events = ["passed", "skipped", "failed", "standardOut", "standardError"]
+            }
+        }
+
+        tasks.withType(GenerateModuleMetadata) {
+            enabled = false
+        }
+
+        if (project.hasProperty('android')) {
+            apply plugin: "com.vanniktech.android.javadoc"
+
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+
+                def minSdk = project.android.defaultConfig.minSdkVersion
+                defaultConfig {
+                    minSdkVersion (minSdk != null ? minSdk.apiLevel : rootProject.ext.minSdkVersion)
+                    targetSdkVersion rootProject.ext.targetSdkVersion
+                    versionCode rootProject.ext.androidVersionCode
+                    versionName rootProject.ext.androidVersionName
+                }
+
+                compileOptions {
+                    sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+                    targetCompatibility rootProject.ext.targetCompatibilityVersion
+                }
+
+                lintOptions {
+                    abortOnError true
+                }
+
+                if (project.plugins.findPlugin("kotlin-android")
+                        || project.plugins.findPlugin("kotlin")) {
+                    kotlinOptions {
+                        jvmTarget = rootProject.ext.jvmTargetVersion
+                    }
+                }
+            }
+        } else if (project.hasProperty('java')) {
+            sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+            targetCompatibility = rootProject.ext.targetCompatibilityVersion
+
+            if (project.plugins.findPlugin('kotlin')){
+                compileKotlin {
+                    kotlinOptions {
+                        jvmTarget = rootProject.ext.jvmTargetVersion
+                    }
+                }
+                compileTestKotlin {
+                    kotlinOptions {
+                        jvmTarget = rootProject.ext.jvmTargetVersion
+                    }
+                }
+            }
+        }
+    }
+}
+
+apply plugin: "com.github.ben-manes.versions"
+
+dependencyUpdates.resolutionStrategy {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

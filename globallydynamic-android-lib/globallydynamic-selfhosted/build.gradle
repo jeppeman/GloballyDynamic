@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+
+android {
+    flavorDimensions 'packaging'
+
+    productFlavors {
+        standalone {
+            dimension 'packaging'
+        }
+        fused {
+            dimension 'packaging'
+        }
+    }
+}
+
+dependencies {
+    api deps.core.core
+    api deps.play.core
+    standaloneApi project(':globallydynamic-core')
+    fusedImplementation project(':globallydynamic-core')
+
+    compileOnly project(':globallydynamic-generated')
+
+    testImplementation deps.kotlin.stdlib
+    testImplementation deps.mockito.core
+    testImplementation deps.test.junit
+    testImplementation deps.test.truth
+    testImplementation deps.core.core
+    testImplementation deps.robolectric.robolectric
+    testImplementation project(':globallydynamic-generated')
+}
+
+project.ext.mainPublication = 'standalone-release'
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

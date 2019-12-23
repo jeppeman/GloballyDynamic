@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name" translatable="false">GloballyDynamic</string>
+    <string name="title_installtimefeature" translatable="false">Install Time Feature</string>
+    <string name="title_ondemandfeature" translatable="false">On Demand Feature</string>
+    <string name="install_dialog_title_feature" translatable="false">Feature: %s</string>
+    <string name="install_dialog_title_language" translatable="false">Language: %s</string>
+    <string name="install_dialog_step_downloading" translatable="false">Downloading…</string>
+    <string name="install_dialog_installing" translatable="false">Installing…</string>
+    <string name="install_dialog_failed" translatable="false">Failed to install, error: %s</string>
+    <string name="install_dialog_installed" translatable="false">Installed successfully</string>
+    <string name="install_dialog_canceled" translatable="false">Canceled</string>
+    <string name="cancel" translatable="false">Cancel</string>
+    <string name="hello">Hello</string>
+    <string name="swedish" translatable="false">Swedish</string>
+    <string name="korean" translatable="false">Korean</string>
+    <string name="german" translatable="false">German</string>
+    <string name="italian" translatable="false">Italian</string>
+</resources>

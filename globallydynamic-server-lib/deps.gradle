@@ -1,0 +1,76 @@
+import java.nio.file.Paths
+
+def versions = [
+        kotlin        : '1.3.60',
+        jetty         : '9.4.27.v20200227',
+        versionsplugin: '0.25.0',
+        shadowjar     : '4.0.4',
+        guava         : '28.1-jre',
+        bundletool    : '1.0.0',
+        gson          : '2.8.6',
+        junit         : '5.5.2',
+        junit_platform: '1.5.2',
+        truth         : '1.1.0',
+        mockito       : '2.23.4',
+        mockito_kotlin: '2.1.0',
+        httpcomponents: '4.5.10',
+        gcp_storage   : '1.103.0',
+        s3_storage    : '1.11.822'
+]
+
+ext.versions = versions
+
+def deps = [:]
+
+deps.kotlin = [
+        stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+]
+
+deps.jetty = [
+        server: "org.eclipse.jetty:jetty-server:$versions.jetty"
+]
+
+deps.gson = "com.google.code.gson:gson:$versions.gson"
+
+deps.guava = "com.google.guava:guava:$versions.guava"
+
+deps.junit = [
+        api   : "org.junit.jupiter:junit-jupiter-api:$versions.junit",
+        params: "org.junit.jupiter:junit-jupiter-params:$versions.junit",
+        engine: "org.junit.jupiter:junit-jupiter-engine:$versions.junit",
+        runner: "org.junit.platform:junit-platform-runner:$versions.junit_platform",
+]
+
+deps.mockito = [
+        core   : "org.mockito:mockito-core:$versions.mockito",
+        jupiter: "org.mockito:mockito-junit-jupiter:$versions.mockito",
+        kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+]
+
+deps.truth = "androidx.test.ext:truth:$versions.truth"
+
+deps.httpcomponents = [
+        client: "org.apache.httpcomponents:httpclient:$versions.httpcomponents",
+        mime  : "org.apache.httpcomponents:httpmime:$versions.httpcomponents"
+]
+
+deps.gcp = [
+        storage: "com.google.cloud:google-cloud-storage:$versions.gcp_storage"
+]
+
+deps.aws = [
+        s3: "com.amazonaws:aws-java-sdk-s3:$versions.s3_storage"
+]
+
+def gradleCacheDir = Paths.get(System.getProperty("user.home"), ".gradle", "caches", "modules-2", "files-2.1")
+gradleCacheDir.toFile().mkdirs()
+def bundleToolFile = gradleCacheDir.resolve("bundletool-${versions.bundletool}.jar").toFile()
+
+if (!bundleToolFile.exists()) {
+    new URL("https://github.com/google/bundletool/releases/download/${versions.bundletool}/bundletool-all-${versions.bundletool}.jar")
+            .withInputStream { i -> bundleToolFile.withOutputStream { it << i } }
+}
+
+deps.bundletool = files(bundleToolFile)
+deps.bundletool_maven = "com.android.tools.build:bundletool:$versions.bundletool"
+ext.deps = deps

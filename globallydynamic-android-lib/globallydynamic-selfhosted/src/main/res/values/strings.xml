@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm_install_dialog_title">Grant permission</string>
+    <string name="confirm_install_dialog_message">%s requires you to grant install permissions in order to proceed with the request</string>
+    <string name="confirm_install_dialog_negative_action">Cancel</string>
+    <string name="confirm_install_dialog_positive_action">Grant</string>
+    <string name="restart_message_marshmallow">Install successful, but install without restart not available for sdk version less than 24, restarting…";</string>
+    <string name="cancel">Cancel</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_installing">Installing</string>
+    <string name="status_installed">Installed</string>
+    <string name="status_canceling">Canceling</string>
+    <string name="status_canceled">Canceled</string>
+    <string name="status_requires_confirmation">Requires confirmation</string>
+    <string name="status_failed">Failed</string>
+</resources>

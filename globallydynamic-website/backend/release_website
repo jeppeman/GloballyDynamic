@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Start the instance that images are based on
+gcloud compute instances start globallydynamic
+
+# Get the ip of the instance
+instance_ip=$(gcloud compute instances describe globallydynamic --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+
+api_url="http://${instance_ip}:8080/api"
+
+# Wait for the instance to migrate to new version of website
+iterations=0
+while [[ -z $(curl -s --max-time 2 ${api_url}) ]];
+do
+dots=''
+n_dots=$((${iterations} % 4))
+for (( i=0; i<${n_dots}; i++ ))
+do
+dots="${dots}."
+done
+
+printf "Waiting for server to come alive at ${api_url}${dots}\033[s\033[0K\r"
+
+iterations=$((${iterations} + 1))
+
+done
+
+printf "\033[100C H\r"
+echo "Server up and running.. creating a new image"
+
+# Stop instance
+gcloud compute instances stop globallydynamic
+
+# Determine what name the new image should have (number incremented from the previous in the globallydynamic family)
+current_images=$(gcloud compute images list --no-standard-images | awk 'FNR > 1 {print $1}')
+
+last_image_id=0
+
+for image in ${current_images[@]};
+do
+    IFS='-' read -ra read_arr <<< ${image}
+    declare -a split_image_name=($read_arr)
+    image_id=${split_image_name[1]}
+    if [[ "${image_id}" -gt "${last_image_id}" ]];
+    then
+        last_image_id=${image_id}
+    fi
+done
+
+new_image_id=$((${last_image_id} + 1))
+echo "Latest image id: ${last_image_id}, incrementing to ${new_image_id}.."
+
+new_image_name="globallydynamic-${new_image_id}"
+
+# Create the image
+gcloud compute images create ${new_image_name} \
+    --family=globallydynamic \
+    --source-disk=globallydynamic
+
+# Do rolling update of instance group
+gcloud compute instance-groups managed rolling-action replace globallydynamic-managed --max-surge=2
+
+echo "\n\nAll done!"

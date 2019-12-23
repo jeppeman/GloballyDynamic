@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:1.3.72"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.2.2.RELEASE"
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+apply plugin: "kotlin-spring"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = GROUP
+version = VERSION_NAME
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/kotlin/main")
+    }
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+def jvmTargetVersion = "1.8"
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = jvmTargetVersion
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = jvmTargetVersion
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-devtools:2.2.2.RELEASE"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.72"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.72"
+    implementation "org.springframework.boot:spring-boot-starter-web:2.2.2.RELEASE"
+    implementation "org.apache.httpcomponents:httpclient:4.5.12"
+    implementation "org.apache.httpcomponents:httpmime:4.5.12"
+}

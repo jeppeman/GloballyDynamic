@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+set -e
+set -o xtrace
+
+meta_key=environment
+
+curl -f http://metadata.google.internal/computeMetadata/v1/instance/attributes/${meta_key} -H "Metadata-Flavor: Google" > env_file
+
+cat env_file
+
+source env_file
+
+echo "Android SDK root ${ANDROID_SDK_ROOT}"
+
+rm -rf GloballyDynamic
+
+git clone --single-branch --branch rename https://github.com/jeppeman/GloballyDynamic.git
+
+cd GloballyDynamic
+
+cd globallydynamic-server-lib && ./gradlew executableJar && ./gradlew dokka
+
+cd ../globallydynamic-android-lib && ./gradlew aggregateJavadoc
+
+cd ../globallydynamic-website/frontend && npm install && npm run-script build
+
+cd ../..
+
+backend_static_dir=globallydynamic-website/backend/src/main/resources/static
+mv globallydynamic-website/frontend/build/* ${backend_static_dir}
+server_javadoc_dir=${backend_static_dir}/javadoc
+rm -rf ${server_javadoc_dir}
+mkdir -p ${server_javadoc_dir}
+mv globallydynamic-server-lib/server/build/dokka/* ${server_javadoc_dir}
+android_javadoc_dir=${backend_static_dir}/javadoc/android
+rm -rf ${android_javadoc_dir}
+mkdir -p ${android_javadoc_dir}
+mv globallydynamic-android-lib/build/docs/* ${android_javadoc_dir} 
+
+cd globallydynamic-website/backend && ./gradlew build
+
+cd ../..
+
+server_version=$(while read -r line || [[ -n "$line" ]]; do
+  if [[ ${line} == *"VERSION_NAME"* ]]; then
+    echo "${line##*=}"
+    exit 0
+  fi
+done < globallydynamic-server-lib/gradle.properties)
+
+echo "Server version: ${server_version}"
+
+website_version=$(while read -r line || [[ -n "$line" ]]; do
+  if [[ ${line} == *"VERSION_NAME"* ]]; then
+    echo "${line##*=}"
+    exit 0
+  fi
+done < globallydynamic-website/backend/gradle.properties)
+
+java -jar /GloballyDynamic/globallydynamic-server-lib/server/build/libs/globallydynamic-server-${server_version}-standalone.jar &
+
+java -jar /GloballyDynamic/globallydynamic-website/backend/build/libs/globallydynamic-website-${website_version}.jar &

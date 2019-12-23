@@ -1,0 +1,11 @@
+include ':globallydynamic-core',
+        ':globallydynamic-all',
+        ':globallydynamic-gplay',
+        ':globallydynamic-huawei',
+        ':globallydynamic-selfhosted',
+        ':globallydynamic-generated',
+        ':minimal-sample',
+        ':minimal-sample:dynamicfeature',
+        ':sample',
+        ':sample:installtimefeature',
+        ':sample:ondemandfeature'

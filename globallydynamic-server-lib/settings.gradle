@@ -1,0 +1,4 @@
+rootProject.name = 'globallydynamic-server'
+include ':server'
+include ':integration-tests'
+

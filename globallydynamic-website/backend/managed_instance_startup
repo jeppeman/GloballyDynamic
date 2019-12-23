@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -e
+
+meta_key=environment
+
+curl -f http://metadata.google.internal/computeMetadata/v1/instance/attributes/${meta_key} -H "Metadata-Flavor: Google" > env_file
+
+cat env_file
+
+source env_file
+server_version=$(while read -r line || [[ -n "$line" ]]; do
+  if [[ ${line} == *"VERSION_NAME"* ]]; then
+    echo "${line##*=}"
+    exit 0
+  fi
+done < /GloballyDynamic/globallydynamic-server-lib/gradle.properties)
+
+echo "Server version: ${server_version}"
+
+website_version=$(while read -r line || [[ -n "$line" ]]; do
+  if [[ ${line} == *"VERSION_NAME"* ]]; then
+    echo "${line##*=}"
+    exit 0
+  fi
+done < /GloballyDynamic/globallydynamic-website/backend/gradle.properties)
+
+echo "Website version: ${website_version}"
+
+java -jar /GloballyDynamic/globallydynamic-server-lib/server/build/libs/globallydynamic-server-${server_version}-standalone.jar &
+
+java -jar /GloballyDynamic/globallydynamic-website/backend/build/libs/globallydynamic-website-${website_version}.jar &

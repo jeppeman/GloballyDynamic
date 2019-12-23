@@ -1,0 +1,2 @@
+rootProject.name = 'globallydynamic-gradle'
+include ':plugin'

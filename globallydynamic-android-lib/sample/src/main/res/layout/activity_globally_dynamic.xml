@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/swedishContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="sv"
+        app:layout_constraintBottom_toTopOf="@+id/germanContainer"
+        app:layout_constraintEnd_toStartOf="@+id/koreanContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/flagSv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/se"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/coverSv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#55000000"
+            app:layout_constraintBottom_toBottomOf="@+id/flagSv"
+            app:layout_constraintDimensionRatio="H,1.53:1"
+            app:layout_constraintEnd_toEndOf="@+id/flagSv"
+            app:layout_constraintStart_toStartOf="@+id/flagSv"
+            app:layout_constraintTop_toTopOf="@+id/flagSv" />
+
+        <ImageView
+            android:id="@+id/downloadSv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_download"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/flagSv"
+            app:layout_constraintEnd_toEndOf="@+id/flagSv"
+            app:layout_constraintStart_toStartOf="@+id/flagSv"
+            app:layout_constraintTop_toTopOf="@+id/flagSv" />
+
+        <TextView
+            android:id="@+id/helloSv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flagSv"
+            tools:text="Hej" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/koreanContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="ko"
+        app:layout_constraintBottom_toTopOf="@+id/italianContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/swedishContainer"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/flagKo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/kr"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/coverKo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#55000000"
+            app:layout_constraintBottom_toBottomOf="@+id/flagKo"
+            app:layout_constraintDimensionRatio="H,1.51:1"
+            app:layout_constraintEnd_toEndOf="@+id/flagKo"
+            app:layout_constraintStart_toStartOf="@+id/flagKo"
+            app:layout_constraintTop_toTopOf="@+id/flagKo" />
+
+        <ImageView
+            android:id="@+id/downloadKo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_download"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/flagKo"
+            app:layout_constraintEnd_toEndOf="@+id/flagKo"
+            app:layout_constraintStart_toStartOf="@+id/flagKo"
+            app:layout_constraintTop_toTopOf="@+id/flagKo" />
+
+        <TextView
+            android:id="@+id/helloKo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flagKo"
+            tools:text="Hej" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/germanContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="de"
+        app:layout_constraintBottom_toBottomOf="@+id/horizontalGuide"
+        app:layout_constraintEnd_toStartOf="@+id/italianContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swedishContainer">
+
+        <ImageView
+            android:id="@+id/flagDe"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/de"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/coverDe"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#55000000"
+            app:layout_constraintBottom_toBottomOf="@+id/flagDe"
+            app:layout_constraintDimensionRatio="H,1.51:1"
+            app:layout_constraintEnd_toEndOf="@+id/flagDe"
+            app:layout_constraintStart_toStartOf="@+id/flagDe"
+            app:layout_constraintTop_toTopOf="@+id/flagDe" />
+
+        <ImageView
+            android:id="@+id/downloadDe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_download"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/flagDe"
+            app:layout_constraintEnd_toEndOf="@+id/flagDe"
+            app:layout_constraintStart_toStartOf="@+id/flagDe"
+            app:layout_constraintTop_toTopOf="@+id/flagDe" />
+
+        <TextView
+            android:id="@+id/helloDe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flagDe"
+            tools:text="Hej" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/italianContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="it"
+        app:layout_constraintBottom_toBottomOf="@+id/horizontalGuide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/germanContainer"
+        app:layout_constraintTop_toBottomOf="@+id/koreanContainer">
+
+        <ImageView
+            android:id="@+id/flagIt"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/it"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/coverIt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#55000000"
+            app:layout_constraintBottom_toBottomOf="@+id/flagIt"
+            app:layout_constraintDimensionRatio="H,1.51:1"
+            app:layout_constraintEnd_toEndOf="@+id/flagIt"
+            app:layout_constraintStart_toStartOf="@+id/flagIt"
+            app:layout_constraintTop_toTopOf="@+id/flagIt" />
+
+        <ImageView
+            android:id="@+id/downloadIt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_download"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/flagIt"
+            app:layout_constraintEnd_toEndOf="@+id/flagIt"
+            app:layout_constraintStart_toStartOf="@+id/flagIt"
+            app:layout_constraintTop_toTopOf="@+id/flagIt" />
+
+        <TextView
+            android:id="@+id/helloIt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flagIt"
+            tools:text="Hej" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintTop_toBottomOf="@+id/swedishContainer" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/bottom_navigation_item_drawable"
+        app:itemTextColor="@color/bottom_navigation_item_drawable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/navigation"
+        tools:layout_height="56dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

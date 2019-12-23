@@ -1,0 +1,50 @@
+<idea-plugin>
+    <id>com.jeppeman.globallydynamic</id>
+    <name>GloballyDynamic</name>
+    <vendor email="jesperaamann@gmail.com" url="https://github.com/jeppeman">jeppeman</vendor>
+
+    <description>
+        Dynamic delivery everywhere through a common API; The plugin provides developer tools in the form of an
+        embedded GloballyDynamic server in Android Studio that apps using the GloballyDynamic Android library will
+        download their splits from.
+        <![CDATA[  <br/> ]]>
+        A server log tool window is also included for debugging purposes.
+    </description>
+
+    <depends>org.jetbrains.android</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <stepsBeforeRunProvider
+                implementation="com.jeppeman.globallydynamic.idea.GloballyDynamicBuildPreparationProvider"/>
+<!--                    conditionClass="com.jeppeman.globallydynamic.idea.GloballyDynamicConsoleWindowCondition"-->
+        <toolWindow id="GloballyDynamic Log"
+                    icon="PluginIcons.logo1616"
+                    anchor="bottom"
+                    factoryClass="com.jeppeman.globallydynamic.idea.GloballyDynamicConsoleWindowFactory"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.android.gradle.sync">
+        <postSyncModuleSetupStep implementation="com.jeppeman.globallydynamic.idea.PostModuleSyncStep"/>
+        <postSyncProjectSetupStep implementation="com.jeppeman.globallydynamic.idea.PostProjectSyncStep"/>
+    </extensions>
+
+    <actions>
+        <group id="GloballyDynamic.TopMenu"
+               text="_GloballyDynamic"
+               description="GloballyDynamic toolbar menu">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action id="GloballyDynamic.StartServer"
+                    icon="PluginIcons.startServer"
+                    class="com.jeppeman.globallydynamic.idea.StartServerAction"
+                    text="_Start Server"
+                    description="Start GloballyDynamic server">
+            </action>
+            <action id="GloballyDynamic.StopServer"
+                    icon="PluginIcons.stopServer"
+                    class="com.jeppeman.globallydynamic.idea.StopServerAction"
+                    text="Sto_p Server"
+                    description="Stop GloballyDynamic server">
+            </action>
+        </group>
+    </actions>
+</idea-plugin>

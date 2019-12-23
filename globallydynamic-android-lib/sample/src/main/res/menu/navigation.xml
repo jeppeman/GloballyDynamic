@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/actionInstallTimeFeature"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_installtimefeature"/>
+    <item android:id="@+id/actionOnDemandFeature"
+        android:icon="@drawable/ic_puzzle_piece"
+        android:title="@string/title_ondemandfeature"/>
+</menu>

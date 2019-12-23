@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jeppeman.globallydynamic'
+
+android {
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+    }
+
+    flavorDimensions 'packaging'
+
+    productFlavors {
+        fused {
+            dimension 'packaging'
+        }
+    }
+
+    globallyDynamicServers {
+        studioIntegrated {
+            throttleDownloadBy 5000
+            applyToBuildVariants 'fusedDebug', 'fusedRelease'
+        }
+    }
+
+    dynamicFeatures = [":sample:installtimefeature", ":sample:ondemandfeature"]
+}
+
+dependencies {
+    api deps.constraintlayout.constraintlayout
+    api deps.autoservice.annotations
+    api deps.appcompat.appcompat
+    api deps.kotlin.stdlib
+    api deps.lifecycle.livedata
+    api deps.lifecycle.viewmodel
+    api deps.lifecycle.extensions
+    api deps.material.material
+    api project(':globallydynamic-all')
+
+    kapt deps.autoservice.processor
+}

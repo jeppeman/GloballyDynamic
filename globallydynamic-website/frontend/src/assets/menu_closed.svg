@@ -1,0 +1,40 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <g>
+        <path d="M2.688 7.313 l 14.16 14.1 l -1.9 1.9 l -14.16 -14.1 z">
+            <animate
+                    id="icon_menu_top"
+                    fill="freeze"
+                    attributeName="d"
+                    dur="0.2s"
+                    keyTimes="0;1"
+                    values="M2.688 7.313 l 14.16 14.1 l -1.9 1.9 l -14.16 -14.1 z; M2.688 7.313 l 26.625 0 l 0 2.688 l -26.625 0 z">
+            </animate>
+        </path>
+        <path d="M2.688 23.313 l 14.1 -14.1 l -1.9 -1.9 l -14.1 14.1 z">
+            <animate
+                    fill="freeze"
+                    attributeName="d"
+                    dur="0.2s"
+                    keyTimes="0;1"
+                    values="M2.688 23.313 l 14.1 -14.1 l -1.9 -1.9 l -14.1 14.1 z; M2.688 23.313 l 26.625 0 l 0 -2.688 l -26.625 0 z">
+
+            </animate>
+        </path>
+        <path d="M2.688 14h0v2.688h0v-2.688z">
+            <animate
+                    dur="0.2s"
+                    fill="freeze"
+                    attributeName="fill-opacity"
+                    from="0"
+                    to="1">
+            </animate>
+            <animate
+                    dur="0.2s"
+                    fill="freeze"
+                    attributeName="d"
+                    keyTimes="0;1"
+                    values="M2.688 14h0v2.688h0v-2.688z; M2.688 14h26.625v2.688h-26.625v-2.688z">
+            </animate>
+        </path>
+    </g>
+</svg>

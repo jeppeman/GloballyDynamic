@@ -1,0 +1,29 @@
+runtime: java
+env: flex
+
+runtime_config:
+  jdk: openjdk8
+  artifact: server/build/libs/globallydynamic-server-0.4-SNAPSHOT-standalone.jar
+
+#automatic_scaling:
+#  min_num_instances: 1
+#  max_num_instances: 2
+#  cpu_utilization:
+#    target_utilization: 1.0
+
+manual_scaling:
+  instances: 2
+
+liveness_check:
+  path: "/liveness_check"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 5
+  success_threshold: 2
+
+resources:
+  cpu: 1
+  memory_gb: 6
+
+includes:
+  - env.yaml

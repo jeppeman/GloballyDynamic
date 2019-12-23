@@ -1,0 +1,75 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'org.jetbrains.dokka'
+apply plugin: "de.fuerstenau.buildconfig"
+apply plugin: 'idea'
+
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+task executableJar(type: ShadowJar) {
+    if (project.hasProperty("archiveName")) {
+        archiveName = "${project.property("archiveName")}"
+    } else {
+        baseName = 'globallydynamic-server'
+        classifier = 'standalone'
+    }
+    if (project.hasProperty("outputDir")) {
+        destinationDir = file(project.property("outputDir"))
+    }
+    from sourceSets.main.output
+    configurations = [
+            project.configurations.compile
+    ]
+    manifest {
+        attributes 'Main-Class': 'com.jeppeman.globallydynamic.server.GloballyDynamicMainKt'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+configurations {
+    jarLibs
+}
+
+buildConfig {
+    buildConfigField 'String', 'VERSION', "${VERSION_NAME}"
+}
+
+dokka {
+    outputDirectory = "$buildDir/dokka"
+    configuration {
+        includeNonPublic = false
+    }
+}
+
+dependencies {
+    compile deps.kotlin.stdlib
+    compile deps.jetty.server
+    compile deps.guava
+    compile deps.gcp.storage
+    compile deps.aws.s3
+    compile deps.bundletool
+    jarLibs deps.bundletool
+
+//  compileOnly deps.bundletool_maven
+
+    testCompile deps.junit.api
+    testCompile deps.junit.params
+    testCompile deps.junit.engine
+    testCompile deps.junit.runner
+    testCompile deps.mockito.core
+    testCompile deps.mockito.jupiter
+    testCompile deps.mockito.kotlin
+    testCompile deps.truth
+}
+
+jar {
+    archiveFileName = 'globallydynamic-server.jar'
+    from {
+        configurations.jarLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

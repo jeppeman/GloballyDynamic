@@ -1,0 +1,28 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.example.globallydynamic.installtimefeature">
+
+    <application>
+        <activity android:name=".InstallTimeActivity" />
+    </application>
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_installtimefeature">
+        <dist:delivery>
+            <dist:install-time>
+<!--                <dist:conditions>-->
+<!--                    <dist:user-countries dist:exclude="false">-->
+<!--                        <dist:country dist:code="CN"/>-->
+<!--                        <dist:country dist:code="HK"/>-->
+<!--                    </dist:user-countries>-->
+<!--                    <dist:device-feature dist:name="android.hardware.camera.ar"/>-->
+<!--                    <dist:device-feature dist:name="android.hardware.camera.vr"/>-->
+<!--                    <dist:min-sdk dist:value="24"/>-->
+<!--                </dist:conditions>-->
+            </dist:install-time>
+        </dist:delivery>
+        <dist:fusing dist:include="true" />
+    </dist:module>
+</manifest>
+

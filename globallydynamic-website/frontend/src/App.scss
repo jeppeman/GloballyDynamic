@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+.accordion-enter {
+  margin-top: -100%;
+  z-index: 1;
+
+  &.accordion-enter-active {
+    margin-top: 0;
+    transition: margin-top 250ms ease-in;
+  }
+}
+
+.accordion-exit {
+  margin-top: 0;
+  z-index: 1;
+
+  &.accordion-exit-active {
+    margin-top: -100%;
+    transition: margin-top 250ms ease-in;
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+
+  &.fade-enter-active {
+    opacity: 1;
+    transition: opacity 250ms ease-in;
+  }
+}
+
+.fade-exit {
+  opacity: 1;
+  z-index: 1;
+
+  &.fade-exit-active {
+    opacity: 0;
+    transition: opacity 250ms ease-in;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+td {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 6px;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+span.token {
+  background: none !important;
+}

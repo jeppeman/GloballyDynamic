@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+
+android {
+    flavorDimensions 'packaging'
+
+    productFlavors {
+        fused {
+            dimension 'packaging'
+        }
+    }
+}
+
+dependencies {
+    api project(':globallydynamic-core')
+    api project(':globallydynamic-selfhosted')
+    api project(':globallydynamic-gplay')
+    api project(':globallydynamic-huawei')
+    compileOnly project(':globallydynamic-generated')
+}
+
+project.ext.mainPublication = 'fused-release'
+project.ext.mainPublicationDependencies = [
+        'gplay'     : 'gplay-fused',
+        'huawei'    : 'huawei-fused',
+        'selfhosted': 'selfhosted-fused'
+]
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

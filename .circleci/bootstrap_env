@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e 
+
+script=$(realpath $0)
+script_dir=$(dirname "${script}")
+
+echo "mkdir -p \${HOME}/secrets" >> ${BASH_ENV}
+echo "mkdir -p \${HOME}/data" >> ${BASH_ENV}
+echo "export PATH=${script_dir}:\$PATH" >> ${BASH_ENV}
+echo "export GCLOUD_CREDENTIALS_FILE=\${HOME}/secrets/gcloud_credentials.json" >> ${BASH_ENV}
+echo "export GLOBALLY_DYNAMIC_DEVICE_PATH=\${HOME}/data/device_spec.json" >> ${BASH_ENV}
+echo "export GLOBALLY_DYNAMIC_KEYSTORE_PATH=\${HOME}/secrets/globallydynamic.keystore" >> ${BASH_ENV}
+echo "echo \"\${GOOGLE_CLOUD_KEY}\" > \"\${GCLOUD_CREDENTIALS_FILE}\"" >> ${BASH_ENV}
+echo "echo \"\${GLOBALLY_DYNAMIC_DEVICE_SPEC}\" > \"\${GLOBALLY_DYNAMIC_DEVICE_PATH}\"" >> ${BASH_ENV}
+echo "echo \"\${GLOBALLY_DYNAMIC_KEYSTORE_VALUE}\" | base64 -d > \"\${GLOBALLY_DYNAMIC_KEYSTORE_PATH}\"" >> ${BASH_ENV}
+
