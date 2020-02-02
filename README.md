@@ -84,10 +84,10 @@ repositories {
 
 dependencies {
     // The debug artifact will talk to the LocallyDynamic server
-    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
     
     // The release artifact will only delegate to the Play Core library
-    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.1'     
+    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.2'     
 }
 ```
 
@@ -157,6 +157,9 @@ Any operation carried out by the android library is logged under the tag `I/Loca
 
 If you have trouble reaching the server from your app, make sure that your machine is reachable on your network.
 If you have a Samsung with Secure WiFi, http requests to the server may be blocked by it, if so, disable Secure WiFi.
+
+There is an issue in the `0.1` version of the <a href="locallydynamic-android-lib">android library</a> that can cause the installation
+to not take effect until the app is restarted - if you are experiencing this issue, try upgrading to version `0.2`
 
 License
 ---

@@ -11,10 +11,10 @@ repositories {
 
 dependencies {
     // The debug artifact will talk to the LocallyDynamic server
-    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
     
     // The release artifact will only delegate to the Play Core library
-    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.1'     
+    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.2'     
 }
 ```
 ### Snapshot
@@ -27,10 +27,10 @@ repositories {
 
 dependencies {
     // The debug artifact will talk to the LocallyDynamic server
-    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2-SNAPSHOT'
+    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.3-SNAPSHOT'
     
     // The release artifact will only delegate to the Play Core library
-    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.2-SNAPSHOT'     
+    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.3-SNAPSHOT'     
 }
 ```
 
@@ -76,10 +76,10 @@ repositories {
 
 dependencies {
     // The debug artifact will talk to the LocallyDynamic server
-    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+    debugImplementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
     
     // The release artifact will only delegate to the Play Core library
-    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.1'     
+    releaseImplementation 'com.jeppeman.locallydynamic:locallydynamic:0.2'     
 }
 ```
 
