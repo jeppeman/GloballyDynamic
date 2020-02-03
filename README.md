@@ -17,23 +17,15 @@
 
 Why?
 ---
-Dynamic delivery is great, it can contribute a lot towards saving space as well as data for users, however, it has the following drawbacks:
-* **Restrictive**: it can only be used with devices where the Play Store app is installed, moreover, to use it with a bundle it with has to
-be uploaded to the Google Play store. This makes it impossible to use dynamic delivery for internally distributed builds before they are promoted to Google Play.
+Dynamic delivery is great, it can contribute a lot towards saving space as well as data for users, the developer experience is also being continously improved and streamlined - however, it can not be used if your device does not have Google Play installed or if your bundles are being distributed from somewhere else than Google Play.
 
-* **Not a great developer experience**: since bundles have to be uploaded to Google Play, the iteration speed during development is slow. 
-It is also not very flexible if you want to be able to use dynamic delivery for multiple versions simultaneously. 
-Uploaded bundles also can not be debuggable, making it harder to diagnose problems.
-
-*LocallyDynamic is an attempt at addressing these issues while maintaining good cohesion with the Play Core library.* 
+*LocallyDynamic is an attempt at making Dynamic Delivery available everywhere while maintaining good cohesion with the Play Core library.* 
 
 Key capabilities and benefits
 ---
-* **Local dynamic delivery**: download and install dynamic feature APK:s, language APK:s and density APK:s from an actual server running locally in Android Studio while developing, 
-without having to upload bundles to Google Play
+* **Local dynamic delivery**: download and install dynamic feature APK:s, language APK:s and density APK:s from an actual server running locally in Android Studio while developing, without having to upload bundles to Google Play
 * **Dynamic delivery on any device**: utilize dynamic delivery for devices that don't/can't have the Google Play app installed
 * **Dynamic delivery for internal builds**: utilize dynamic delivery for internally distributed builds before they get promoted to Google Play 
-* **Dynamic delivery for debuggable builds**: utilize dynamic delivery with debuggable builds; this is not possible with Google Play
 * **End to end tests for dynamic delivery**: run dynamic delivery end to end tests on your CI; see this project's CI for an example - it runs end to end tests against a LocallyDynamic server running on GCP
 * **Throttle the download speed of split APK:s**: this allows for things such as testing cancellation of installations through the system notifications as well as easier testing of your dynamic delivery flow as a whole
 * **<a href="https://developer.android.com/guide/playcore">Play Core Library</a> cohesion**: seamlessly switch between the Play Core library and LocallyDynamic depending on build type, without making changes to your code -  
