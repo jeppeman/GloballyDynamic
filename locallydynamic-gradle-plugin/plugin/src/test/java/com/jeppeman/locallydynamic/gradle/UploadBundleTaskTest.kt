@@ -110,7 +110,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -215,7 +215,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()

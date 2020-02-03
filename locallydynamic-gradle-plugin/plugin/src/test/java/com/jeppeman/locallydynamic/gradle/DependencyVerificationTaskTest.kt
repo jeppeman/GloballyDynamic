@@ -41,7 +41,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
                 }
             """.trimIndent()
         )
@@ -76,7 +76,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
                 }
             """.trimIndent()
         )
@@ -111,7 +111,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.1'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
                 }
             """.trimIndent()
         )
