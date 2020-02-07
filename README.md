@@ -1,4 +1,4 @@
-# LocallyDynamic - Dynamic Delivery without Google Play
+# LocallyDynamic - Dynamic Delivery Everywhere
 [![CircleCI](https://circleci.com/gh/jeppeman/LocallyDynamic.svg?style=svg&circle-token=7fdc7e6c2980583807e3bfaadefa4623c0638202)](https://circleci.com/gh/jeppeman/LocallyDynamic)
 <p align="center">
     <img src="assets/images/icon.png" width="120" hspace="10" vspace="10">
@@ -17,7 +17,7 @@
 
 Why?
 ---
-Dynamic delivery is great, it can contribute a lot towards saving space as well as data for users, the developer experience is also being continously improved and streamlined - however, it can not be used if your device does not have Google Play installed or if your bundles are being distributed from somewhere else than Google Play.
+Dynamic delivery is great, it can contribute a lot towards saving space as well as data for users, the developer experience is also being continously improved and streamlined - however, it can not be used if your device does not have Google Play installed (e.g. Huawei's new flagship phones, custom devices, emulators without Google Play) or if your bundles are being distributed from somewhere else than Google Play.
 
 *LocallyDynamic is an attempt at making Dynamic Delivery available everywhere while maintaining good cohesion with the Play Core library.* 
 
