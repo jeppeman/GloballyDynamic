@@ -175,11 +175,11 @@ workflows:
       - android_lib_run_unit_tests:
           context: Android
 
-      - android_lib_run_instrumentation_tests:
-          context: Android
-          requires:
-            - android_lib_build_debug_apk
-            - android_lib_build_test_apk
+          #  - android_lib_run_instrumentation_tests:
+          #  - ancontext: Android
+          #  - anrequires:
+          #  - an  - android_lib_build_debug_apk
+          #  - an  - android_lib_build_test_apk
 
       - server_lib_tests:
           context: Android
