@@ -1,6 +1,6 @@
 def androidPluginVersion = project.hasProperty("agpVersion")
         ? project.properties.get("agpVersion")
-        : '3.5.3'
+        : '3.6.1'
 
 def versions = [
         androidplugin        : androidPluginVersion,
@@ -12,7 +12,7 @@ def versions = [
         truth                : '1.1.0',
         mockito              : '2.23.4',
         mockito_kotlin       : '2.1.0',
-        locallydynamic_server: '0.1',
+        locallydynamic_server: '0.2',
         gradle_publish       : '0.10.1'
 ]
 
