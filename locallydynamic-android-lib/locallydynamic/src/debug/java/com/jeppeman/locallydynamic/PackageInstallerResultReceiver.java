@@ -1,5 +1,6 @@
 package com.jeppeman.locallydynamic;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -54,6 +55,7 @@ public class PackageInstallerResultReceiver extends BroadcastReceiver {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.N;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onReceive(Context context, Intent intent) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {

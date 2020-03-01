@@ -8,6 +8,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+import com.google.android.play.core.common.IntentSenderForResultStarter;
 import com.google.android.play.core.splitinstall.SplitInstallException;
 import com.google.android.play.core.splitinstall.SplitInstallManager;
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
@@ -244,6 +245,11 @@ class LocallyDynamicSplitInstallManagerImpl implements SplitInstallManager {
     @Override
     public boolean startConfirmationDialogForResult(SplitInstallSessionState sessionState, Activity activity, int requestCode) throws IntentSender.SendIntentException {
         return splitInstallManager.startConfirmationDialogForResult(sessionState, activity, requestCode);
+    }
+
+    @Override
+    public boolean startConfirmationDialogForResult(SplitInstallSessionState sessionState, IntentSenderForResultStarter starter, int requestCode) throws IntentSender.SendIntentException {
+        return splitInstallManager.startConfirmationDialogForResult(sessionState, starter, requestCode);
     }
 
     @Override

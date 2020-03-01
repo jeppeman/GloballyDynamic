@@ -1,5 +1,6 @@
 package com.jeppeman.locallydynamic;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -130,6 +131,7 @@ interface ApkInstaller {
     }
 }
 
+@SuppressLint("RestrictedApi")
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
     /**
