@@ -48,13 +48,20 @@ publishPlugin {
 }
 
 patchPluginXml {
+    // 0.1
+//    changeNotes """
+//      Compatible with Android Studio 3.6
+//      <ul>
+//        <li>Embedded LocallyDynamic server that apps using the <a href="https://github.com/jeppeman/LocallyDynamic/tree/master/locallydynamic-android-lib">LocallyDynamic Android library</a> can get their splits from</li>
+//        <li>Tool window with a log from the server for debugging and visualization purposes</li>
+//        <li>Action menu items to manually start/stop a server</li>
+//        <li>Adds a step before running a bundle app that automatically starts the server</li>
+//      <ul>
+//      """
+
+    // 0.2
     changeNotes """
-      Compatible with Android Studio 3.6
-      <ul>
-        <li>Embedded LocallyDynamic server that apps using the <a href="https://github.com/jeppeman/LocallyDynamic/tree/master/locallydynamic-android-lib">LocallyDynamic Android library</a> can get their splits from</li>
-        <li>Tool window with a log from the server for debugging and visualization purposes</li>
-        <li>Action menu items to manually start/stop a server</li>
-        <li>Adds a step before running a bundle app that automatically starts the server</li>
-      <ul>
-      """
+        Bumped the LocallyDynamic server dependency from 0.1 to 0.2 - the 0.2 version in turn updates the bundletool 
+        dependency from version 0.12 to 0.13.
+"""
 }
