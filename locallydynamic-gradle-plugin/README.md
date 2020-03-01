@@ -13,7 +13,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.1"
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.2"
     }
 }
 
@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.2-SNAPSHOT"
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.3-SNAPSHOT"
     }
 }
 
@@ -97,8 +97,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.5.3" // Compatible with 3.5 and above
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.1"
+        classpath "com.android.tools.build:gradle:3.6.1" // Compatible with 3.5 and above
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.2"
     }
 }
 
