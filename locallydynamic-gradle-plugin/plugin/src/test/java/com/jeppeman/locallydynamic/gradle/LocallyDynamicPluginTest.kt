@@ -26,7 +26,7 @@ class LocallyDynamicPluginTest : BaseTaskTest() {
                 }
 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic:0.2'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic:0.3'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -55,7 +55,7 @@ class LocallyDynamicPluginTest : BaseTaskTest() {
                 }
 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic:0.2'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic:0.3'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -138,7 +138,7 @@ class LocallyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.3'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -182,7 +182,7 @@ class LocallyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.3'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -230,7 +230,7 @@ class LocallyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.2'
+                    implementation 'com.jeppeman.locallydynamic:locallydynamic-debug:0.3'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
