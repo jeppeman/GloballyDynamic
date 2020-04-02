@@ -1,8 +1,6 @@
 package com.jeppeman.locallydynamic.server.extensions
 
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.io.IOException
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -35,12 +33,16 @@ fun File.createNewFileAndParentDirectory() {
 }
 
 fun File.zip(vararg files: File) {
+    val buffer = ByteArray(1024)
     ZipOutputStream(outputStream()).use { zipOutputStream ->
         files.forEach { file ->
             val entry = ZipEntry(file.name)
             zipOutputStream.putNextEntry(entry)
-            file.inputStream().use {
-                zipOutputStream.write(it.readBytes())
+            file.inputStream().use { inputStream ->
+                var len = 0
+                while (inputStream.read(buffer).also { len = it } != -1) {
+                    zipOutputStream.write(buffer, 0, len)
+                }
             }
             zipOutputStream.closeEntry()
         }

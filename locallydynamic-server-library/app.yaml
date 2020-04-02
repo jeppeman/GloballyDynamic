@@ -3,7 +3,7 @@ env: flex
 
 runtime_config:
   jdk: openjdk8
-  artifact: server/build/libs/locallydynamic-server-0.1-SNAPSHOT-standalone.jar
+  artifact: server/build/libs/locallydynamic-server-0.4-SNAPSHOT-standalone.jar
 
 #automatic_scaling:
 #  min_num_instances: 1

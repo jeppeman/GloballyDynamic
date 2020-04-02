@@ -17,26 +17,27 @@ import com.jeppeman.locallydynamic.server.extensions.zip
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.StandardCopyOption
 import java.security.KeyStore
 import java.util.*
 
 internal interface BundleManager {
     fun generateCompressedSplits(
-        applicationId: String,
-        version: Int,
-        variant: String,
-        deviceSpec: Devices.DeviceSpec,
-        features: Array<String>,
-        languages: Array<String>
+            applicationId: String,
+            version: Int,
+            variant: String,
+            deviceSpec: Devices.DeviceSpec,
+            features: Array<String>,
+            languages: Array<String>
     ): Result
 
     fun storeBundle(
-        applicationId: String,
-        version: Int,
-        variant: String,
-        signingConfig: String,
-        bundleInputStream: InputStream,
-        keyStoreInputStream: InputStream
+            applicationId: String,
+            version: Int,
+            variant: String,
+            signingConfig: String,
+            bundleInputStream: InputStream,
+            keyStoreInputStream: InputStream
     ): Result
 
     sealed class Result(val message: String) {
@@ -54,68 +55,68 @@ internal interface BundleManager {
 
     companion object : (StorageBackend, Logger, Gson) -> BundleManager {
         override fun invoke(storageBackend: StorageBackend, logger: Logger, gson: Gson): BundleManager = BundleManagerImpl(
-            storageBackend = storageBackend,
-            logger = logger,
-            gson = gson
+                storageBackend = storageBackend,
+                logger = logger,
+                gson = gson
         )
     }
 }
 
 internal class BundleManagerImpl(
-    private val gson: Gson,
-    private val storageBackend: StorageBackend,
-    private val logger: Logger
+        private val gson: Gson,
+        private val storageBackend: StorageBackend,
+        private val logger: Logger
 ) : BundleManager {
     private fun getFinalFileName(
-        applicationId: String,
-        version: Int,
-        variant: String,
-        extension: String
+            applicationId: String,
+            version: Int,
+            variant: String,
+            extension: String
     ): String = "${applicationId}_${variant}_$version.$extension"
 
     internal fun extractApks(
-        apksArchivePath: Path,
-        outputDirectory: Path,
-        deviceSpec: Devices.DeviceSpec,
-        features: Array<String>
+            apksArchivePath: Path,
+            outputDirectory: Path,
+            deviceSpec: Devices.DeviceSpec,
+            features: Array<String>
     ): List<Path> = ExtractApksCommand.builder()
-        .setApksArchivePath(apksArchivePath)
-        .setOutputDirectory(outputDirectory)
-        .setDeviceSpec(deviceSpec)
-        .apply {
-            if (features.isNotEmpty()) {
-                setModules(ImmutableSet.copyOf(features))
+            .setApksArchivePath(apksArchivePath)
+            .setOutputDirectory(outputDirectory)
+            .setDeviceSpec(deviceSpec)
+            .apply {
+                if (features.isNotEmpty()) {
+                    setModules(ImmutableSet.copyOf(features))
+                }
             }
-        }
-        .build()
-        .execute()
+            .build()
+            .execute()
 
     internal fun buildApks(
-        bundlePath: Path,
-        outputDirectory: Path,
-        keystorePath: Path,
-        keystorePass: String,
-        keyAlias: String,
-        keyPass: String
+            bundlePath: Path,
+            outputDirectory: Path,
+            keystorePath: Path,
+            keystorePass: String,
+            keyAlias: String,
+            keyPass: String
     ): Path = BuildApksCommand.builder()
-        .setBundlePath(bundlePath)
-        .setOutputFile(outputDirectory)
-        .setSigningConfiguration(SigningConfiguration.extractFromKeystore(
-            keystorePath,
-            keyAlias,
-            Optional.of(Password { KeyStore.PasswordProtection(keystorePass.toCharArray()) }),
-            Optional.of(Password { KeyStore.PasswordProtection(keyPass.toCharArray()) })
-        ))
-        .build()
-        .execute()
+            .setBundlePath(bundlePath)
+            .setOutputFile(outputDirectory)
+            .setSigningConfiguration(SigningConfiguration.extractFromKeystore(
+                    keystorePath,
+                    keyAlias,
+                    Optional.of(Password { KeyStore.PasswordProtection(keystorePass.toCharArray()) }),
+                    Optional.of(Password { KeyStore.PasswordProtection(keyPass.toCharArray()) })
+            ))
+            .build()
+            .execute()
 
     override fun generateCompressedSplits(
-        applicationId: String,
-        version: Int,
-        variant: String,
-        deviceSpec: Devices.DeviceSpec,
-        features: Array<String>,
-        languages: Array<String>
+            applicationId: String,
+            version: Int,
+            variant: String,
+            deviceSpec: Devices.DeviceSpec,
+            features: Array<String>,
+            languages: Array<String>
     ): BundleManager.Result {
         if (features.isEmpty() && languages.isEmpty()) {
             return BundleManager.Result.Error.MissingFeaturesAndLanguages
@@ -123,44 +124,44 @@ internal class BundleManagerImpl(
 
         val apkSetFilename = getFinalFileName(applicationId, version, variant, "apks")
         val apkSet = storageBackend.retrieveFile(apkSetFilename)
-            ?: return BundleManager.Result.Error.BundleNotFound(apkSetFilename)
+                ?: return BundleManager.Result.Error.BundleNotFound(apkSetFilename)
         val tempDir = Files.createTempDirectory("${applicationId}_${version}_$variant")
 
         val splitsPaths = try {
             extractApks(
-                apksArchivePath = apkSet,
-                outputDirectory = tempDir,
-                deviceSpec = deviceSpec.toDeviceSpecDto().run {
-                    copy(supportedLocales = supportedLocales + languages)
-                }.toDeviceSpec(),
-                features = features)
-                .filter { apk ->
-                    val apkFilename = apk.toFile().name
-                    val keep = features.any { featureToInstall ->
-                        apkFilename.startsWith(featureToInstall)
-                    } || languages.any { languageToInstall ->
-                        apkFilename.endsWith("-$languageToInstall.apk")
-                    }
+                    apksArchivePath = apkSet,
+                    outputDirectory = tempDir,
+                    deviceSpec = deviceSpec.toDeviceSpecDto().run {
+                        copy(supportedLocales = supportedLocales + languages)
+                    }.toDeviceSpec(),
+                    features = features)
+                    .filter { apk ->
+                        val apkFilename = apk.toFile().name
+                        val keep = features.any { featureToInstall ->
+                            apkFilename.startsWith(featureToInstall)
+                        } || languages.any { languageToInstall ->
+                            apkFilename.endsWith("-$languageToInstall.apk")
+                        }
 
-                    if (keep) {
-                        true
-                    } else {
-                        apk.deleteCompletely()
-                        false
+                        if (keep) {
+                            true
+                        } else {
+                            apk.deleteCompletely()
+                            false
+                        }
                     }
-                }
         } catch (commandExecutionException: CommandExecutionException) {
             return BundleManager.Result.Error.ExtractApksFailure(
-                commandExecutionException.message ?: commandExecutionException.stackTraceToString())
+                    commandExecutionException.message ?: commandExecutionException.stackTraceToString())
         }
 
         logger.i("Extracted the following APKs: ${splitsPaths.joinToString(", ") { it.fileName.toString() }}")
 
         val extractedSplitsZipPath = tempDir.resolve(
-            (features + languages).joinToString(
-                separator = "_",
-                postfix = "_extracted.zip"
-            )
+                (features + languages).joinToString(
+                        separator = "_",
+                        postfix = "_extracted.zip"
+                )
         ).apply {
             toFile().zip(*splitsPaths.map(Path::toFile).toTypedArray())
         }
@@ -169,45 +170,39 @@ internal class BundleManagerImpl(
     }
 
     override fun storeBundle(
-        applicationId: String,
-        version: Int,
-        variant: String,
-        signingConfig: String,
-        bundleInputStream: InputStream,
-        keyStoreInputStream: InputStream
+            applicationId: String,
+            version: Int,
+            variant: String,
+            signingConfig: String,
+            bundleInputStream: InputStream,
+            keyStoreInputStream: InputStream
     ): BundleManager.Result {
         val tempDir = Files.createTempDirectory("${applicationId}_${version}_$variant")
         val outputDir = tempDir.resolve("bundle.apks")
-        val keyStoreTempFile = tempDir.resolve("temp.keystore").apply {
-            keyStoreInputStream.use {
-                toFile().writeBytes(it.readBytes())
-            }
-        }
-        val bundleTempFile = tempDir.resolve("temp.aab").apply {
-            bundleInputStream.use {
-                toFile().writeBytes(it.readBytes())
-            }
-        }
+        val keyStoreTempFile = tempDir.resolve("temp.keystore")
+        Files.copy(keyStoreInputStream, keyStoreTempFile, StandardCopyOption.REPLACE_EXISTING)
+        val bundleTempFile = tempDir.resolve("temp.aab")
+        Files.copy(bundleInputStream, bundleTempFile, StandardCopyOption.REPLACE_EXISTING)
         val signingConfigJson = gson.fromJson(signingConfig, JsonObject::class.java)
         val keystorePass = signingConfigJson.get("storePassword")?.asString
-            ?: return BundleManager.Result.Error.KeystorePassMissing
+                ?: return BundleManager.Result.Error.KeystorePassMissing
         val keyPass = signingConfigJson.get("keyPassword")?.asString
-            ?: return BundleManager.Result.Error.KeyPassMissing
+                ?: return BundleManager.Result.Error.KeyPassMissing
         val keyAlias = signingConfigJson.get("keyAlias")?.asString
-            ?: return BundleManager.Result.Error.KeyAliasMissing
+                ?: return BundleManager.Result.Error.KeyAliasMissing
 
         val apkSetPath = try {
             buildApks(
-                bundlePath = bundleTempFile,
-                outputDirectory = outputDir,
-                keystorePath = keyStoreTempFile,
-                keystorePass = keystorePass,
-                keyPass = keyPass,
-                keyAlias = keyAlias
+                    bundlePath = bundleTempFile,
+                    outputDirectory = outputDir,
+                    keystorePath = keyStoreTempFile,
+                    keystorePass = keystorePass,
+                    keyPass = keyPass,
+                    keyAlias = keyAlias
             )
         } catch (commandExecutionException: CommandExecutionException) {
             return BundleManager.Result.Error.BuildApksFailure(
-                commandExecutionException.message ?: commandExecutionException.stackTraceToString())
+                    commandExecutionException.message ?: commandExecutionException.stackTraceToString())
         }
 
         val apkSetFileName = getFinalFileName(applicationId, version, variant, "apks")

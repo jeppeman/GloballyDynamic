@@ -18,7 +18,7 @@ internal interface PathHandler {
 
     fun HttpServletRequest?.requireQueryParam(queryParam: String): Array<String> {
         return this?.getQueryParam(queryParam)
-            ?: throw HttpException(HttpStatus.BAD_REQUEST_400, "Missing required query parameter: $queryParam")
+                ?: throw HttpException(HttpStatus.BAD_REQUEST_400, "Missing required query parameter: $queryParam")
     }
 
     fun HttpServletRequest?.getQueryParam(queryParam: String): Array<String>? {
@@ -26,10 +26,10 @@ internal interface PathHandler {
     }
 
     fun HttpServletRequest?.requirePart(
-        name: String
+            name: String
     ): Part {
         return this?.parts?.find { part -> part.name == name }
-            ?: throw HttpException(HttpStatus.BAD_REQUEST_400, "Missing required part: $name")
+                ?: throw HttpException(HttpStatus.BAD_REQUEST_400, "Missing required part: $name")
     }
 
     @Throws(HttpException::class)
@@ -37,9 +37,9 @@ internal interface PathHandler {
 }
 
 internal class DownloadSplitsPathHandler(
-    private val bundleManager: BundleManager,
-    private val deviceManager: DeviceManager,
-    private val logger: Logger
+        private val bundleManager: BundleManager,
+        private val deviceManager: DeviceManager,
+        private val logger: Logger
 ) : PathHandler {
     override val path: String = "download"
 
@@ -56,7 +56,7 @@ internal class DownloadSplitsPathHandler(
             versionParam.first().toInt()
         } catch (exception: Exception) {
             throw HttpException(HttpStatus.BAD_REQUEST_400, "Expected version to be an integer, " +
-                "got ${versionParam.joinToString(",")}")
+                    "got ${versionParam.joinToString(",")}")
         }
 
         if (featuresToInstallParam.isEmpty() && languagesToInstallParam.isEmpty()) {
@@ -65,15 +65,15 @@ internal class DownloadSplitsPathHandler(
 
         val deviceId = deviceIdParam.first()
         val deviceSpec = deviceManager.getDeviceSpec(deviceId)
-            ?: throw HttpException(HttpStatus.NOT_FOUND_404, "No device with id $deviceId found")
+                ?: throw HttpException(HttpStatus.NOT_FOUND_404, "No device with id $deviceId found")
 
         val compressedSplitsResult = bundleManager.generateCompressedSplits(
-            applicationId = applicationIdParam.first(),
-            version = version,
-            variant = variantParam.first(),
-            deviceSpec = deviceSpec,
-            features = featuresToInstallParam.flatMap { feature -> feature.split(",") }.toTypedArray(),
-            languages = languagesToInstallParam.flatMap { feature -> feature.split(",") }.toTypedArray()
+                applicationId = applicationIdParam.first(),
+                version = version,
+                variant = variantParam.first(),
+                deviceSpec = deviceSpec,
+                features = featuresToInstallParam.flatMap { feature -> feature.split(",") }.toTypedArray(),
+                languages = languagesToInstallParam.flatMap { feature -> feature.split(",") }.toTypedArray()
         )
 
         val compressedSplits = when (compressedSplitsResult) {
@@ -81,31 +81,35 @@ internal class DownloadSplitsPathHandler(
             else -> throw HttpException(HttpStatus.BAD_REQUEST_400, compressedSplitsResult.message)
         }
 
-        val allBytes = compressedSplits.toFile().readBytes()
+        val fileSize = compressedSplits.toFile().length().toInt()
         var byteOffset = 0
         val throttleBy = throttle?.firstOrNull()?.toLongOrNull() ?: 0
         val interval = (throttleBy / 30f).toLong()
-        val byteInterval = (allBytes.size / 30f).toInt()
+        val byteInterval = (fileSize / 30f).toInt()
         val featuresString = featuresToInstallParam.joinToString(",")
         val languagesString = languagesToInstallParam.joinToString(",")
-        logger.i("Sending splits from features [$featuresString] and languages [$languagesString], total size: ${allBytes.size}")
+        val buffer = ByteArray(byteInterval)
+        logger.i("Sending splits from features [$featuresString] and languages [$languagesString], total size: $fileSize")
         response?.apply {
             contentType = "application/zip"
             setHeader("Content-Disposition", "attachment; filename=splits.zip")
-            setContentLength(allBytes.size)
-            while (byteOffset < allBytes.size) {
-                val bytesLeftToWrite = allBytes.size - byteOffset
-                val writeLength = if (byteOffset + byteInterval > allBytes.size) {
-                    bytesLeftToWrite
-                } else {
-                    byteInterval
-                }
-                outputStream.write(allBytes, byteOffset, writeLength)
-                byteOffset += writeLength
-                val percentageSent = Math.round((byteOffset / allBytes.size.toFloat()) * 100)
-                logger.i("Sent $byteOffset / ${allBytes.size} ($percentageSent%)")
-                if (interval > 0) {
-                    Thread.sleep(interval)
+            setContentLength(fileSize)
+            compressedSplits.toFile().inputStream().use { inputStream ->
+                while (byteOffset < fileSize) {
+                    val bytesLeftToWrite = fileSize - byteOffset
+                    val writeLength = if (byteOffset + byteInterval > fileSize) {
+                        bytesLeftToWrite
+                    } else {
+                        byteInterval
+                    }
+                    inputStream.read(buffer, 0, writeLength)
+                    outputStream.write(buffer, 0, writeLength)
+                    byteOffset += writeLength
+                    val percentageSent = Math.round((byteOffset / fileSize.toFloat()) * 100)
+                    logger.i("Sent $byteOffset / ${fileSize} ($percentageSent%)")
+                    if (interval > 0) {
+                        Thread.sleep(interval)
+                    }
                 }
             }
         }
@@ -114,9 +118,9 @@ internal class DownloadSplitsPathHandler(
 }
 
 internal class RegisterDevicePathHandler(
-    private val deviceManager: DeviceManager,
-    private val gson: Gson,
-    private val logger: Logger
+        private val deviceManager: DeviceManager,
+        private val gson: Gson,
+        private val logger: Logger
 ) : PathHandler {
     override val path: String = "register"
 
@@ -133,7 +137,7 @@ internal class RegisterDevicePathHandler(
             gson.fromJson(body, DeviceSpecDto::class.java)
         } catch (exception: Exception) {
             throw HttpException(HttpStatus.BAD_REQUEST_400,
-                "Invalid device spec format")
+                    "Invalid device spec format")
         }
 
         val deviceId = deviceManager.registerDevice(deviceSpecDto)
@@ -151,8 +155,8 @@ internal class RegisterDevicePathHandler(
 }
 
 internal class UploadBundlePathHandler(
-    private val bundleManager: BundleManager,
-    private val logger: Logger
+        private val bundleManager: BundleManager,
+        private val logger: Logger
 ) : PathHandler {
     override val path: String = "upload"
 
@@ -180,16 +184,16 @@ internal class UploadBundlePathHandler(
             versionString.toInt()
         } catch (exception: Exception) {
             throw HttpException(HttpStatus.BAD_REQUEST_400, "Expected version to be an integer, " +
-                "got $versionString")
+                    "got $versionString")
         }
 
         val result = bundleManager.storeBundle(
-            applicationId = applicationId,
-            version = version,
-            variant = variant,
-            signingConfig = signingConfig,
-            bundleInputStream = bundlePart.inputStream,
-            keyStoreInputStream = keystorePart.inputStream
+                applicationId = applicationId,
+                version = version,
+                variant = variant,
+                signingConfig = signingConfig,
+                bundleInputStream = bundlePart.inputStream,
+                keyStoreInputStream = keystorePart.inputStream
         )
 
         when (result) {
