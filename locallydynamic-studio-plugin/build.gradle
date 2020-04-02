@@ -60,8 +60,14 @@ patchPluginXml {
 //      """
 
     // 0.2
+//    changeNotes """
+//        Bumped the LocallyDynamic server dependency from 0.1 to 0.2 - the 0.2 version in turn updates the bundletool
+//        dependency from version 0.12 to 0.13.
+//"""
+
+    // 0.3
     changeNotes """
-        Bumped the LocallyDynamic server dependency from 0.1 to 0.2 - the 0.2 version in turn updates the bundletool 
-        dependency from version 0.12 to 0.13.
+        Bumped the server to version 0.3 - which in cludes a fix for a bug where uploading of large files would cause 
+        an OutOfMemoryError.
 """
 }
