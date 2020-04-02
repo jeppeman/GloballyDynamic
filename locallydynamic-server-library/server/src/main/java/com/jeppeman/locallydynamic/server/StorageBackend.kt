@@ -5,12 +5,13 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.jeppeman.locallydynamic.server.extensions.deleteCompletely
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
+import java.nio.ByteBuffer
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 interface StorageBackend {
     fun storeFile(name: String, contentType: String, inputStream: InputStream)
@@ -23,13 +24,14 @@ interface StorageBackend {
 }
 
 class LocalStorageBackend private constructor(
-    private val baseStoragePath: Path
+        private val baseStoragePath: Path
 ) : StorageBackend {
+
     override fun storeFile(name: String, contentType: String, inputStream: InputStream) {
+        baseStoragePath.toFile().mkdirs()
         inputStream.use {
-            val file = baseStoragePath.resolve(name)
-            file.deleteCompletely()
-            file.toFile().writeBytes(it.readBytes())
+            val file = baseStoragePath.resolve(name).apply { toFile().createNewFile() }
+            Files.copy(it, file, StandardCopyOption.REPLACE_EXISTING)
         }
     }
 
@@ -70,8 +72,8 @@ class LocalStorageBackend private constructor(
 }
 
 class GoogleCloudStorageBackend private constructor(
-    private val bucketId: String,
-    private val storage: Storage = StorageOptions.getDefaultInstance().service
+        private val bucketId: String,
+        private val storage: Storage = StorageOptions.getDefaultInstance().service
 ) : StorageBackend {
 
     private fun String.asBlobId() = BlobId.of(bucketId, this)
@@ -85,25 +87,24 @@ class GoogleCloudStorageBackend private constructor(
             storage.delete(blobId)
         } finally {
             inputStream.use {
-                storage.create(blobInfo, it.readBytes(), Storage.BlobTargetOption.doesNotExist())
+                val writeChannel = storage.writer(blobInfo)
+                val buffer = ByteArray(1024)
+                var limit = 0
+                while (inputStream.read(buffer).also { limit = it } >= 0) {
+                    writeChannel.write(ByteBuffer.wrap(buffer, 0, limit))
+                }
+                writeChannel.close()
             }
         }
     }
 
     override fun retrieveFile(name: String): Path? {
-        ByteArrayOutputStream().use { outputStream ->
-            val blobId = name.asBlobId()
-            val blob = storage.get(blobId)
-            return if (blob != null) {
-                blob.downloadTo(outputStream)
-                createTempFile(name).apply {
-                    outputStream.toByteArray().inputStream().use {
-                        toFile().writeBytes(it.readBytes())
-                    }
-                }
-            } else {
-                null
-            }
+        val blobId = name.asBlobId()
+        val blob = storage.get(blobId)
+        return if (blob != null) {
+            createTempFile(name).apply(blob::downloadTo)
+        } else {
+            null
         }
     }
 

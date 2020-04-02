@@ -62,11 +62,11 @@ internal class RequestHandler(
         } catch (httpException: HttpException) {
             logger.e(httpException.message)
             response?.sendError(httpException.code, httpException.message)
-        } catch (exception: Exception) {
-            logger.e(exception)
+        } catch (throwable: Throwable) {
+            logger.e(throwable)
             response?.sendError(
                 HttpStatus.INTERNAL_SERVER_ERROR_500,
-                exception.stackTraceToString()
+                throwable.stackTraceToString()
             )
         } finally {
             baseRequest?.isHandled = true
