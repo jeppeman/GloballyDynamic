@@ -215,6 +215,9 @@ internal class BundleManagerImpl(
         val keystoreFileName = getFinalFileName(applicationId, version, variant, "keystore")
         storageBackend.storeFile(keystoreFileName, "application/octet-stream", keyStoreTempFile.toFile().inputStream())
 
+        bundleTempFile.deleteCompletely()
+        keyStoreTempFile.deleteCompletely()
+
         return BundleManager.Result.Success(apkSetPath)
     }
 }

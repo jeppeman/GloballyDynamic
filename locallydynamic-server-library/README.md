@@ -65,7 +65,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.jeppeman.locallydynamic.server:server:0.3' 
+    implementation 'com.jeppeman.locallydynamic.server:server:0.4' 
 }
 ```
 **Or snapshot**
@@ -77,7 +77,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.jeppeman.locallydynamic.server:server:0.4-SNAPSHOT' 
+    implementation 'com.jeppeman.locallydynamic.server:server:0.5-SNAPSHOT' 
 }
 ```
 
