@@ -166,7 +166,8 @@ internal class UploadBundlePathHandler(
         }
 
         val limit = 100 * Math.pow(10.0, 9.0).toLong()
-        val multipartConfigElement = MultipartConfigElement("", limit, limit, 0)
+        val threshold = 200 * Math.pow(10.0, 6.0).toInt()
+        val multipartConfigElement = MultipartConfigElement("", limit, limit, threshold)
         request.setAttribute(Request.MULTIPART_CONFIG_ELEMENT, multipartConfigElement)
 
         val bundlePart = request.requirePart("bundle")
