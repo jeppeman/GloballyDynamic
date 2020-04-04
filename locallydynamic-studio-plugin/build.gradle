@@ -66,8 +66,13 @@ patchPluginXml {
 //"""
 
     // 0.3
+//    changeNotes """
+//        Bumped the server to version 0.3 - which in cludes a fix for a bug where uploading of large files would cause
+//        an OutOfMemoryError.
+//"""
+
+    // 0.4
     changeNotes """
-        Bumped the server to version 0.3 - which in cludes a fix for a bug where uploading of large files would cause 
-        an OutOfMemoryError.
+        Bumped the server to version 0.4 - which includes another OutOfMemoryError when uploading very large bundles
 """
 }
