@@ -70,11 +70,12 @@ jobs:
       - initialize
       - run:
           name: Build android debug APK
-          command: cd locallydynamic-android-lib && ./gradlew :integration-tests:extractApksForDebug -Pandroid.inject.apkselect.config=${LOCALLY_DYNAMIC_DEVICE_PATH}
+          command: cd locallydynamic-android-lib && ./gradlew assembleDebug #:integration-tests:extractApksForDebug -Pandroid.inject.apkselect.config=${LOCALLY_DYNAMIC_DEVICE_PATH}
       - persist_to_workspace:
           root: .
           paths:
-            - locallydynamic-android-lib/integration-tests/build/intermediates/extracted_apks/debug/out/base-master.apk
+            #- locallydynamic-android-lib/integration-tests/build/intermediates/extracted_apks/debug/out/base-master.apk
+            - locallydynamic-android-lib/integration-tests/build/outputs/apk/debug/integration-tests-debug.apk
       - *save_cache_android
 
   android_lib_build_test_apk:
