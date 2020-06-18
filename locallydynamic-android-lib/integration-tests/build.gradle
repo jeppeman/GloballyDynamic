@@ -46,7 +46,7 @@ android {
            //             : ""
            // }
             if (project.hasProperty("LOCALLY_DYNAMIC_KEYSTORE_PATH")) {
-                signingConfig signingConfigs.debug
+                // signingConfig signingConfigs.debug
             }
         }
         release {
