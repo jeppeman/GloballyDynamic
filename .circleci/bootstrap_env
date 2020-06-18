@@ -2,6 +2,8 @@
 
 set -e 
 
+echo hi
+
 script=$(realpath $0)
 script_dir=$(dirname "${script}")
 
