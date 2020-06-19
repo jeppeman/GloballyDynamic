@@ -72,7 +72,12 @@ patchPluginXml {
 //"""
 
     // 0.4
+//    changeNotes """
+//        Bumped the server to version 0.4 - which includes another OutOfMemoryError when uploading very large bundles
+//"""
+
+    // 0.5
     changeNotes """
-        Bumped the server to version 0.4 - which includes another OutOfMemoryError when uploading very large bundles
+        Make compatible with Android Studio 4.0.
 """
 }
