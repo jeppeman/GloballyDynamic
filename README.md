@@ -1,5 +1,5 @@
 # LocallyDynamic - Dynamic Delivery Everywhere
-[![CircleCI](https://circleci.com/gh/jeppeman/LocallyDynamic.svg?style=svg&circle-token=7fdc7e6c2980583807e3bfaadefa4623c0638202)](https://circleci.com/gh/jeppeman/LocallyDynamic)
+[![CircleCI](https://circleci.com/gh/jeppeman/GloballyDynamic.svg?style=svg)](https://circleci.com/gh/jeppeman/GloballyDynamic)
 <p align="center">
     <img src="assets/images/icon.png" width="120" hspace="10" vspace="10">
 </p>
