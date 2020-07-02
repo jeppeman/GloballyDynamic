@@ -45,8 +45,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.5.3" // Compatible with 3.5 and above
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.2"
+        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.3"
     }
 }
 

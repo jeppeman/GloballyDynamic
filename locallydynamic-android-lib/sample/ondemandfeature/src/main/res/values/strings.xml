@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="on_demand_feature_string">Hi, I am a fragment from an on demand feature</string>
+    <string name="on_demand_feature_string" translatable="false">Hi, I am a fragment from an on demand feature</string>
 </resources>

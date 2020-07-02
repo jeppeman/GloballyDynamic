@@ -1,7 +1,7 @@
 # locallydynamic-gradle-plugin
 
 A gradle plugin that hooks into the bundle build process of the <a href="https://developer.android.com/studio/releases/gradle-plugin">Android Gradle Plugin</a> and uploads produced bundles to a <a href="../locallydynamic-server-library">LocallyDynamic server</a>.<br/>
-Compatible with AGP 3.5 and 3.6.
+Compatible with AGP 3.5 above
 
 Usage
 ---
@@ -13,7 +13,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.2"
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.3"
     }
 }
 
@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.3-SNAPSHOT"
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.4-SNAPSHOT"
     }
 }
 
@@ -97,8 +97,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.6.1" // Compatible with 3.5 and above
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.2"
+        classpath "com.android.tools.build:gradle:4.0.0" 
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.3"
     }
 }
 

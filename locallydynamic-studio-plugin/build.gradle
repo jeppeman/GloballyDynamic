@@ -38,8 +38,7 @@ intellij {
     plugins 'android'
     type 'IC'
     version '193.6911.18'
-//    alternativeIdePath "${ANDROID_STUDIO_STABLE_PATH}"
-    //localPath "${ANDROID_STUDIO_PREVIEW_PATH}" // android studio 3.6
+//    localPath "${System.getenv("ANDROID_STUDIO_PATH")}"
 }
 
 publishPlugin {
@@ -77,7 +76,11 @@ patchPluginXml {
 //"""
 
     // 0.5
+//    changeNotes """
+//        Make compatible with Android Studio 4.0.
+//"""
+    // 0.6
     changeNotes """
-        Make compatible with Android Studio 4.0.
+        Add support for kotlin build scripts (build.gradle.kts)
 """
 }

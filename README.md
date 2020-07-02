@@ -48,8 +48,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.6.1" // Compatible with 3.5 and above
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.2"
+        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:0.3"
     }
 }
 
@@ -125,7 +125,7 @@ You can also have a look at the <a href="locallydynamic-android-lib/sample">andr
 
 Compatibility
 ---
-Compatible with Android Studio 3.5 and 3.6 as well as the Android Gradle Plugin 3.5 and 3.6 (support for 4 is coming soon)
+Compatible with Android Studio 3.5 and above as well as the Android Gradle Plugin 3.5 and above
 
 Limitations
 ---
