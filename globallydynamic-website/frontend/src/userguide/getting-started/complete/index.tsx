@@ -29,7 +29,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'com.jeppeman.globallydynamic.gradle:plugin:0.1'
+        classpath 'com.jeppeman.globallydynamic.gradle:plugin:1.0'
     }
 }
 
@@ -75,7 +75,7 @@ android {
             
             // The build variants that this server should be applied to,
             // here we apply it to all debug variants. If you for instance 
-            // rather would use internal app sharing for your Google Play
+            // rather would like to use internal app sharing for your Google Play
             // variant you can just remove 'gplayDebug' from below and use
             // the 'com.jeppeman.globallydynamic.android:gplay' artifact
             // for all gplay variants.
@@ -127,19 +127,19 @@ configurations {
 
 dependencies {
     // With this artifact requests will be delegated to a self hosted GloballyDynamic server
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
     
     // With this artifact requests will be delegated to Play Store
-    gplayReleaseImplementation 'com.jeppeman.globallydynamic.android:gplay:0.1'
+    gplayReleaseImplementation 'com.jeppeman.globallydynamic.android:gplay:1.0'
     
     // With this artifact requests will be delegated to Huawei App Gallery
-    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:0.1'
+    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0'
     
     // Self hosted dynamic delivery for Amazon App Store
-    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'
+    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
     
     // Self hosted dynamic delivery for Samsung Galaxy Store
-    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'
+    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
 }
 \`\`\`
 

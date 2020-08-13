@@ -99,7 +99,7 @@ android {
 }
 
 dependencies {
-    releaseImplementation "com.jeppeman.globallydynamic.android:selfhosted:0.1"
+    releaseImplementation "com.jeppeman.globallydynamic.android:selfhosted:1.0"
 }
 \`\`\`
 

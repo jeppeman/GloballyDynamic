@@ -30,23 +30,20 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:0.1"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0"
     }
 }
 
 apply plugin: 'com.jeppeman.globallydynamic'
 
 \`\`\`
-### Snapshot
+### Snapshots
 \`\`\`groovy
 buildscript {
     repositories {
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots/"
         }
-    }
-    dependencies {
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:0.2-SNAPSHOT"
     }
 }
 
@@ -142,7 +139,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1" 
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:0.1"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0"
     }
 }
 
@@ -188,8 +185,8 @@ configurations {
 }
 
 dependencies {
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'     
-    selfHostedReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'     
+    selfHostedReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
 }
 \`\`\`
 `;

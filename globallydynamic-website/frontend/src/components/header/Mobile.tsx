@@ -171,7 +171,7 @@ const DrawerListItem = ({setDrawerOpen, setTitle, location: {text, title, icon, 
 };
 
 const Mobile = ({selectedLocation, locations}: MobileProps) => {
-    const [title, setTitle] = useState();
+    const [title, setTitle] = useState("");
     const [open, setOpen] = useState(false);
     const classes = useStyles();
     const locationText = selectedLocation

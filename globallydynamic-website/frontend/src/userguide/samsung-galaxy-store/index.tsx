@@ -49,28 +49,13 @@ configurations {
 }
 
 dependencies {
-    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'
+    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
 }
 \`\`\`
 To build the actual APK, the process is the same as for Amazon App Store, except that you do not have to build an
 unsigned APK - your options are the following:
 
-**Option 1: Build a standard APK (\`./gradlew assembleGalaxyRelease\`)**: this APK will *only* contain code and resources from the 
-main application module, i.e. no dynamic feature modules, neither install time nor on-demand modules. Therefore install
-time modules also become on-demand modules, i.e. they will be downloaded at runtime as they are needed. The android
-library comes with a way of installing all *missing* splits, meaning missing install time modules and density/language 
-modules, this can be called immediately after application startup if you want install time modules to readily 
-available as soon as possible:
-\`\`\`kotlin
-globalSplitInstallManager.installMissingSplits()
-    .addOnSuccessListener { startMyActivityFromInstallTimeFeature() }
-\`\`\`
-**Option 2: Build a base APK (\`./gradlew buildBaseApkForGalaxyRelease\`)**: this APK will also only contain code and resources
-from the main application module, the difference compared to the standard APK is that this APK is also stripped of 
-non-default languages and assets - so somewhat more naked, if you will. With this APK it is strongly recommended
-that you use \`globalSplitInstallManager.installMissingSplits()\` since non-default assets / languages will be missing from
-the APK.<br/><br/>
-**Option 3: Build a universal APK (\`./gradlew buildUniversalApkForGalaxyRelease\`):** this APK will include *all* code and 
+**Option 1: Build a universal APK (\`./gradlew buildUniversalApkForGalaxyRelease\`):** this APK will include *all* code and 
 resources from the application, including dynamic feature modules, both install time and on-demand. There is a way
 to exclude on-demand modules from the produced APK however; by disabling *fusing* for a dynamic feature module,
 it will be excluded from the universal APK, like so:
@@ -94,6 +79,25 @@ The appealing thing about the universal APK in comparison to the others is that 
 \`globalSplitInstallManager.installMissingSplits()\`, install time features are immediately available, while 
 on-demand modules are still downloaded dynamically.
 
+**Option 2: Build a base APK (\`./gradlew buildBaseApkForGalaxyRelease\`)**: this APK will also only contain code and resources
+from the main application module, the difference compared to the standard APK is that this APK is also stripped of 
+non-default languages and assets - so somewhat more naked, if you will. With this APK it is strongly recommended
+that you use \`globalSplitInstallManager.installMissingSplits()\` since non-default assets / languages will be missing from
+the APK.<br/><br/>
+
+**Option 3: Build a bundle and a standard APK (\`./gradlew bundleGalaxyRelease assembleGalaxyRelease\`)**: 
+this APK will *only* contain code and resources from the 
+main application module, i.e. no dynamic feature modules, neither install time nor on-demand modules. Therefore install
+time modules also become on-demand modules, i.e. they will be downloaded at runtime as they are needed. The android
+library comes with a way of installing all *missing* splits, meaning missing install time modules and density/language 
+modules, this can be called immediately after application startup if you want install time modules to readily 
+available as soon as possible:
+\`\`\`kotlin
+globalSplitInstallManager.installMissingSplits()
+    .addOnSuccessListener { startMyActivityFromInstallTimeFeature() }
+\`\`\`
+
+**Publish the APK**<br/>
 Finally publish your produced APK and get it approved and you're up and running.
 
 ### Live Example

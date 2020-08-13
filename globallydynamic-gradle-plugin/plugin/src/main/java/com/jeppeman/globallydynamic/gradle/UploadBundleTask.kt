@@ -74,8 +74,6 @@ open class UploadBundleTask : DefaultTask() {
 
             val uri = URIPathBuilder(serverInfo.serverUrl!!).addPathSegment("upload").build()
 
-            println(uri.toString())
-
             val bundle = bundleDir.listFiles { file -> file.name.contains(".aab") }!!.first()
             val signingConfigJson = signingConfig.readText()
             if (signingConfigJson.isBlank() || signingConfigJson == "null") {
@@ -167,8 +165,8 @@ open class UploadBundleTask : DefaultTask() {
 }
 
 private class URIPathBuilder(uri: String) : URIBuilder(uri) {
-    private fun appendSegmentToPath(path: String, segment: String): String? {
-        return if (path[path.length - 1] == '/' || segment.startsWith("/")) {
+    private fun appendSegmentToPath(path: String?, segment: String): String? {
+        return if (path.isNullOrBlank() || path[path.length - 1] == '/' || segment.startsWith("/")) {
             path + segment
         } else "$path/$segment"
     }

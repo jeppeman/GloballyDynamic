@@ -108,7 +108,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1-SNAPSHOT'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -211,7 +211,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1-SNAPSHOT'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()

@@ -117,19 +117,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.jeppeman.globallydynamic.server:server:0.1' 
+    implementation 'com.jeppeman.globallydynamic.server:server:1.0' 
 }
 \`\`\`
-**Or snapshot**
+**Or snapshots**
 \`\`\`groovy
 repositories {
     maven {
         url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
-}
-
-dependencies {
-    implementation 'com.jeppeman.globallydynamic.server:server:0.2-SNAPSHOT' 
 }
 \`\`\`
 
@@ -168,7 +164,8 @@ Endpoints
 The endpoints that the server exposes are listed below, all are protected by the credentials provided in the configuration (if any).
 
 ### Uploading a bundle to the server (\`/upload\`)
-App bundle uploading is done automatically by the [gradle plugin](./gradle) when building an app bundle - but in case you want to upload manually, POST to the \`/upload\` endpoint, see <a href="../globallydynamic-gradle-plugin/plugin/src/main/java/com/jeppeman/globallydynamic/gradle/UploadBundleTask.kt">UploadBundleTask.kt</a> for an example.
+App bundle uploading is done automatically by the [gradle plugin](./gradle) when building an app bundle - but in case you want to upload manually, 
+POST to the \`/upload\` endpoint, see [UploadBundleTask.kt](https://github.com/jeppeman/GloballyDynamic/blob/master/globallydynamic-gradle-plugin/plugin/src/main/java/com/jeppeman/globallydynamic/gradle/UploadBundleTask.kt) for an example.
 The request needs to have the header \`Content-Type: multipart/form-data\` set, and the body needs to contain the following parts:
 
 | Name | Values | 

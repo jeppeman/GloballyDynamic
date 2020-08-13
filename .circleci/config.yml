@@ -71,11 +71,11 @@ jobs:
       - run:
           name: Build android debug APK
           command: cd globallydynamic-android-lib && ./gradlew assembleDebug
-      - persist_to_workspace:
-          root: .
-          paths:
+      # - persist_to_workspace:
+          # root: .
+          # paths:
             #- globallydynamic-android-lib/integration-tests/build/intermediates/extracted_apks/debug/out/base-master.apk
-            - globallydynamic-android-lib/integration-tests/build/outputs/apk/debug/integration-tests-debug.apk
+            # - globallydynamic-android-lib/integration-tests/build/outputs/apk/debug/integration-tests-debug.apk
       - *save_cache_android
 
   android_lib_build_test_apk:
@@ -86,10 +86,10 @@ jobs:
       - run:
           name: Build android test APK
           command: cd globallydynamic-android-lib && ./gradlew assembleAndroidTest
-      - persist_to_workspace:
-          root: .
-          paths:
-            - globallydynamic-android-lib/integration-tests/build/outputs/apk/androidTest/debug/integration-tests-debug-androidTest.apk
+      # - persist_to_workspace:
+          # root: .
+          # paths:
+            # - globallydynamic-android-lib/integration-tests/build/outputs/apk/androidTest/debug/integration-tests-debug-androidTest.apk
       - *save_cache_android
 
   android_lib_lint:
@@ -176,13 +176,10 @@ workflows:
       - server_lib_tests:
           context: Android
 
-      - gradle_plugin_tests_agp353:
-          context: Android
-
-      - gradle_plugin_tests_agp360:
-          context: Android
-
       - studio_plugin_tests:
+          context: Android
+
+      - gradle_plugin_tests:
           context: Android
 
   build_and_test:
@@ -202,11 +199,8 @@ workflows:
       - server_lib_tests:
           context: Android
 
-      - gradle_plugin_tests_agp353:
-          context: Android
-
-      - gradle_plugin_tests_agp360:
-          context: Android
-
       - studio_plugin_tests:
+          context: Android
+
+      - gradle_plugin_tests:
           context: Android
