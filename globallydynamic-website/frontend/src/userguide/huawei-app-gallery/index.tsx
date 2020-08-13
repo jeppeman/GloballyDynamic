@@ -38,7 +38,7 @@ configurations {
 }
 
 dependencies {
-    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0'
+    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0.0'
 }
 \`\`\`
 

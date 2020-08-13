@@ -30,7 +30,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0.0"
     }
 }
 
@@ -139,7 +139,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1" 
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0.0"
     }
 }
 
@@ -185,8 +185,8 @@ configurations {
 }
 
 dependencies {
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'     
-    selfHostedReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'     
+    selfHostedReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
 }
 \`\`\`
 `;

@@ -49,7 +49,7 @@ configurations {
 }
 
 dependencies {
-    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
 }
 \`\`\`
 To build the actual APK, the process is the same as for Amazon App Store, except that you do not have to build an

@@ -42,13 +42,13 @@ repositories {
 
 dependencies {
     // Use for Google Play variants
-    gplayImplementation 'com.jeppeman.globallydynamic.android:gplay:1.0'
+    gplayImplementation 'com.jeppeman.globallydynamic.android:gplay:1.0.0'
     
     // Use for Huawei App Gallery variants
-    huaweiImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0'
+    huaweiImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0.0'
     
     // Use for other variants, e.g. during development or distribution through some other App Store
-    selfHostedImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+    selfHostedImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
 }
 \`\`\`
 **Snapshots**

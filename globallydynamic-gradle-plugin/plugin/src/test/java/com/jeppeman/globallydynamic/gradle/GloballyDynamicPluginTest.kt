@@ -26,7 +26,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -55,7 +55,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -141,7 +141,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -192,7 +192,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()

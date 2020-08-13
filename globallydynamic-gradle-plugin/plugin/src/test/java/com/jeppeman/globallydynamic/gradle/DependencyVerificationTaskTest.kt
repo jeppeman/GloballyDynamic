@@ -45,7 +45,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
                 }
             """.trimIndent()
         )

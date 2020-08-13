@@ -24,7 +24,7 @@ def versions = [
         play                  : '1.8.0',
         dynamicability        : '1.0.14.300',
         autoservice           : '1.0-rc6',
-        globallydynamic_gradle: '1.0',
+        globallydynamic_gradle: '1.0.0',
         publish               : '3.6.3',
         uiautomator           : '2.2.0',
         javadoc               : '0.3.0'

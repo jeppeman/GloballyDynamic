@@ -166,7 +166,9 @@ open class UploadBundleTask : DefaultTask() {
 
 private class URIPathBuilder(uri: String) : URIBuilder(uri) {
     private fun appendSegmentToPath(path: String?, segment: String): String? {
-        return if (path.isNullOrBlank() || path[path.length - 1] == '/' || segment.startsWith("/")) {
+        return if (path == null) {
+            if (segment.startsWith("/")) segment else "/$segment"
+        } else if (path.isBlank() || path[path.length - 1] == '/' || segment.startsWith("/")) {
             path + segment
         } else "$path/$segment"
     }
