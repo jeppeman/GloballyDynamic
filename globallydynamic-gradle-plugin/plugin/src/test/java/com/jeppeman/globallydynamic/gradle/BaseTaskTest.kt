@@ -58,9 +58,6 @@ abstract class BaseTaskTest {
             """
                 buildscript {
                     repositories {
-                        maven {
-                            url "https://oss.sonatype.org/content/repositories/snapshots/"    
-                        } 
                         mavenCentral()
                         jcenter()
                         google()
@@ -69,9 +66,6 @@ abstract class BaseTaskTest {
                 
                 subprojects { 
                     repositories {
-                        maven {
-                            url "https://oss.sonatype.org/content/repositories/snapshots/"    
-                        } 
                         mavenCentral()
                         jcenter()
                         google()

@@ -17,7 +17,7 @@ class PostProjectSyncStep : ProjectSetupStep() {
     fun shouldInitializeServer(project: Project): Boolean =
         ModuleManager.getInstance(project).modules.any(Module::hasGloballyDynamicEnabled)
 
-    override fun setUpProject(project: Project) {
+    override fun setUpProject(project: Project, progressIndicator: ProgressIndicator?) {
         if (shouldInitializeServer(project)) {
             getServerManager(project).start()
         }

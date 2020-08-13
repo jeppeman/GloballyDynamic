@@ -60,7 +60,6 @@ const DrawerPage = ({destinations}: DrawerPageProps) => {
 
     const updatePageHeight = () => {
         const newPageHeight = Math.max(sectionRef.current?.scrollHeight || pageHeight, window.innerHeight - navTop)
-        console.log(newPageHeight, sectionRef.current)
         if (newPageHeight !== pageHeight) {
             setPageHeight(newPageHeight);
         }

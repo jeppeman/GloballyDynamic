@@ -35,7 +35,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'com.jeppeman.globallydynamic.gradle:plugin:0.1'
+        classpath 'com.jeppeman.globallydynamic.gradle:plugin:1.0'
     }
 }
 
@@ -65,7 +65,7 @@ android {
 dependencies {
     // With this artifact split install requests will be delegated to a self hosted 
     // GloballyDynamic server, in this case the Android Studio integrated one
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
 }
 \`\`\`
 
@@ -155,6 +155,9 @@ You can then start downloading split APK:s from your android application.
 The video below shows the process in action:
 
 [YouTube](https://www.youtube.com/watch?v=K6CPYHlsJt4)
+
+#### Example
+Refer to the [minimal sample of the Android lib source code](https://github.com/jeppeman/GloballyDynamic/tree/master/globallydynamic-android-lib/minimal-sample) for a full example.
 
 For a complete production setup compatible with any app store you intend to use dynamic delivery with, such as 
 Google Play Store, Huawei App Gallery, Amazon App Store, Samsung Galaxy Store, etc. Refer to the 

@@ -15,7 +15,7 @@ echo "Android SDK root ${ANDROID_SDK_ROOT}"
 
 rm -rf GloballyDynamic
 
-git clone --single-branch --branch rename https://github.com/jeppeman/GloballyDynamic.git
+git clone https://github.com/jeppeman/GloballyDynamic.git
 
 cd GloballyDynamic
 

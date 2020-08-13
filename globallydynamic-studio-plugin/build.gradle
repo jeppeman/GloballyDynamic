@@ -37,8 +37,8 @@ compileTestKotlin {
 intellij {
     plugins 'android'
     type 'IC'
-//    version '193.6911.18'
-    localPath "${System.getenv("ANDROID_STUDIO_PATH")}"
+    version '193.6911.18'
+//    localPath "${System.getenv("ANDROID_STUDIO_PATH")}"
 }
 
 publishPlugin {
@@ -47,7 +47,7 @@ publishPlugin {
 }
 
 patchPluginXml {
-    // 0.1
+    // 1.0
     changeNotes """
       Compatible with Android Studio 4.0
       
@@ -57,5 +57,7 @@ patchPluginXml {
         <li>Action menu items to manually start/stop a server</li>
         <li>Adds a step before running a bundle app that automatically starts the server</li>
       <ul>
+      
+      <p>Find the documentation <a href="https://globallydynamic.io">here</a></p>
       """
 }

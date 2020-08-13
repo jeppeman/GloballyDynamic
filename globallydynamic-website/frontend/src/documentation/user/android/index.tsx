@@ -42,13 +42,13 @@ repositories {
 
 dependencies {
     // Use for Google Play variants
-    gplayImplementation 'com.jeppeman.globallydynamic.android:gplay:0.1'
+    gplayImplementation 'com.jeppeman.globallydynamic.android:gplay:1.0'
     
     // Use for Huawei App Gallery variants
-    huaweiImplementation 'com.jeppeman.globallydynamic.android:huawei:0.1'
+    huaweiImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0'
     
     // Use for other variants, e.g. during development or distribution through some other App Store
-    selfHostedImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.1'
+    selfHostedImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
 }
 \`\`\`
 **Snapshots**
@@ -58,13 +58,6 @@ repositories {
         url 'https://oss.sonatype.org/content/repositories/snapshots/'    
     }
 }
-
-dependencies {
-    gplayImplementation 'com.jeppeman.globallydynamic.android:gplay:0.2-SNAPSHOT'
-    huaweiImplementation 'com.jeppeman.globallydynamic.android:huawei:0.2-SNAPSHOT'
-    selfHostedImplementation 'com.jeppeman.globallydynamic.android:selfhosted:0.2-SNAPSHOT'
-}
-
 \`\`\`
 See the [Gradle Plugin](./gradle) for more configuration details.
 
