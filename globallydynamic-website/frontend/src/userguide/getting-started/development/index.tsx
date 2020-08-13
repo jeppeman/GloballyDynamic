@@ -35,7 +35,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'com.jeppeman.globallydynamic.gradle:plugin:1.0'
+        classpath 'com.jeppeman.globallydynamic.gradle:plugin:1.0.0'
     }
 }
 
@@ -65,7 +65,7 @@ android {
 dependencies {
     // With this artifact split install requests will be delegated to a self hosted 
     // GloballyDynamic server, in this case the Android Studio integrated one
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
 }
 \`\`\`
 

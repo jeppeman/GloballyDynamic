@@ -117,7 +117,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.jeppeman.globallydynamic.server:server:1.0' 
+    implementation 'com.jeppeman.globallydynamic.server:server:1.0.0' 
 }
 \`\`\`
 **Or snapshots**

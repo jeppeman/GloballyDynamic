@@ -61,7 +61,7 @@ configurations {
 }
 
 dependencies {
-    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0'
+    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
 }
 \`\`\`
 When publishing with Self Signing, Amazon requires you to first upload an *unsigned* APK that they will wrap with
