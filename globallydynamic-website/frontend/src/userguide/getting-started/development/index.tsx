@@ -7,6 +7,7 @@ import ApkFromBundle from "../../../assets/apk_from_bundle.png"
 import UploadLog from "../../../assets/upload_log.jpg"
 import FlowDiagram from "../../../assets/flow_diagram.png"
 import ImageRenderer from "../../../components/ImageRenderer";
+import {versions} from "../../../constants";
 
 const markdown = `
 Development setup
@@ -35,7 +36,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'com.jeppeman.globallydynamic.gradle:plugin:1.0.0'
+        classpath 'com.jeppeman.globallydynamic.gradle:plugin:${versions.GRADLE}'
     }
 }
 
@@ -65,7 +66,7 @@ android {
 dependencies {
     // With this artifact split install requests will be delegated to a self hosted 
     // GloballyDynamic server, in this case the Android Studio integrated one
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
 }
 \`\`\`
 

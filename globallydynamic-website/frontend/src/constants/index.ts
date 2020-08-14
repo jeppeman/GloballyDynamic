@@ -16,6 +16,16 @@ const pageNames: { [key: string]: string[] } = {
     '/user-guide/troubleshooting': ['User Guide', 'Troubleshooting']
 }
 
+export type Versions = { GRADLE: string, ANDROID: string, SERVER: string, STUDIO: string }
+
+const versions: Versions = {
+    'GRADLE': '1.0.0',
+    'ANDROID': '1.0.0',
+    'SERVER': '1.0.0',
+    'STUDIO': '1.0.0'
+}
+
 export {
-    pageNames
+    pageNames,
+    versions
 }

@@ -5,6 +5,7 @@ import CodeBlock from "../../components/CodeBlock";
 import LinkRenderer from "../../components/LinkRenderer";
 import ImageRenderer from "../../components/ImageRenderer";
 import AmazonGif from "../../assets/amazon.gif"
+import {versions} from "../../constants";
 
 const markdown = `
 Enable Dynamic Delivery for Amazon App Store
@@ -61,7 +62,7 @@ configurations {
 }
 
 dependencies {
-    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
 }
 \`\`\`
 When publishing with Self Signing, Amazon requires you to first upload an *unsigned* APK that they will wrap with

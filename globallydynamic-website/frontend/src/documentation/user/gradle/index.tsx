@@ -3,11 +3,13 @@ import {Box, Container} from "@material-ui/core";
 import ReactMarkdown from "react-markdown/with-html";
 import CodeBlock from "../../../components/CodeBlock"
 import LinkRenderer from "../../../components/LinkRenderer";
+import {versions} from "../../../constants";
 
 const markdown = `
 GloballyDynamic Gradle Plugin
 ---
-[![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.gradle/plugin.svg?label=maven%20central&color=green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.gradle/plugin)
+<!-- [![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.gradle/plugin.svg?label=maven%20central&color=green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.gradle/plugin) -->
+[![Maven Central](https://img.shields.io/badge/maven--central-v${versions.GRADLE}-green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.gradle/plugin)
 
 A gradle plugin that hooks into the bundle build process of the 
 [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) and 
@@ -30,12 +32,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0.0"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:${versions.GRADLE}"
     }
 }
 
 apply plugin: 'com.jeppeman.globallydynamic'
-
 \`\`\`
 ### Snapshots
 \`\`\`groovy
@@ -46,9 +47,6 @@ buildscript {
         }
     }
 }
-
-apply plugin: 'com.jeppeman.globallydynamic'
-
 \`\`\`
 
 Tasks
@@ -139,7 +137,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1" 
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.0.0"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:${versions.GRADLE}"
     }
 }
 
@@ -185,8 +183,8 @@ configurations {
 }
 
 dependencies {
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'     
-    selfHostedReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'     
+    selfHostedReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
 }
 \`\`\`
 `;
