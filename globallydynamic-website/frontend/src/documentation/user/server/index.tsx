@@ -3,11 +3,13 @@ import {Box, Container} from "@material-ui/core";
 import ReactMarkdown from "react-markdown/with-html";
 import CodeBlock from "../../../components/CodeBlock"
 import LinkRenderer from "../../../components/LinkRenderer";
+import {versions} from "../../../constants";
 
 const markdown = `
 GloballyDynamic Server Library
 ---
-[![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.server/server.svg?label=maven%20central&color=green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.server/server)
+<!-- [![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.server/server.svg?label=maven%20central&color=green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.server/server)-->
+[![Maven Central](https://img.shields.io/badge/maven--central-v${versions.SERVER}-green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.server/server)
 
 A portable http server that receives [app bundles](https://developer.android.com/platform/technology/app-bundle) and uses [bundletool](https://developer.android.com/studio/command-line/bundletool) to generate and serve split APK:s to clients that are using the
 [GloballyDynamic Android library](./android). <br/>
@@ -117,7 +119,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.jeppeman.globallydynamic.server:server:1.0.0' 
+    implementation 'com.jeppeman.globallydynamic.server:server:${versions.SERVER}' 
 }
 \`\`\`
 **Or snapshots**

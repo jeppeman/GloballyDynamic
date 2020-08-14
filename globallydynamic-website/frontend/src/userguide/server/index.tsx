@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown/with-html";
 import CodeBlock from "../../components/CodeBlock";
 import LinkRenderer from "../../components/LinkRenderer";
 import ImageRenderer from "../../components/ImageRenderer";
+import {versions} from "../../constants";
 
 const markdown = `
 Running a dedicated GloballyDynamic server
@@ -99,7 +100,7 @@ android {
 }
 
 dependencies {
-    releaseImplementation "com.jeppeman.globallydynamic.android:selfhosted:1.0.0"
+    releaseImplementation "com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}"
 }
 \`\`\`
 

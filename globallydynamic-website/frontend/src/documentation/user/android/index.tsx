@@ -3,11 +3,13 @@ import {Box, Container} from "@material-ui/core";
 import ReactMarkdown from "react-markdown/with-html";
 import CodeBlock from "../../../components/CodeBlock"
 import LinkRenderer from "../../../components/LinkRenderer";
+import {versions} from "../../../constants";
 
 const markdown = `
 GloballyDynamic Android Library
 ---
-[![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.android/all.svg?label=maven%20central&color=green)](https://search.maven.org/search?q=g:%22com.jeppeman.globallydynamic.android%22)
+<!-- [![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.android/all.svg?label=maven%20central&color=green)](https://search.maven.org/search?q=g:%22com.jeppeman.globallydynamic.android%22) -->
+[![Maven Central](https://img.shields.io/badge/maven--central-v${versions.ANDROID}-green)](https://search.maven.org/search?q=g:%22com.jeppeman.globallydynamic.android%22)
 
 An Android library that adds an abstraction layer on top of Dynamic Delivery client API:s, e.g. 
 [Play Core](https://developer.android.com/guide/playcore), 
@@ -42,13 +44,13 @@ repositories {
 
 dependencies {
     // Use for Google Play variants
-    gplayImplementation 'com.jeppeman.globallydynamic.android:gplay:1.0.0'
+    gplayImplementation 'com.jeppeman.globallydynamic.android:gplay:${versions.ANDROID}'
     
     // Use for Huawei App Gallery variants
-    huaweiImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0.0'
+    huaweiImplementation 'com.jeppeman.globallydynamic.android:huawei:${versions.ANDROID}'
     
     // Use for other variants, e.g. during development or distribution through some other App Store
-    selfHostedImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    selfHostedImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
 }
 \`\`\`
 **Snapshots**

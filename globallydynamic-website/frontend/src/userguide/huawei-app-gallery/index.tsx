@@ -5,6 +5,7 @@ import CodeBlock from "../../components/CodeBlock";
 import LinkRenderer from "../../components/LinkRenderer";
 import ImageRenderer from "../../components/ImageRenderer";
 import HuaweiGif from "../../assets/huawei.gif"
+import {versions} from "../../constants";
 
 const markdown = `
 Enable Dynamic Delivery for Huawei App Gallery
@@ -38,7 +39,7 @@ configurations {
 }
 
 dependencies {
-    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0.0'
+    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:${versions.ANDROID}'
 }
 \`\`\`
 

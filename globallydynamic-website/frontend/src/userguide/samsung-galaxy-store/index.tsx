@@ -5,6 +5,7 @@ import CodeBlock from "../../components/CodeBlock";
 import LinkRenderer from "../../components/LinkRenderer";
 import ImageRenderer from "../../components/ImageRenderer";
 import GalaxyGif from "../../assets/galaxy.gif"
+import {versions} from "../../constants";
 
 const markdown = `
 Enable Dynamic Delivery for Samsung Galaxy Store
@@ -49,7 +50,7 @@ configurations {
 }
 
 dependencies {
-    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
 }
 \`\`\`
 To build the actual APK, the process is the same as for Amazon App Store, except that you do not have to build an

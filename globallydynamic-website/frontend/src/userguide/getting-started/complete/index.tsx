@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown/with-html";
 import CodeBlock from "../../../components/CodeBlock";
 import LinkRenderer from "../../../components/LinkRenderer";
 import ImageRenderer from "../../../components/ImageRenderer";
+import {versions} from "../../../constants";
 
 const markdown = `
 Complete setup
@@ -29,7 +30,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'com.jeppeman.globallydynamic.gradle:plugin:1.0.0'
+        classpath 'com.jeppeman.globallydynamic.gradle:plugin:${versions.GRADLE}'
     }
 }
 
@@ -127,19 +128,19 @@ configurations {
 
 dependencies {
     // With this artifact requests will be delegated to a self hosted GloballyDynamic server
-    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
     
     // With this artifact requests will be delegated to Play Store
-    gplayReleaseImplementation 'com.jeppeman.globallydynamic.android:gplay:1.0.0'
+    gplayReleaseImplementation 'com.jeppeman.globallydynamic.android:gplay:${versions.ANDROID}'
     
     // With this artifact requests will be delegated to Huawei App Gallery
-    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:1.0.0'
+    huaweiReleaseImplementation 'com.jeppeman.globallydynamic.android:huawei:${versions.ANDROID}'
     
     // Self hosted dynamic delivery for Amazon App Store
-    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    amazonReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
     
     // Self hosted dynamic delivery for Samsung Galaxy Store
-    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    galaxyReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
 }
 \`\`\`
 

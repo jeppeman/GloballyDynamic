@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown/with-html";
 import CodeBlock from "../../components/CodeBlock";
 import LinkRenderer from "../../components/LinkRenderer";
 import ImageRenderer from "../../components/ImageRenderer";
+import {versions} from "../../constants";
 
 const markdown = `
 Firebase App Distribution
@@ -28,7 +29,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'com.jeppeman.globallydynamic.gradle:plugin:1.0.0'
+        classpath 'com.jeppeman.globallydynamic.gradle:plugin:${versions.GRADLE}'
         classpath 'com.google.firebase:firebase-appdistribution-gradle:2.0.0'
     }
 }
@@ -65,7 +66,7 @@ configurations {
 }
 
 dependencies {
-    firebaseReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+    firebaseReleaseImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
 }
 \`\`\`
 

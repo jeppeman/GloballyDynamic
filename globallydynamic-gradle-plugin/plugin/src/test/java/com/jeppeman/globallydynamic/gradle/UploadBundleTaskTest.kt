@@ -108,7 +108,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
@@ -211,7 +211,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:1.0.0'
+                    implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
                     implementation 'androidx.appcompat:appcompat:1.1.0'
                 }
             """.trimIndent()
