@@ -15,7 +15,7 @@ GloballyDynamic Studio Plugin
 
 An Android Studio plugin that embeds a [GloballyDynamic server](./server) that apps can download
 split APK:s from during development. 
-This allows for a smooth developer experience when testing Dynamic Delivery locally, no need to emulate downloads -
+This allows for a smooth developer experience when testing dynamic delivery locally, no need to emulate downloads -
 splits will be downloaded from the embedded server, you can test things such poor network conditions and cancellation
 of downloads through system notifications etc with ease. <br/>
 

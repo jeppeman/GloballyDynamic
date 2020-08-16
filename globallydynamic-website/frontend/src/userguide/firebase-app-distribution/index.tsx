@@ -9,7 +9,7 @@ import {versions} from "../../constants";
 const markdown = `
 Firebase App Distribution
 ---
-App bundles are not supported on Firebase App Distribution either, however, enabling Dynamic Delivery for it is fairly 
+App bundles are not supported on Firebase App Distribution either, however, enabling dynamic delivery for it is fairly 
 straightforward:
 
 1. Run a dedicated GloballyDynamic server that is reachable from your app.
@@ -72,7 +72,7 @@ dependencies {
 
 ### 3. Build and upload the APK
 
-**Option 1: Build a universal APK (\`./gradlew buildUniversalApkForFirebaseRelease\`):** this APK will include *all* code and 
+**Option 1 (recommended), build a universal APK (\`./gradlew buildUniversalApkForFirebaseRelease\`):** this APK will include *all* code and 
 resources from the application, including dynamic feature modules, both install time and on-demand. There is a way
 to exclude on-demand modules from the produced APK however; by disabling *fusing* for a dynamic feature module,
 it will be excluded from the universal APK, like so:
@@ -96,21 +96,27 @@ The appealing thing about the universal APK in comparison to the others is that 
 \`globalSplitInstallManager.installMissingSplits()\`, install time features are immediately available, while 
 on-demand modules are still downloaded dynamically.
 
-**Option 2: Build a base APK (\`./gradlew buildBaseApkForFirebaseRelease\`)**: this APK will also only contain code and resources
-from the main application module, the difference compared to the standard APK is that this APK is also stripped of 
-non-default languages and assets - so somewhat more naked, if you will. With this APK it is strongly recommended
-that you use \`globalSplitInstallManager.installMissingSplits()\` since non-default assets / languages will be missing from
-the APK.<br/><br/>
-**Option 3: Build a bundle and a standard APK (\`./gradlew bundleFirebaseRelease assembleFirebaseRelease\`)**: this APK will *only* contain code and resources from the 
-main application module, i.e. no dynamic feature modules, neither install time nor on-demand modules. Therefore install
+**Option 2, build a base APK (\`./gradlew buildBaseApkForFirebaseRelease\`)**: 
+this APK will *only* contain code and resources
+from the main application module, i.e. no dynamic feature modules, neither install time nor on-demand modules. Therefore install
 time modules also become on-demand modules, i.e. they will be downloaded at runtime as they are needed. The android
 library comes with a way of installing all *missing* splits, meaning missing install time modules and density/language 
-modules, this can be called immediately after application startup if you want install time modules to readily 
+modules, this can be called immediately after application startup if you want install time modules to be readily 
 available as soon as possible:
 \`\`\`kotlin
 globalSplitInstallManager.installMissingSplits()
     .addOnSuccessListener { startMyActivityFromInstallTimeFeature() }
 \`\`\`
+With this APK it is strongly recommended that you call this on app start since non-default assets / languages will
+be missing from the APK.
+<br/><br/>
+**Option 3, build a bundle and a standard APK (\`./gradlew bundleFirebaseRelease assembleFirebaseRelease\`)**: 
+this APK will also only contain code and resources from the 
+main application module, the difference compared to the base APK is that this APK is not stripped of 
+non-default languages and assets - so somewhat less naked, if you will. With this APK it is you can also use
+\`globalSplitInstallManager.installMissingSplits()\` if you want install time feature to be available as soon
+as possible.
+
 
 **Publish the APK**<br/>
 Finally publish your produced APK to Firebase App Distribution like so:

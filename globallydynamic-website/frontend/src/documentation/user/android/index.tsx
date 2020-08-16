@@ -11,11 +11,11 @@ GloballyDynamic Android Library
 <!-- [![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.android/all.svg?label=maven%20central&color=green)](https://search.maven.org/search?q=g:%22com.jeppeman.globallydynamic.android%22) -->
 [![Maven Central](https://img.shields.io/badge/maven--central-v${versions.ANDROID}-green)](https://search.maven.org/search?q=g:%22com.jeppeman.globallydynamic.android%22)
 
-An Android library that adds an abstraction layer on top of Dynamic Delivery client API:s, e.g. 
+An Android library that adds an abstraction layer on top of dynamic delivery client API:s, e.g. 
 [Play Core](https://developer.android.com/guide/playcore), 
 [Dynamic Ability](https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-Guides/agc-featuredelivery-initsdk)
 in order to provide a unified API regardless of underlying distribution platform. It also provides a
-Dynamic Delivery client implementation of it's own that interacts with [GloballyDynamic Servers](/docs/user/server).
+dynamic delivery client implementation of it's own that interacts with [GloballyDynamic Servers](/docs/user/server).
 
 Currently supported App Stores / Distribution platforms include:
 * Google Play Store ([Dynamic Delivery](https://developer.android.com/guide/app-bundle/dynamic-delivery))

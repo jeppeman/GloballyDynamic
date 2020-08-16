@@ -13,7 +13,7 @@ const markdown = `
 Development setup
 ---
 This page will walk you through how to configure your project for a development setup, this setup will allow you to utilise 
-Dynamic Delivery through a local server running in Android Studio before uploading your bundle to any App Store. It works in the following way:<br/><br/>
+dynamic delivery through a local server running in Android Studio before uploading your bundle to any App Store. It works in the following way:<br/><br/>
 When a bundle is built by the [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin)
 (for example through \`./gradlew bundle\`), it is intercepted by the [GloballyDynamic Gradle plugin](/docs/user/gradle) and uploaded to 
 a [GloballyDynamic Server](/docs/user/server) running inside Android Studio, your app then downloads split APK:s from 
@@ -22,9 +22,13 @@ this server via the [Android library](/docs/user/android). This process is illus
 <span></span><div style="text-align: center;">![Flow Diagram](${FlowDiagram})</div>
 
 #### 1. Install the GloballyDynamic [Android Studio Plugin](/docs/user/studio)
-This is needed for Android Studio integrated development server that enables local dynamic delivery. This allows for a smooth
-developer experience where you can test things such as slow download speeds, failing network conditions and cancellation
-of downloads.
+Needed for running the server in Android Studio, the plugin allows for a smooth developer experience where you can test
+various install scenarios with ease, such as:
+
+* Slow download speeds
+* Broken server connection
+* Cancellation of downloads
+* Multiple install sessions
 
 #### 2. Configure the \`build.gradle\` of your base application module
 In order for your app to use the Android Studio integrated server it has to be configured as follows:
@@ -158,7 +162,8 @@ The video below shows the process in action:
 [YouTube](https://www.youtube.com/watch?v=K6CPYHlsJt4)
 
 #### Example
-Refer to the [minimal sample of the Android lib source code](https://github.com/jeppeman/GloballyDynamic/tree/master/globallydynamic-android-lib/minimal-sample) for a full example.
+Refer to the [minimal sample of the Android lib source code](https://github.com/jeppeman/GloballyDynamic/tree/master/globallydynamic-android-lib/minimal-sample) 
+for a small app that showcases a dev setup.
 
 For a complete production setup compatible with any app store you intend to use dynamic delivery with, such as 
 Google Play Store, Huawei App Gallery, Amazon App Store, Samsung Galaxy Store, etc. Refer to the 

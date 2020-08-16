@@ -10,7 +10,7 @@ import {versions} from "../../constants";
 const markdown = `
 Enable Dynamic Delivery for Huawei App Gallery
 ---
-Huawei App Gallery supports Dynamic Delivery natively through [Dynamic Ability](https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-Guides/agc-featuredelivery-introduction),
+Huawei App Gallery supports dynamic delivery natively through [Dynamic Ability](https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-Guides/agc-featuredelivery-introduction),
 hence there is no need to run a GloballyDynamic Server in order to enable it.
 
 However, in order to verify that your application works as expected on Huawei App Gallery, you should use their
@@ -32,6 +32,15 @@ android {
             dimension 'distributionPlatform'
         }
     }
+}
+
+
+repositories { 
+    google()
+    mavenCentral()
+    
+    // The Dynamic Ability artifact is in this repo
+    maven { url 'http://developer.huawei.com/repo' } 
 }
 
 configurations {

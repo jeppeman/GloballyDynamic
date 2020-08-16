@@ -52,7 +52,7 @@ buildscript {
 Tasks
 ---
 The plugin introduces the following variant aware tasks, normally you do not need to call any of these manually; 
-however, if you want to enable Dynamic Delivery for Amazon App Store, Samsung Galaxy Store, or other platforms without
+however, if you want to enable dynamic delivery for Amazon App Store, Samsung Galaxy Store, or other platforms without
 native support for it, the APK builder tasks are useful for creating APK:s suitable for distribution to these platforms.
 
 | **Task** | **Description** |
