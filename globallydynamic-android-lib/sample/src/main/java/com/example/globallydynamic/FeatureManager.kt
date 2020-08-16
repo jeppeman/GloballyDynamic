@@ -2,7 +2,6 @@ package com.example.globallydynamic
 
 import android.app.Activity
 import android.content.Context
-import android.content.IntentSender
 import com.jeppeman.globallydynamic.globalsplitinstall.*
 import java.util.*
 import kotlin.math.roundToInt
@@ -282,7 +281,6 @@ internal class FeatureManagerImpl(
     ) {
         val request = GlobalSplitInstallRequest.newBuilder()
                 .addModule(featureType.info(context).id)
-                .addLanguage(Locale.ENGLISH)
                 .build()
 
         doRequest(featureType, null, request, onStateUpdate)

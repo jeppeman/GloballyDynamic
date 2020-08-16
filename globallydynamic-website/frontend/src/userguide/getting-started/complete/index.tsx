@@ -100,7 +100,7 @@ android {
             password 'my-secret-password' 
             
             // The build variants to apply this server to, in this
-            // case we want to use it to enable Dynamic Delivery
+            // case we want to use it to enable dynamic delivery
             // on Amazon App Store and Samsung Galaxy Store
             applyToBuildVariants 'amazonRelease', 'galaxyRelease'
         }
@@ -127,7 +127,8 @@ configurations {
 }
 
 dependencies {
-    // With this artifact requests will be delegated to a self hosted GloballyDynamic server
+    // With this artifact requests will be delegated to a self hosted GloballyDynamic server,
+    // in this case and Android Studio integrated server
     debugImplementation 'com.jeppeman.globallydynamic.android:selfhosted:${versions.ANDROID}'
     
     // With this artifact requests will be delegated to Play Store
@@ -145,7 +146,7 @@ dependencies {
 \`\`\`
 
 #### 2. Integrate Android library 
-The exposed API from the Android library is the same regardless of variant, hence you do not have to do a separate
+The exposed API from the Android library is the identical regardless of variant, hence you do not have to make a separate
 integration for each app store you distribute through. <br/>The artifact applied to the variant you use will determine
 where to route install requests however, so for instance, \`com.jeppeman.globallydynamic.android:gplay\` will route to
 Play Store, \`com.jeppeman.globallydynamic.android:huawei\` will route to Huawei App Gallery, and so on.
@@ -187,7 +188,7 @@ support app bundles, refer to their documentation pages [here](/user-guide/amazo
 # Live example
 For an example application, refer to [Android Jetpack Playground](https://github.com/jeppeman/android-jetpack-playground);
 it is published on Google Play Store, Huawei App Gallery, Amazon App Store and Samsung Galaxy Store and leverages
-Dynamic Delivery on all of the platforms.<br/>
+dynamic delivery on all of the platforms.<br/>
 You can also have a look at the [android sample project](https://github.com/jeppeman/GloballyDynamic/tree/master/globallydynamic-android-lib/sample) as another example.
 `
 

@@ -10,7 +10,7 @@ const markdown = `
 Running a dedicated GloballyDynamic server
 ---
 
-In order to enable Dynamic Delivery for environments without native support for it - for example 
+In order to enable dynamic delivery for environments without native support for it - for example 
 Amazon App Store, Samsung Galaxy Store or internally distributed builds on Firebase App Distribution - one has to run a 
 [GloballyDynamic server](/docs/user/server) that is hosted in a location which is reachable from the app you want to 
 enable it for.<br/>
@@ -25,7 +25,7 @@ It comes with 3 different options for how to store bundles:
 * On [Amazon S3](https://aws.amazon.com/s3/)
 
 An upcoming feature of this project is running the server as a service that developers can sign up for and use for free, 
-this will eliminate the need for self-hosting a server. In the meantime, however, in order to leverage Dynamic Delivery
+this will eliminate the need for self-hosting a server. In the meantime, however, in order to leverage dynamic delivery
 on platforms without native support for it you have to host your own server.
 
 To get started with configuring and running your server, follow the steps below on an environment where git and java are
@@ -142,7 +142,7 @@ export GLOBALLY_DYNAMIC_VALIDATE_SIGNATURE_ON_DOWNLOAD=true
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 " > vm_environment
 
-# Define startup script (called when VM starts), this will build and start the GloballyDynamic Server
+# Define startup script (called when VM starts), this start the GloballyDynamic Server
 echo "
 #!/usr/bin/env bash
 
@@ -154,16 +154,8 @@ curl -f http://metadata.google.internal/computeMetadata/v1/instance/attributes/e
 
 source env_file
 
-# Extract version of the server from gradle.properties
-server_version=\\\$(while read -r line || [[ -n \\"\\\$line\\" ]]; do
-  if [[ \\\${line} == *\\"VERSION_NAME\\"* ]]; then
-    echo \\"\\\${line##*=}\\"
-    exit 0
-  fi
-done < /GloballyDynamic/globallydynamic-server-lib/gradle.properties)
-
 # Run the server
-java -jar /GloballyDynamic/globallydynamic-server-lib/server/build/libs/globallydynamic-server-\\\${server_version}-standalone.jar &
+java -jar globallydynamic-server.jar &
 " > startup_script
 
 # Create a VM instance 
@@ -178,7 +170,7 @@ gcloud compute ssh --zone \${zone} \${instance_name} -- "sudo apt-get install -y
     && cd / \\
     && sudo git clone https://github.com/jeppeman/GloballyDynamic.git \\
     && cd GloballyDynamic/globallydynamic-server-lib \\
-    && sudo ./gradlew executableJar
+    && sudo ./gradlew executableJar -PoutputDir=/ -ParchiveName=globallydynamic-server.jar
 "
 
 # Allow incoming traffic on port 8080
@@ -200,6 +192,7 @@ rm vm_environment
 server_ip=$(gcloud compute instances describe \${instance_name} --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
 
 echo "Address to server: http://\${server_ip}:\${port} - it will become available once the startup script has finished running."
+
 \`\`\`
 For more configuration options, see the [server documentation](/docs/user/server).
 `;

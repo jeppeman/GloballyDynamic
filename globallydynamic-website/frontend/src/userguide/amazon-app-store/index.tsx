@@ -10,7 +10,7 @@ import {versions} from "../../constants";
 const markdown = `
 Enable Dynamic Delivery for Amazon App Store
 ---
-Currently, [Amazon App Store](https://developer.amazon.com/apps-and-games) does not natively support Dynamic Delivery, meaning that 
+Currently, [Amazon App Store](https://developer.amazon.com/apps-and-games) does not natively support dynamic delivery, meaning that 
 you can not upload app bundles, but it can be enabled through the following steps:
 
 1. Run a dedicated GloballyDynamic server that is reachable from your app.
@@ -24,7 +24,7 @@ Follow the guide [here](./server).
 
 ### 2. Make a request for enabling self signing in Amazon Developer Console
 By default when you publish an app to Amazon App Store the APK will be stripped of the original developer signature and re-signed 
-by Amazon. Unfortunately this breaks Dynamic Delivery as the split APK:s will be downloaded from a GloballyDynamic server, 
+by Amazon. Unfortunately this breaks dynamic delivery as the split APK:s will be downloaded from a GloballyDynamic server, 
 rather than from Amazon App Store, and in order to install split APK:s they need to be signed with the same certificate 
 as the base APK.
 
@@ -70,7 +70,7 @@ security features that verifies binary authenticity, you then download this wrap
 and sign it with your certificate and upload the signed version.<br/><br/> 
 There are a few different ways in which you can produce this unsigned APK that is stripped of on-demand modules:
 
-**Option 1: Build a universal APK (\`./gradlew buildUnsignedUniversalApkForAmazonRelease\`)** 
+**Option 1 (recommended), build a universal APK (\`./gradlew buildUnsignedUniversalApkForAmazonRelease\`):** 
 
 This APK will include *all* code and resources from the application, including dynamic feature modules, 
 both install time and on-demand. There is a way to exclude on-demand modules from the produced APK however; 
@@ -95,26 +95,30 @@ The appealing thing about the universal APK in comparison to the others is that 
 \`globalSplitInstallManager.installMissingSplits()\`, install time features are immediately available, while 
 on-demand modules are still downloaded dynamically.
 
-**Option 2: Build a base APK (\`./gradlew buildUnsignedBaseApkForAmazonRelease\`)**
-
-This APK will also *not* contain any code nor resources from dynamic feature modules, the difference compared to the standard APK is that this APK is also stripped of 
-non-default languages and assets - so somewhat more naked, if you will. With this APK it is strongly recommended
-that you use \`globalSplitInstallManager.installMissingSplits()\` since non-default assets / languages will be missing from
-the APK.<br/><br/>
-
-**Option 3: Build a bundle and a standard APK (\`./gradlew bundleAmazonRelease assembleAmazonRelease\`)**
-This APK will *not* contain any code or resources from dynamic feature modules, neither install time nor on-demand modules. Therefore install
+**Option 2, build a base APK (\`./gradlew buildUnsignedBaseApkForAmazonRelease\`):**
+this APK will *only* contain code and resources
+from the main application module, i.e. no dynamic feature modules, neither install time nor on-demand modules. Therefore install
 time modules also become on-demand modules, i.e. they will be downloaded at runtime as they are needed. The android
 library comes with a way of installing all *missing* splits, meaning missing install time modules and density/language 
-modules, this can be called immediately after application startup if you want install time modules to readily 
+modules, this can be called immediately after application startup if you want install time modules to be readily 
 available as soon as possible:
 \`\`\`kotlin
 globalSplitInstallManager.installMissingSplits()
     .addOnSuccessListener { startMyActivityFromInstallTimeFeature() }
 \`\`\`
+With this APK it is strongly recommended that you call this on app start since non-default assets / languages will
+be missing from the APK.
+
+
+**Option 3, build a bundle and a standard APK (\`./gradlew bundleAmazonRelease assembleAmazonRelease\`):**
+this APK will also only contain code and resources from the 
+main application module, the difference compared to the base APK is that this APK is not stripped of 
+non-default languages and assets - so somewhat less naked, if you will. With this APK it is you can also use
+\`globalSplitInstallManager.installMissingSplits()\` if you want install time feature to be available as soon
+as possible.
 
 **Publish the APK**<br/>
-When you've managed to upload the signed version of the APK and gotten an approval, Dynamic Delivery for you
+When you've managed to upload the signed version of the APK and gotten an approval, dynamic delivery for you
 app on Amazon App Store should be up and running.
 
 ### Live Example
