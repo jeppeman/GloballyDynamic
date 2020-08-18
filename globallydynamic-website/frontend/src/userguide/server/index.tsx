@@ -132,8 +132,8 @@ instance_name=globallydynamic
 # Environment variables for the VM instance, GloballyDynamic Server configuration and java location
 echo "
 export GLOBALLY_DYNAMIC_PORT=\${port}
-export GLOBALLY_DYNAMIC_USERNAME=username
-export GLOBALLY_DYNAMIC_PASSWORD=password
+export GLOBALLY_DYNAMIC_USERNAME=johndoe
+export GLOBALLY_DYNAMIC_PASSWORD=my-secret-password
 export GLOBALLY_DYNAMIC_STORAGE_BACKEND=gcp
 export GLOBALLY_DYNAMIC_GCP_BUCKET_ID=\${bucket_id}
 export GLOBALLY_DYNAMIC_HTTPS_REDIRECT=false
