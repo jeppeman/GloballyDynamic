@@ -7,8 +7,7 @@ import ImageRenderer from "../../components/ImageRenderer";
 import ToolWindow from "../../assets/tool_window.png"
 
 const markdown = `
-Troubleshooting
----
+# Troubleshooting
 
 If things aren't working as expected, the cause can hopefully be found in either the server logs or LogCat; the Android Studio plugin includes
 a tool window on the bottom named GloballyDynamic Log where all requests and server errors will be logged - it looks as follows:

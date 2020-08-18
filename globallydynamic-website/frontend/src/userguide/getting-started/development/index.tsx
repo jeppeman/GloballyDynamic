@@ -10,8 +10,8 @@ import ImageRenderer from "../../../components/ImageRenderer";
 import {versions} from "../../../constants";
 
 const markdown = `
-Development setup
----
+# Development setup
+
 This page will walk you through how to configure your project for a development setup, this setup will allow you to utilise 
 dynamic delivery through a local server running in Android Studio before uploading your bundle to any App Store. It works in the following way:<br/><br/>
 When a bundle is built by the [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin)

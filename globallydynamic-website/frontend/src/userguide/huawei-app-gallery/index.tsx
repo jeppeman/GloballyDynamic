@@ -8,8 +8,8 @@ import HuaweiGif from "../../assets/huawei.gif"
 import {versions} from "../../constants";
 
 const markdown = `
-Enable Dynamic Delivery for Huawei App Gallery
----
+# Enable Dynamic Delivery for Huawei App Gallery
+
 Huawei App Gallery supports dynamic delivery natively through [Dynamic Ability](https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-Guides/agc-featuredelivery-introduction),
 hence there is no need to run a GloballyDynamic Server in order to enable it.
 
@@ -21,7 +21,7 @@ official review pipeline. <br/>
 The service is still in a beta stage and therefore requires you to [apply for access to it](https://developer.huawei.com/consumer/jp/doc/development/AppGallery-connect-Guides/agc-betatest-apply),
 access is usually granted very quickly.
 
-# Configuring your app to install dynamic modules through Huawei App Gallery
+### Configuring your app to install dynamic modules through Huawei App Gallery
 Simply create a Huawei build flavor and use the huawei artifact from the android library as follows:
 \`\`\`groovy
 android {
@@ -52,7 +52,7 @@ dependencies {
 }
 \`\`\`
 
-# Live example
+### Live example
 My example project [Android Jetpack Playground](https://github.com/jeppeman/android-jetpack-playground) is 
 published on Huawei App Gallery, refer to it for a complete setup.
 

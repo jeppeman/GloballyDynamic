@@ -7,8 +7,7 @@ import ImageRenderer from "../../components/ImageRenderer";
 import {versions} from "../../constants";
 
 const markdown = `
-Running a dedicated GloballyDynamic server
----
+# Running a dedicated GloballyDynamic server
 
 In order to enable dynamic delivery for environments without native support for it - for example 
 Amazon App Store, Samsung Galaxy Store or internally distributed builds on Firebase App Distribution - one has to run a 
@@ -104,7 +103,7 @@ dependencies {
 }
 \`\`\`
 
-# Example: running the server on Google Compute Engine
+### Example: running the server on Google Compute Engine
 
 In order to get up and running quickly with a server running on Google Compute Engine you can run the shell script
 below after having installed [Google Cloud SDK](https://cloud.google.com/sdk/install). The script will do the following:

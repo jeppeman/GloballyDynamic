@@ -8,8 +8,8 @@ import GalaxyGif from "../../assets/galaxy.gif"
 import {versions} from "../../constants";
 
 const markdown = `
-Enable Dynamic Delivery for Samsung Galaxy Store
----
+# Enable Dynamic Delivery for Samsung Galaxy Store
+
 The story with [Samsung Galaxy Store](https://www.samsung.com/us/apps/galaxy-store/) is the same as Amazon App Store:
 it does not natively support dynamic delivery. However, the process of enabling it is a little bit simpler as 
 Self Signing is enabled by default. Therefore it is merely a two-step process:

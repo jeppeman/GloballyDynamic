@@ -9,8 +9,8 @@ import ToolWindow from "../../../assets/tool_window.png"
 import TopMenu from "../../../assets/top_menu.png"
 
 const markdown = `
-GloballyDynamic Studio Plugin
----
+# GloballyDynamic Studio Plugin
+
 [![Jetbrains Plugin](https://img.shields.io/jetbrains/plugin/v/com.jeppeman.globallydynamic?color=green)](https://plugins.jetbrains.com/plugin/14658-globallydynamic)
 
 An Android Studio plugin that embeds a [GloballyDynamic server](./server) that apps can download

@@ -8,8 +8,8 @@ import AmazonGif from "../../assets/amazon.gif"
 import {versions} from "../../constants";
 
 const markdown = `
-Enable Dynamic Delivery for Amazon App Store
----
+# Enable Dynamic Delivery for Amazon App Store
+
 Currently, [Amazon App Store](https://developer.amazon.com/apps-and-games) does not natively support dynamic delivery, meaning that 
 you can not upload app bundles, but it can be enabled through the following steps:
 

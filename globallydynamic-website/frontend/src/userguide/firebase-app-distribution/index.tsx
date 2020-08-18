@@ -7,8 +7,8 @@ import ImageRenderer from "../../components/ImageRenderer";
 import {versions} from "../../constants";
 
 const markdown = `
-Firebase App Distribution
----
+# Firebase App Distribution
+
 App bundles are not supported on Firebase App Distribution either, however, enabling dynamic delivery for it is fairly 
 straightforward:
 

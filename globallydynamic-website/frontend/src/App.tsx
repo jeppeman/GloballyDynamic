@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => {
         ...acc,
         [`& ${curr}`]: {
             marginBottom: theme.spacing(4),
-            marginTop: theme.spacing(4)
+            marginTop: theme.spacing(4),
+            ...(curr === 'h1' ? {fontSize: '1.7em'} : {})
         }
     }), {})
     return {
