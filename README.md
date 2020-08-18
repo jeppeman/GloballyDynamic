@@ -13,20 +13,22 @@ App Store / distribution platform, while also providing a single unified Android
 
 Why?
 ---
-Dynamic delivery is great, it can go a long way towards saving device storage space as well as network consumption for users. However, it poses a few problems:
+Dynamic delivery is great, it can go a long way towards saving device storage space as well as network consumption for users. However, adopting it can pose a few problems:
 * If you want to leverage capabilities such as on-demand Dynamic Feature Modules for multiple platforms, you have to provide a 
 *separate client side integration for each app store you distribute through that supports dynamic delivery* - with current trends pointing towards an increasingly scattered landscape of app stores 
 (e.g. Huawei and Amazon devices come without Play Store installed), the problem is likely to get magnified in the future.
 
 * Many app stores / distribution platforms do not support app bundles (e.g. Amazon App Store, Samsung Galaxy Store, 
 Firebase App Distribution), if you distribute through any of these you are unable to make use of dynamic delivery. You
-also have to produce an APK that include dynamic feature modules - AGP currently exposes to convenient way of doing so,
-bundletool has to be used
+also have to produce an APK that include dynamic feature modules - 
+AGP currently does not expose a convenient way of doing so, bundletool has to be used to produce a universal APK from
+a bundle that has been produced by AGP.
+
 
 * It can not be used if your device does not have an app store with native support for dynamic delivery installed, 
-e.g. emulators w/o Google Play, custom devices or Amazon Fire devices
+e.g. emulators w/o Google Play, custom devices or Amazon Fire devices.
 
-GloballyDynamic is a set of tools that can address these problems.
+GloballyDynamic provides the tools and infrastructure necessary to address these issues.
 
 Key capabilities
 ---

@@ -14,7 +14,7 @@ const markdown = `
 An Android library that adds an abstraction layer on top of dynamic delivery client API:s, e.g. 
 [Play Core](https://developer.android.com/guide/playcore), 
 [Dynamic Ability](https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-Guides/agc-featuredelivery-initsdk)
-in order to provide a unified API regardless of underlying distribution platform. It also provides a
+in order to provide a unified API regardless of underlying distribution platform. The library also has a
 dynamic delivery client implementation of it's own that interacts with [GloballyDynamic Servers](/docs/user/server).
 
 Currently supported App Stores / Distribution platforms include:
