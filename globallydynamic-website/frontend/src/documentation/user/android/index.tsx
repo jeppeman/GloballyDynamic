@@ -6,8 +6,8 @@ import LinkRenderer from "../../../components/LinkRenderer";
 import {versions} from "../../../constants";
 
 const markdown = `
-GloballyDynamic Android Library
----
+# GloballyDynamic Android Library
+
 <!-- [![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.android/all.svg?label=maven%20central&color=green)](https://search.maven.org/search?q=g:%22com.jeppeman.globallydynamic.android%22) -->
 [![Maven Central](https://img.shields.io/badge/maven--central-v${versions.ANDROID}-green)](https://search.maven.org/search?q=g:%22com.jeppeman.globallydynamic.android%22)
 

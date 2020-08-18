@@ -7,8 +7,8 @@ import ImageRenderer from "../../../components/ImageRenderer";
 import {versions} from "../../../constants";
 
 const markdown = `
-Complete setup
----
+# Complete setup
+
 This page will walk you through how to configure your project for a fully fledged production 
 setup compatible with any app store you intend to use dynamic delivery with, such as Google Play Store, 
 Huawei App Gallery, Amazon App Store, Samsung Galaxy Store, etc.
@@ -185,7 +185,7 @@ Releasing with dynamic delivery on Amazon App Store and Samsung Galaxy Store req
 support app bundles, refer to their documentation pages [here](/user-guide/amazon-app-store) and 
 [here](/user-guide/samsung-galaxy-store) for more information on the subject.
 
-# Live example
+### Live example
 For an example application, refer to [Android Jetpack Playground](https://github.com/jeppeman/android-jetpack-playground);
 it is published on Google Play Store, Huawei App Gallery, Amazon App Store and Samsung Galaxy Store and leverages
 dynamic delivery on all of the platforms.<br/>

@@ -6,6 +6,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {pageNames} from "../../constants";
 import {ArrowForwardIos} from "@material-ui/icons";
 import {useLocation} from "react-router";
+import {Variant} from "@material-ui/core/styles/createTypography";
 
 const useStyles = makeStyles(theme => ({
     icon: {
@@ -67,6 +68,7 @@ interface TabPanelProps {
     style: any;
     index: any;
     value: any;
+    variant: Variant;
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -82,7 +84,12 @@ function TabPanel(props: TabPanelProps) {
         >
             {value === index && (
                 <Box p={3}>
-                    <Typography variant={"h4"}>{children}</Typography>
+                    <Typography style={{
+                        fontSize: '2.5em',
+                        fontWeight: 400,
+                        letterSpacing: 0.00735,
+                        lineHeight: 1.235
+                    }} variant={props.variant}>{children}</Typography>
                 </Box>
             )}
         </div>
@@ -136,6 +143,7 @@ const Desktop = ({selectedLocation, locations}: DesktopProps) => {
             </AppBar>
             {locations.map(({text}, index) =>
                 <TabPanel key={index}
+                          variant={selectedLocation?.url === '/' ? 'h1' : 'h4'}
                           className={classes.tabPanel}
                           value={tabIndex}
                           style={{marginTop: marginTop}}

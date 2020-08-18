@@ -7,7 +7,7 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
-<span></span><div style="text-align:center;">![Cover Image](${CoverImage})</div>
+<span></span><div style="text-align:center;">![GloballyDynamic](${CoverImage})</div>
 
 **A set of tools geared towards making [Dynamic Delivery](https://developer.android.com/guide/app-bundle/dynamic-delivery) universally available, regardless of underlying 
 App Store / distribution platform, while also providing a single unified Android client API and a streamlined developer experience.

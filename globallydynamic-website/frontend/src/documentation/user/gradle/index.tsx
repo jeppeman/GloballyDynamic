@@ -6,8 +6,8 @@ import LinkRenderer from "../../../components/LinkRenderer";
 import {versions} from "../../../constants";
 
 const markdown = `
-GloballyDynamic Gradle Plugin
----
+# GloballyDynamic Gradle Plugin
+
 <!-- [![Maven Central](https://img.shields.io/maven-central/v/com.jeppeman.globallydynamic.gradle/plugin.svg?label=maven%20central&color=green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.gradle/plugin) -->
 [![Maven Central](https://img.shields.io/badge/maven--central-v${versions.GRADLE}-green)](https://search.maven.org/artifact/com.jeppeman.globallydynamic.gradle/plugin)
 
