@@ -28,6 +28,10 @@ const useStyles = makeStyles(theme => ({
     title: {
         color: theme.palette.text.secondary,
         flexGrow: 1,
+        fontSize: '1.4285714285714284rem',
+        fontWeight: 500,
+        lineHeight: 1.6,
+        letterSpacing: '0.0075rem'
     },
     icon: {
         fill: theme.palette.text.secondary,
@@ -196,7 +200,7 @@ const Mobile = ({selectedLocation, locations}: MobileProps) => {
                                 : <MenuClosed className={classes.icon}/>
                         }
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant={selectedLocation?.url === '/' ? "h1" : "h6"} className={classes.title}>
                         {title}
                     </Typography>
                 </Toolbar>
