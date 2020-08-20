@@ -13,8 +13,6 @@ instance_name=globallydynamic
 # Environment variables for the VM instance, GloballyDynamic Server configuration and java location
 echo "
 export GLOBALLY_DYNAMIC_PORT=${port}
-export GLOBALLY_DYNAMIC_USERNAME=johndoe
-export GLOBALLY_DYNAMIC_PASSWORD=my-secret-password
 export GLOBALLY_DYNAMIC_STORAGE_BACKEND=gcp
 export GLOBALLY_DYNAMIC_GCP_BUCKET_ID=${bucket_id}
 export GLOBALLY_DYNAMIC_HTTPS_REDIRECT=false
@@ -28,9 +26,11 @@ echo "
 #!/usr/bin/env bash
 set -e
 set -o xtrace
+
 # Set up environment (load GloballyDynamic Server configuration)
 curl -f http://metadata.google.internal/computeMetadata/v1/instance/attributes/environment -H \"Metadata-Flavor: Google\" > env_file
 source env_file
+
 # Run the server
 java -jar globallydynamic-server.jar &
 " > startup_script
@@ -43,10 +43,10 @@ gcloud compute instances create ${instance_name} \
     --metadata-from-file=environment=vm_environment,startup-script=startup_script
 
 # Build an executable server jar in the VM
-gcloud compute ssh --zone ${zone} ${instance_name} -- "sudo apt-get install -y git openjdk-8-jdk \
-    && cd / \
-    && sudo git clone https://github.com/jeppeman/GloballyDynamic.git \
-    && cd GloballyDynamic/globallydynamic-server-lib \
+gcloud compute ssh --zone ${zone} ${instance_name} -- "sudo apt-get install -y git openjdk-8-jdk \\
+    && cd / \\
+    && sudo git clone https://github.com/jeppeman/GloballyDynamic.git \\
+    && cd GloballyDynamic/globallydynamic-server-lib \\
     && sudo ./gradlew executableJar -PoutputDir=/ -ParchiveName=globallydynamic-server.jar
 "
 

@@ -25,10 +25,7 @@ However, adopting it can pose a few problems:
 (e.g. Huawei and Amazon devices come without Play Store installed), the problem is likely to get magnified in the future.
 
 * Many app stores / distribution platforms do not support app bundles (e.g. Amazon App Store, Samsung Galaxy Store, 
-Firebase App Distribution), if you distribute through any of these you are unable to make use of dynamic delivery. For
-thses platforms, you also have to produce an APK that include dynamic feature modules - 
-AGP currently does not expose a convenient way of doing so, bundletool has to be used to produce a universal APK from
-a bundle that has been produced by AGP.
+Firebase App Distribution), if you distribute through any of these you are unable to make use of dynamic delivery. 
 
 * It can not be used if your device does not have an app store with native support for dynamic delivery installed, 
 e.g. emulators w/o Google Play, custom devices or Amazon Fire devices.
