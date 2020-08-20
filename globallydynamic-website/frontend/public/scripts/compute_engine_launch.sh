@@ -3,7 +3,7 @@
 set -e
 
 # Create a bucket in Google Cloud Storage where bundles will be stored
-bucket_id=globallydynamic
+bucket_id="globallydynamic-$(uuidgen)"
 gsutil mb -l eu "gs://${bucket_id}"
 
 port=8080

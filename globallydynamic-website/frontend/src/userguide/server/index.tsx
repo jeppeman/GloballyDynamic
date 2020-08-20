@@ -42,7 +42,7 @@ cd GloballyDynamic/globallydynamic-server-lib
 ./gradlew executableJar -PoutputDir=$(pwd) -ParchiveName=globallydynamic-server.jar
 \`\`\`
 
-# Run the server
+### Run the server
 Pick one of the 3 aforementioned storage options along with other configuration options:
 
 **Option 1: bundles stored locally**
@@ -105,23 +105,26 @@ dependencies {
 
 ### Example: running the server on Google Compute Engine
 
-In order to get up and running quickly with a server running on Google Compute Engine you can run the shell script
-below after having installed [Google Cloud SDK](https://cloud.google.com/sdk/install). The script will do the following:
+In order to get up and running quickly with a server running on Google Compute Engine you can run the shell command
+below after having installed [Google Cloud SDK](https://cloud.google.com/sdk/install). 
+\`\`\`shell
+curl https://globallydynamic.io/scripts/compute_engine_launch.sh | /usr/bin/env bash
+\`\`\`
+
+The command will download and execute a script that does the following:
 
 1. Create a bucket in Google Cloud Storage in which to store bundles
 2. Create a VM instance that will start a GloballyDynamic server on port 8080 on machine startup
 3. Create a firewall rule that will allow incoming traffic on port 8080
 
-Note: this script does not create a production worthy setup, in order to convert it to one, you should create a [managed instance group](https://cloud.google.com/compute/docs/instance-groups)
-with a [load balancer](https://cloud.google.com/iap/docs/load-balancer-howto) in front. 
-
+Here is the source of the downloaded script:
 \`\`\`shell
 #!/usr/bin/env bash
 
 set -e
 
 # Create a bucket in Google Cloud Storage where bundles will be stored
-bucket_id=globallydynamic
+bucket_id="globallydynamic-$(uuidgen)"
 gsutil mb -l eu "gs://\${bucket_id}"
 
 port=8080
@@ -131,8 +134,6 @@ instance_name=globallydynamic
 # Environment variables for the VM instance, GloballyDynamic Server configuration and java location
 echo "
 export GLOBALLY_DYNAMIC_PORT=\${port}
-export GLOBALLY_DYNAMIC_USERNAME=johndoe
-export GLOBALLY_DYNAMIC_PASSWORD=my-secret-password
 export GLOBALLY_DYNAMIC_STORAGE_BACKEND=gcp
 export GLOBALLY_DYNAMIC_GCP_BUCKET_ID=\${bucket_id}
 export GLOBALLY_DYNAMIC_HTTPS_REDIRECT=false
@@ -190,9 +191,27 @@ rm vm_environment
 # Get the ip of the instance
 server_ip=$(gcloud compute instances describe \${instance_name} --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
 
-echo "Address to server: http://\${server_ip}:\${port} - it will become available once the startup script has finished running."
+echo "Waiting for the server to start, this may take a few minutes.."
 
+# Wait for the server to come alive
+iterations=0
+while [[ -z $(curl -s --max-time 2 \${server_url}) ]];
+do
+if [[ \${iterations} -gt 60 ]];
+then
+   echo "Server failed to start"
+   exit 1
+fi
+iterations=$((\${iterations} + 1))
+sleep 2
+done
+
+# End and print the address of the server
+echo "Done! Address to server: \${server_url}"
 \`\`\`
+Note: this script does not create a production worthy setup, in order to convert it to one, you should create a [managed instance group](https://cloud.google.com/compute/docs/instance-groups)
+with a [load balancer](https://cloud.google.com/iap/docs/load-balancer-howto) in front. 
+
 For more configuration options, see the [server documentation](/docs/user/server).
 `;
 
