@@ -105,8 +105,8 @@ dependencies {
 
 ### Example: running the server on Google Compute Engine
 
-In order to get up and running quickly with a server running on Google Compute Engine you can run the shell command
-below after having installed [Google Cloud SDK](https://cloud.google.com/sdk/install). 
+In order to get up and running quickly with a server on Google Compute Engine you can run the shell command
+below after having installed and configured [Google Cloud SDK](https://cloud.google.com/sdk/install). 
 \`\`\`shell
 curl https://globallydynamic.io/scripts/compute_engine_launch.sh | /usr/bin/env bash
 \`\`\`
@@ -124,7 +124,7 @@ Here is the source of the downloaded script:
 set -e
 
 # Create a bucket in Google Cloud Storage where bundles will be stored
-bucket_id="globallydynamic-$(uuidgen)"
+bucket_id="globallydynamic-$(uuidgen | tr '[:upper:]' '[:lower:]')"
 gsutil mb -l eu "gs://\${bucket_id}"
 
 port=8080
@@ -142,7 +142,7 @@ export GLOBALLY_DYNAMIC_VALIDATE_SIGNATURE_ON_DOWNLOAD=true
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 " > vm_environment
 
-# Define startup script (called when VM starts), this start the GloballyDynamic Server
+# Define startup script (called when VM starts), this will start the GloballyDynamic Server
 echo "
 #!/usr/bin/env bash
 
@@ -150,7 +150,7 @@ set -e
 set -o xtrace
 
 # Set up environment (load GloballyDynamic Server configuration)
-curl -f http://metadata.google.internal/computeMetadata/v1/instance/attributes/environment -H \\"Metadata-Flavor: Google\\" > env_file
+curl -f http://metadata.google.internal/computeMetadata/v1/instance/attributes/environment -H \"Metadata-Flavor: Google\" > env_file
 
 source env_file
 
@@ -158,15 +158,17 @@ source env_file
 java -jar globallydynamic-server.jar &
 " > startup_script
 
-# Create a VM instance 
+# Create a VM instance
 gcloud compute instances create \${instance_name} \\
+    --image-project=debian-cloud \\
+    --image-family=debian-9 \\
     --tags=http-server,https-server \\
     --scopes=cloud-platform \\
     --zone=\${zone} \\
     --metadata-from-file=environment=vm_environment,startup-script=startup_script
     
 # Build an executable server jar in the VM
-gcloud compute ssh --zone \${zone} \${instance_name} -- "sudo apt-get install -y git openjdk-8-jdk \\
+gcloud compute ssh --ssh-flag="-ttn" --zone \${zone} \${instance_name} -- "sudo apt-get install -y git openjdk-8-jdk \\
     && cd / \\
     && sudo git clone https://github.com/jeppeman/GloballyDynamic.git \\
     && cd GloballyDynamic/globallydynamic-server-lib \\
@@ -179,21 +181,20 @@ gcloud compute firewall-rules create allow-http-\${port} \\
     --source-ranges 0.0.0.0/0 \\
     --target-tags http-server \\
     --description "Allow port \${port} access to http-server"
-
+    
 # Restart instance
-gcloud compute instances stop \${instance_name}
-gcloud compute instances start \${instance_name}
+gcloud compute instances stop \${instance_name} --zone \${zone}
+gcloud compute instances start \${instance_name} --zone \${zone}
 
 # Cleanup
 rm startup_script
 rm vm_environment
 
 # Get the ip of the instance
-server_ip=$(gcloud compute instances describe \${instance_name} --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+server_ip=$(gcloud compute instances describe \${instance_name} --zone \${zone} --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+server_url="http://\${server_ip}:\${port}"
 
 echo "Waiting for the server to start, this may take a few minutes.."
-
-# Wait for the server to come alive
 iterations=0
 while [[ -z $(curl -s --max-time 2 \${server_url}) ]];
 do
@@ -206,8 +207,8 @@ iterations=$((\${iterations} + 1))
 sleep 2
 done
 
-# End and print the address of the server
 echo "Done! Address to server: \${server_url}"
+
 \`\`\`
 Note: this script does not create a production worthy setup, in order to convert it to one, you should create a [managed instance group](https://cloud.google.com/compute/docs/instance-groups)
 with a [load balancer](https://cloud.google.com/iap/docs/load-balancer-howto) in front. 
