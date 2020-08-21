@@ -13,6 +13,8 @@ instance_name=globallydynamic
 # Environment variables for the VM instance, GloballyDynamic Server configuration and java location
 echo "
 export GLOBALLY_DYNAMIC_PORT=${port}
+export GLOBALLY_DYNAMIC_USERNAME=johndoe
+export GLOBALLY_DYNAMIC_USERNAME=my-secret-password
 export GLOBALLY_DYNAMIC_STORAGE_BACKEND=gcp
 export GLOBALLY_DYNAMIC_GCP_BUCKET_ID=${bucket_id}
 export GLOBALLY_DYNAMIC_HTTPS_REDIRECT=false
@@ -49,9 +51,7 @@ gcloud compute instances create ${instance_name} \
 # Build an executable server jar in the VM
 gcloud compute ssh --ssh-flag="-ttn" --zone ${zone} ${instance_name} -- "sudo apt-get install -y git openjdk-8-jdk \
     && cd / \
-    && sudo git clone https://github.com/jeppeman/GloballyDynamic.git \
-    && cd GloballyDynamic/globallydynamic-server-lib \
-    && sudo ./gradlew executableJar -PoutputDir=/ -ParchiveName=globallydynamic-server.jar
+    && sudo curl -L --output /globallydynamic-server.jar https://github.com/jeppeman/GloballyDynamic/releases/download/server-1.0.0/globallydynamic-server-1.0.0-standalone.jar
 "
 
 # Allow incoming traffic on port 8080
