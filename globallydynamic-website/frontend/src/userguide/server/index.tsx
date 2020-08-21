@@ -114,8 +114,22 @@ curl https://globallydynamic.io/scripts/compute_engine_launch.sh | /usr/bin/env 
 The command will download and execute a script that does the following:
 
 1. Create a bucket in Google Cloud Storage in which to store bundles
-2. Create a VM instance that will start a GloballyDynamic server on port 8080 on machine startup
+2. Create a VM instance that will start a GloballyDynamic server on machine startup, the server will be listening on port 8080
+and have the credentials johndoe/my-secret-password 
 3. Create a firewall rule that will allow incoming traffic on port 8080
+
+The last line of output from script will look something like \`Done! Address to server: http://<ip-to-server>:8080\`,
+use this address when configuring the app, like so:
+\`\`\`groovy
+globallyDynamicServers {
+    selfHosted {
+        serverUrl "http://<ip-to-server>:8080"
+        username "johndoe"
+        password "my-secret-password"
+        applyToBuildVariants "release"
+    }
+}
+\`\`\`
 
 Here is the source of the downloaded script:
 \`\`\`shell
@@ -134,6 +148,8 @@ instance_name=globallydynamic
 # Environment variables for the VM instance, GloballyDynamic Server configuration and java location
 echo "
 export GLOBALLY_DYNAMIC_PORT=\${port}
+export GLOBALLY_DYNAMIC_USERNAME=johndoe
+export GLOBALLY_DYNAMIC_USERNAME=my-secret-password
 export GLOBALLY_DYNAMIC_STORAGE_BACKEND=gcp
 export GLOBALLY_DYNAMIC_GCP_BUCKET_ID=\${bucket_id}
 export GLOBALLY_DYNAMIC_HTTPS_REDIRECT=false
@@ -168,11 +184,9 @@ gcloud compute instances create \${instance_name} \\
     --metadata-from-file=environment=vm_environment,startup-script=startup_script
     
 # Build an executable server jar in the VM
-gcloud compute ssh --ssh-flag="-ttn" --zone \${zone} \${instance_name} -- "sudo apt-get install -y git openjdk-8-jdk \\
+gcloud compute ssh --ssh-flag="-ttn" --zone \${zone} \${instance_name} -- "sudo apt-get install -y openjdk-8-jdk \\
     && cd / \\
-    && sudo git clone https://github.com/jeppeman/GloballyDynamic.git \\
-    && cd GloballyDynamic/globallydynamic-server-lib \\
-    && sudo ./gradlew executableJar -PoutputDir=/ -ParchiveName=globallydynamic-server.jar
+    && sudo curl -L --output /globallydynamic-server.jar https://github.com/jeppeman/GloballyDynamic/releases/download/server-1.0.0/globallydynamic-server-1.0.0-standalone.jar
 "
 
 # Allow incoming traffic on port 8080
