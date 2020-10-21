@@ -19,7 +19,6 @@ import org.apache.http.impl.client.HttpClients
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
 import java.io.File
-import java.net.URI
 
 /**
  * A task which uploads the bundle generated from package<Flavor><BuildType>Bundle to the globally dynamic
@@ -43,8 +42,8 @@ open class UploadBundleTask : DefaultTask() {
     lateinit var applicationId: String
         private set
 
-    @get:Input
-    lateinit var signingConfig: File
+    @get:InputDirectory
+    lateinit var signingConfigDir: File
         private set
 
     @get:Input
@@ -75,6 +74,14 @@ open class UploadBundleTask : DefaultTask() {
             val uri = URIPathBuilder(serverInfo.serverUrl!!).addPathSegment("upload").build()
 
             val bundle = bundleDir.listFiles { file -> file.name.contains(".aab") }!!.first()
+            val signingConfig = signingConfigDir.toPath()
+                .resolve("out")
+                .resolve("signing-config.json")
+                .toFile()
+                .takeIf { it.exists() }
+                ?: signingConfigDir.toPath()
+                    .resolve("signing-config.json")
+                    .toFile()
             val signingConfigJson = signingConfig.readText()
             if (signingConfigJson.isBlank() || signingConfigJson == "null") {
                 throw IllegalStateException("""No signing config found, make sure that you have added it to your
@@ -82,12 +89,12 @@ open class UploadBundleTask : DefaultTask() {
                 """.trimMargin())
             }
 
-            val signingConfig = gson.fromJson(signingConfigJson, JsonObject::class.java)
+            val signingConfigJsonObject = gson.fromJson(signingConfigJson, JsonObject::class.java)
             val sanitizedConfig = JsonObject().apply {
-                add("storeFile", signingConfig.getPropertyCompat("storeFile"))
-                add("storePassword", signingConfig.getPropertyCompat("storePassword"))
-                add("keyAlias", signingConfig.getPropertyCompat("keyAlias"))
-                add("keyPassword", signingConfig.getPropertyCompat("keyPassword"))
+                add("storeFile", signingConfigJsonObject.getPropertyCompat("storeFile"))
+                add("storePassword", signingConfigJsonObject.getPropertyCompat("storePassword"))
+                add("keyAlias", signingConfigJsonObject.getPropertyCompat("keyAlias"))
+                add("keyPassword", signingConfigJsonObject.getPropertyCompat("keyPassword"))
             }
             val signingConfigPart = StringBody(sanitizedConfig.toString(), ContentType.APPLICATION_JSON)
 
@@ -152,13 +159,11 @@ open class UploadBundleTask : DefaultTask() {
                 .resolve("intermediary_bundle")
                 .resolve(applicationVariant.name)
                 .toFile()
-            task.signingConfig = task.project.buildDir
+            task.signingConfigDir = task.project.buildDir
                 .toPath()
                 .resolve("intermediates")
                 .resolve("signing_config")
                 .resolve(applicationVariant.name)
-                .resolve("out")
-                .resolve("signing-config.json")
                 .toFile()
         }
     }
