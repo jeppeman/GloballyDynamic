@@ -4,6 +4,9 @@ executors:
   android:
     docker:
       - image: circleci/android:api-29
+  java:
+    docker:
+      - image: jeppeman/globallydynamic-studio:as-4.1.0
 
 aliases:
   - &restore_cache_android
@@ -136,7 +139,7 @@ jobs:
           command: cd globallydynamic-gradle-plugin && ./gradlew test
 
   studio_plugin_tests:
-    executor: android
+    executor: java
     resource_class: xlarge
     steps:
       - initialize
