@@ -26,8 +26,8 @@ class GloballyDynamicConsole(
 ) {
 
     init {
-        globallyDynamicServerManager.logger.content.forEach(::addMessage)
-        globallyDynamicServerManager.logger.registerUpdateListener(::addMessage)
+        globallyDynamicServerManager.logger.content.forEach { message -> addMessage(message) }
+        globallyDynamicServerManager.logger.registerUpdateListener { message -> addMessage(message) }
     }
 
     override fun isActive(): Boolean = globallyDynamicServerManager.isRunning
