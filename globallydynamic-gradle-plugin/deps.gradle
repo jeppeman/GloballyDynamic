@@ -1,18 +1,18 @@
 def androidPluginVersion = project.hasProperty("agpVersion")
         ? project.properties.get("agpVersion")
-        : '4.0.1'
+        : '4.1.0'
 
 def versions = [
-        androidplugin        : androidPluginVersion,
-        kotlin               : '1.3.72',
-        versionsplugin       : '0.25.0',
-        javapoet             : '1.11.1',
-        junit                : '5.5.2',
-        junit_platform       : '1.5.2',
-        truth                : '1.1.0',
-        mockito              : '2.23.4',
-        mockito_kotlin       : '2.1.0',
-        globallydynamic_server: '0.1'
+        androidplugin         : androidPluginVersion,
+        kotlin                : '1.4.0',
+        versionsplugin        : '0.25.0',
+        javapoet              : '1.11.1',
+        junit                 : '5.5.2',
+        junit_platform        : '1.5.2',
+        truth                 : '1.1.0',
+        mockito               : '2.23.4',
+        mockito_kotlin        : '2.1.0',
+        globallydynamic_server: '1.0.0'
 ]
 
 ext.versions = versions

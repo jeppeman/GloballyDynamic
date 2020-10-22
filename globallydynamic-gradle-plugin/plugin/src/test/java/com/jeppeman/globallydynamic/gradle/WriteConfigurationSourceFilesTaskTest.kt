@@ -6,7 +6,6 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import shadow.bundletool.com.android.tools.r8.errors.CompilationError
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.io.PrintWriter
@@ -171,7 +170,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
             val classLoader = CompiledClassLoader(fileManager.generatedOutputFiles)
             classLoader.loadClass(GLOBALLY_DYNAMIC_BUILD_CONFIG_CLASS).newInstance()
         } else {
-            throw CompilationError(stringWriter.toString())
+            throw Exception(stringWriter.toString())
         }
     }
 

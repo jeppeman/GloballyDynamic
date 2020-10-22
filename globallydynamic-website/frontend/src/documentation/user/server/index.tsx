@@ -197,7 +197,6 @@ Certain query parameters listed below are also needed:
 
 | Name | Required | Values | 
 | :--------- | :--------- | :--------- | 
-| <kbd>device-id</kbd> - the device id that was previously received from a call to \`/register\` | Yes | **Acceptable Values:** <kbd>string</kbd> - e.g. \`123e4567-e89b-12d3-a456-426655440000\` |
 | <kbd>application-id</kbd> - the application id of the bundle to download split APK:s from | Yes | **Acceptable Values:** <kbd>string</kbd> - e.g. \`com.example.globallydynamic\`|
 | <kbd>version</kbd> - the version code of the bundle to download split APK:s from | Yes | **Acceptable Values:** <kbd>number</kbd> - e.g. \`24\` (versionCodeInt) |
 | <kbd>variant</kbd> - the variant that was used to build the bundle to download split APK:s from | Yes | **Acceptable Values:** <kbd>string</kbd> - e.g. \`debug\`, \`release\` or \`freeDebug\` etc.. |
@@ -208,7 +207,7 @@ Certain query parameters listed below are also needed:
 | <kbd>include-missing</kbd> - whether or not to include missing splits in the download, i.e. missing install time features and density/language splits | No | **Acceptable Values:** <kbd>true</kbd> <kbd>false</kbd> |
 
 **Example**:<br/>
-\`/download?device-id=f94498a5-353e-4c9c-88e9-6bf86809698d&variant=debug&version=1&application-id=com.example.globallydynamic&throttle=1000&languages=ko,features=myfeature\`
+\`/download?variant=debug&version=1&application-id=com.example.globallydynamic&throttle=1000&languages=ko,features=myfeature\`
 `;
 
 const Server = () => {
