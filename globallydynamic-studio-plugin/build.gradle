@@ -46,21 +46,26 @@ publishPlugin {
 
 patchPluginXml {
     // 1.0.0
-    changeNotes """
-      Compatible with Android Studio 4.0
-      
-      <ul>
-        <li>Embedded GloballyDynamic server that apps using the <a href="https://github.com/jeppeman/GloballyDynamic/tree/master/globallydynamic-android-lib">GloballyDynamic Android library</a> can get their splits from</li>
-        <li>Tool window with a log from the server for debugging and visualization purposes</li>
-        <li>Action menu items to manually start/stop a server</li>
-        <li>Adds a step before running a bundle app that automatically starts the server</li>
-      <ul>
-      
-      <p>Find the documentation <a href="https://globallydynamic.io">here</a></p>
-      """
+//    changeNotes """
+//      Compatible with Android Studio 4.0
+//
+//      <ul>
+//        <li>Embedded GloballyDynamic server that apps using the <a href="https://github.com/jeppeman/GloballyDynamic/tree/master/globallydynamic-android-lib">GloballyDynamic Android library</a> can get their splits from</li>
+//        <li>Tool window with a log from the server for debugging and visualization purposes</li>
+//        <li>Action menu items to manually start/stop a server</li>
+//        <li>Adds a step before running a bundle app that automatically starts the server</li>
+//      <ul>
+//
+//      <p>Find the documentation <a href="https://globallydynamic.io">here</a></p>
+//      """
 
     // 1.1.0
-    """
-    Android Studio 4.1 compatibility
+//    """
+//    Android Studio 4.1 compatibility
+//    """
+
+    // 1.2.0
+    changeNotes """
+        Android Studio 4.2 compatibility
     """
 }

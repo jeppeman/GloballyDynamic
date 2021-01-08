@@ -21,7 +21,7 @@ export ANDROID_HOME=/opt/android/sdk
 gcloud compute instance-templates create globallydynamic-instance-template \
     --tags=http-server,https-server \
     --image-family=globallydynamic \
-    --machine-type=n1-standard-2 \
+    --machine-type=n1-standard-1 \
     --scopes=cloud-platform \
     --metadata-from-file=environment=vm_environment,startup-script=$(pwd)/managed_instance_startup
 

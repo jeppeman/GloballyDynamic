@@ -26,6 +26,10 @@ android {
         }
     }
 
+    lintOptions {
+        check ''
+    }
+
     dynamicFeatures = [":sample:installtimefeature", ":sample:ondemandfeature"]
 }
 

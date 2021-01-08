@@ -8,7 +8,7 @@ props="org.gradle.daemon=false\n
 org.gradle.workers.max=2\n
 kotlin.incremental=false\n
 kotlin.compiler.execution.strategy=in-process\n
-org.gradle.jvmargs=-Xmx3g\n
+org.gradle.jvmargs=-Xmx4g -Xms1g -XXMaxPermSize -XX:MaxMetaspaceSize=512m\n
 GLOBALLY_DYNAMIC_KEYSTORE_PATH=${GLOBALLY_DYNAMIC_KEYSTORE_PATH}\n
 GLOBALLY_DYNAMIC_KEYSTORE_PASSWORD=${GLOBALLY_DYNAMIC_KEYSTORE_PASSWORD}\n
 GLOBALLY_DYNAMIC_KEY_ALIAS=${GLOBALLY_DYNAMIC_KEY_ALIAS}\n

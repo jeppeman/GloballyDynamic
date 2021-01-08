@@ -42,8 +42,8 @@ open class UploadBundleTask : DefaultTask() {
     lateinit var applicationId: String
         private set
 
-    @get:InputDirectory
-    lateinit var signingConfigDir: File
+    @get:InputFile
+    lateinit var signingConfig: File
         private set
 
     @get:Input
@@ -74,14 +74,6 @@ open class UploadBundleTask : DefaultTask() {
             val uri = URIPathBuilder(serverInfo.serverUrl!!).addPathSegment("upload").build()
 
             val bundle = bundleDir.listFiles { file -> file.name.contains(".aab") }!!.first()
-            val signingConfig = signingConfigDir.toPath()
-                .resolve("out")
-                .resolve("signing-config.json")
-                .toFile()
-                .takeIf { it.exists() }
-                ?: signingConfigDir.toPath()
-                    .resolve("signing-config.json")
-                    .toFile()
             val signingConfigJson = signingConfig.readText()
             if (signingConfigJson.isBlank() || signingConfigJson == "null") {
                 throw IllegalStateException("""No signing config found, make sure that you have added it to your
@@ -159,11 +151,12 @@ open class UploadBundleTask : DefaultTask() {
                 .resolve("intermediary_bundle")
                 .resolve(applicationVariant.name)
                 .toFile()
-            task.signingConfigDir = task.project.buildDir
+            task.signingConfig = task.project.buildDir
                 .toPath()
                 .resolve("intermediates")
-                .resolve("signing_config")
+                .resolve("signing_config_data")
                 .resolve(applicationVariant.name)
+                .resolve("signing-config-data.json")
                 .toFile()
         }
     }
