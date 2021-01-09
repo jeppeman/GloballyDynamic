@@ -1,6 +1,6 @@
 import React, {ReactElement, useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {Description, Home, School} from "@material-ui/icons";
+import {Description, Home, NewReleases, School} from "@material-ui/icons";
 import {useHistory, useLocation} from "react-router";
 import {CssBaseline, useMediaQuery} from "@material-ui/core";
 import {documentationDestinations} from "../../documentation";
@@ -45,6 +45,12 @@ const locations = [
         icon: <School/>,
         url: '/user-guide',
         destinations: userGuideDestinations('/user-guide')
+    },
+    {
+        title: 'Release notes',
+        text: 'Release notes',
+        icon: <NewReleases />,
+        url: '/release-notes'
     }
 ];
 

@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
 import {HeaderLocation} from "./index";
-import {AppBar, Box, Tab, Tabs, Typography} from "@material-ui/core";
+import {AppBar, Box, Container, IconButton, Tab, Tabs, Typography} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
 import {pageNames} from "../../constants";
-import {ArrowForwardIos} from "@material-ui/icons";
+import {ArrowForwardIos, GitHub} from "@material-ui/icons";
 import {useLocation} from "react-router";
 import {Variant} from "@material-ui/core/styles/createTypography";
 
@@ -21,6 +21,17 @@ const useStyles = makeStyles(theme => ({
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
+    },
+    appBarContent: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    githubButton: {
+        marginLeft: "auto",
+    },
+    githubIcon: {
+        fill: "#ddd"
     },
     drawer: {
         width: '100%',
@@ -83,14 +94,14 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
+                <Container>
                     <Typography style={{
                         fontSize: '2.5em',
                         fontWeight: 400,
                         letterSpacing: 0.00735,
                         lineHeight: 1.235
                     }} variant={props.variant}>{children}</Typography>
-                </Box>
+                </Container>
             )}
         </div>
     );
@@ -128,18 +139,29 @@ const Desktop = ({selectedLocation, locations}: DesktopProps) => {
     return (
         <>
             <AppBar position="fixed" ref={appBarRef}>
-                <Tabs value={tabIndex}>
-                    {locations.map(({title, text, icon, url}, index) => {
-                        return (
-                            <Tab label={title}
-                                 key={index}
-                                 icon={icon}
-                                 to={{pathname: url, state: {from: location.pathname}}}
-                                 {...a11yProps(index)}
-                                 component={tabIndex === index ? "div" : Link}/>
-                        )
-                    })}
-                </Tabs>
+                <Container>
+                    <div className={classes.appBarContent}>
+                        <Tabs value={tabIndex}>
+                            {locations.map(({title, text, icon, url}, index) => {
+                                return (
+                                    <Tab label={title}
+                                         key={index}
+                                         icon={icon}
+                                         to={{pathname: url, state: {from: location.pathname}}}
+                                         {...a11yProps(index)}
+                                         component={tabIndex === index ? "div" : Link}/>
+                                )
+                            })}
+                        </Tabs>
+                        <IconButton
+                            className={classes.githubButton}
+                            href="https://github.com/jeppeman/GloballyDynamic"
+                            target="_blank"
+                            component="a">
+                            <GitHub className={classes.githubIcon}/>
+                        </IconButton>
+                    </div>
+                </Container>
             </AppBar>
             {locations.map(({text}, index) =>
                 <TabPanel key={index}

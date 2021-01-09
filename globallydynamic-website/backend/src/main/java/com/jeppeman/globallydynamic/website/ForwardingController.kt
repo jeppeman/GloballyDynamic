@@ -60,4 +60,7 @@ class SiteController {
 
     @RequestMapping(value = ["/user-guide/troubleshooting"])
     fun userGuideTroubleshooting() = INDEX
+
+    @RequestMapping(value = ["/release-notes"])
+    fun releaseNotes() = INDEX
 }

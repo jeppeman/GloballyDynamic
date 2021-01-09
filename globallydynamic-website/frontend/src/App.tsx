@@ -11,6 +11,7 @@ import NotFound from "./components/NotFound"
 import ReactGA from "react-ga";
 import {makeStyles} from "@material-ui/core/styles";
 import {pageNames} from "./constants";
+import ReleaseNotes from "./release-notes";
 
 const useStyles = makeStyles(theme => {
     const headerStyles = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].reduce((acc, curr) => ({
@@ -66,6 +67,7 @@ const App = () => {
                                 <Route exact path='/' component={Home}/>
                                 <Route path='/docs' component={Documentation}/>
                                 <Route path='/user-guide' component={UserGuide}/>
+                                <Route path='/release-notes' component={ReleaseNotes}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </section>
