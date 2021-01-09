@@ -42,6 +42,10 @@ android {
         }
     }
 
+    lintOptions {
+        check ''
+    }
+
     dynamicFeatures = [':minimal-sample:dynamicfeature']
 }
 

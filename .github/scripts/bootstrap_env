@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e 
+
+script=$(realpath $0)
+script_dir=$(dirname "${script}")
+
+mkdir -p ${HOME}/secrets
+mkdir -p ${HOME}/data
+echo "${script_dir}" >> ${GITHUB_PATH}
+GCLOUD_CREDENTIALS_FILE=${HOME}/secrets/gcloud_credentials.json
+GLOBALLY_DYNAMIC_KEYSTORE_PATH=${HOME}/secrets/globallydynamic.keystore
+GLOBALLY_DYNAMIC_DEVICE_PATH=${GLOBALLY_DYNAMIC_KEYSTORE_PATH}
+echo "GCLOUD_CREDENTIALS_FILE=${GCLOUD_CREDENTIALS_FILE}" >> ${GITHUB_ENV}
+echo "GLOBALLY_DYNAMIC_DEVICE_PATH=${HOME}/data/device_spec.json" >> ${GITHUB_ENV}
+echo "GLOBALLY_DYNAMIC_KEYSTORE_PATH=${GLOBALLY_DYNAMIC_DEVICE_PATH}" >> ${GITHUB_ENV}
+echo "${GOOGLE_CLOUD_KEY}" > "${GCLOUD_CREDENTIALS_FILE}"
+echo "${GLOBALLY_DYNAMIC_DEVICE_SPEC}" > "${GLOBALLY_DYNAMIC_DEVICE_PATH}"
+echo "${GLOBALLY_DYNAMIC_KEYSTORE_VALUE}" | base64 -d > "${GLOBALLY_DYNAMIC_KEYSTORE_PATH}"
+

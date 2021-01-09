@@ -11,6 +11,10 @@ android {
             dimension 'packaging'
         }
     }
+
+    lintOptions {
+        check ''
+    }
 }
 
 dependencies {

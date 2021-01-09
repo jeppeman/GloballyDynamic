@@ -1,0 +1,136 @@
+name: build-and-test
+
+on: [push]
+
+jobs:
+  android_build_apk:
+    name: Build Android lib APK
+    runs-on: ubuntu-latest
+    container: fabernovel/android:api-29-v1.1.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Build APK
+        working-directory: globallydynamic-android-lib
+        run: ./gradlew assembleDebug
+
+  android_build_test_apk:
+    name: Build Android lib test APK
+    runs-on: ubuntu-latest
+    container: fabernovel/android:api-29-v1.1.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Build test APK
+        working-directory: globallydynamic-android-lib
+        run: ./gradlew assembleAndroidTest
+
+  android_lint:
+    name: Run Android lib lint
+    runs-on: ubuntu-latest
+    container: fabernovel/android:api-29-v1.1.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Configure Gradle
+        working-directory: .github/scripts
+        run: ./configure_gradle
+
+      - name: Run lint
+        working-directory: globallydynamic-android-lib
+        run: ./gradlew lint
+
+  android_unit_tests:
+    name: Run Android lib unit tests
+    runs-on: ubuntu-latest
+    container: fabernovel/android:api-29-v1.1.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Run tests
+        working-directory: globallydynamic-android-lib
+        run: ./gradlew test
+
+  server_tests:
+    name: Run server lib tests
+    runs-on: ubuntu-latest
+    container: fabernovel/android:api-29-v1.1.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Run tests
+        working-directory: globallydynamic-server-lib
+        run: ./gradlew test
+
+  gradle_tests:
+    name: Run gradle plugin tests
+    runs-on: ubuntu-latest
+    container: fabernovel/android:api-29-v1.1.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Run tests
+        working-directory: globallydynamic-gradle-plugin
+        run: ./gradlew test
+
+  build_studio_plugin:
+    name: Build studio plugin
+    runs-on: ubuntu-latest
+    container: jeppeman/globallydynamic-studio:as-4.2.0-beta03
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Run tests
+        working-directory: globallydynamic-studio-plugin
+        run: ./gradlew buildPlugin
+
+  studio_tests:
+    name: Run studio plugin tests
+    runs-on: ubuntu-latest
+    container: jeppeman/globallydynamic-studio:as-4.2.0-beta03
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bootstrap
+        working-directory: .github/scripts
+        run: ./bootstrap_env
+
+      - name: Run tests
+        working-directory: globallydynamic-studio-plugin
+        run: ./gradlew test

@@ -1,8 +1,14 @@
 package com.jeppeman.globallydynamic.gradle
 
-import com.android.SdkConstants
 import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.internal.res.getAapt2FromMavenAndVersion
+import com.android.build.gradle.internal.errors.DeprecationReporterImpl
+import com.android.build.gradle.internal.errors.SyncIssueReporterImpl
+import com.android.build.gradle.internal.res.Aapt2FromMaven
+import com.android.build.gradle.internal.services.Aapt2Input
+import com.android.build.gradle.internal.services.ProjectServices
+import com.android.build.gradle.internal.services.getAapt2Executable
+import com.android.build.gradle.options.ProjectOptionService
+import com.android.build.gradle.options.SyncOptions
 import com.android.tools.build.bundletool.commands.BuildApksCommand
 import com.android.tools.build.bundletool.model.Aapt2Command
 import com.android.tools.build.bundletool.model.Password
@@ -15,6 +21,7 @@ import com.jeppeman.globallydynamic.gradle.extensions.deleteCompletely
 import com.jeppeman.globallydynamic.gradle.extensions.getTaskName
 import com.jeppeman.globallydynamic.gradle.extensions.unzip
 import org.gradle.api.DefaultTask
+import org.gradle.api.Project
 import org.gradle.api.tasks.*
 import java.io.File
 import java.nio.file.Files
@@ -52,6 +59,9 @@ abstract class ApkProducerTask : DefaultTask() {
     var signed: Boolean = true
         private set
 
+    @get:Nested
+    abstract val aapt2: Aapt2Input
+
     lateinit var variantName: String
         private set
 
@@ -82,19 +92,19 @@ abstract class ApkProducerTask : DefaultTask() {
         }
     }
 
+
     @TaskAction
     fun doTaskAction() {
         val bundle = bundleDir.listFiles { file -> file.name.contains(".aab") }!!.first()
         val apksOutputPath = outputDir.toPath().resolve("bundle.apks")
         apksOutputPath.deleteCompletely()
-        val aapt2Command = File(getAapt2FromMavenAndVersion(project).first.singleFile, SdkConstants.FN_AAPT2).toPath()
 
         val buildApksCommandBuilder = BuildApksCommand.builder()
             .setExecutorService(MoreExecutors.listeningDecorator(ForkJoinPool.commonPool()))
             .setBundlePath(bundle.toPath())
             .setOutputFile(apksOutputPath)
             .setApkBuildMode(buildMode)
-            .setAapt2Command(Aapt2Command.createFromExecutablePath(aapt2Command))
+            .setAapt2Command(Aapt2Command.createFromExecutablePath(aapt2.getAapt2Executable().toFile().toPath()))
 
         if (signed) {
             getSigningConfiguration().let(buildApksCommandBuilder::setSigningConfiguration)
@@ -137,16 +147,16 @@ abstract class ApkProducerTask : DefaultTask() {
             task.signingConfig = task.project.buildDir
                 .toPath()
                 .resolve("intermediates")
-                .resolve("signing_config")
+                .resolve("signing_config_data")
                 .resolve(applicationVariant.name)
-                .resolve("out")
-                .resolve("signing-config.json")
+                .resolve("signing-config-data.json")
                 .toFile()
+            createProjectServices(task.project).initializeAapt2Input(task.aapt2)
         }
     }
 }
 
-open class BuildUniversalApkTask : ApkProducerTask() {
+abstract class BuildUniversalApkTask : ApkProducerTask() {
     override val buildMode: BuildApksCommand.ApkBuildMode = BuildApksCommand.ApkBuildMode.UNIVERSAL
 
     override fun processApkSet(apkSet: Path) {
@@ -182,7 +192,7 @@ open class BuildUniversalApkTask : ApkProducerTask() {
     }
 }
 
-open class BuildBaseApkTask : ApkProducerTask() {
+abstract class BuildBaseApkTask : ApkProducerTask() {
     override fun processApkSet(apkSet: Path) {
         val tempDir = Paths.get(outputDir.absolutePath, "temp")
         tempDir.deleteCompletely()
@@ -219,6 +229,24 @@ open class BuildBaseApkTask : ApkProducerTask() {
 private const val ENV_VAR_ANDROID_SDK_HOME = "ANDROID_SDK_HOME"
 private const val ENV_VAR_USER_HOME = "user.home"
 private const val ENV_VAR_HOME = "HOME"
+
+private fun createProjectServices(project: Project): ProjectServices {
+    val objectFactory = project.objects
+    val logger = project.logger
+    val projectPath = project.path
+    val projectOptions = ProjectOptionService.RegistrationAction(project).execute().get()
+        .projectOptions
+    val syncIssueReporter =
+        SyncIssueReporterImpl(SyncOptions.getModelQueryMode(projectOptions), logger)
+    val deprecationReporter =
+        DeprecationReporterImpl(syncIssueReporter, projectOptions, projectPath)
+    return ProjectServices(
+        syncIssueReporter, deprecationReporter, objectFactory, project.logger,
+        project.providers, project.layout, projectOptions, project.gradle.sharedServices,
+        maxWorkerCount = project.gradle.startParameter.maxWorkerCount,
+        aapt2FromMaven = Aapt2FromMaven.create(project, projectOptions)
+    ) { o: Any -> project.file(o) }
+}
 
 private fun getDebugKeystorePath(): Path? = listOf(
     ENV_VAR_ANDROID_SDK_HOME,
