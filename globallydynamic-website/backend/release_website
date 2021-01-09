@@ -62,4 +62,4 @@ gcloud compute images create ${new_image_name} \
 # Do rolling update of instance group
 gcloud compute instance-groups managed rolling-action replace globallydynamic-managed --max-surge=2
 
-echo "\n\nAll done!"
+echo "All done!"

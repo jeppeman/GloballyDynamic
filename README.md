@@ -61,6 +61,9 @@ Documentation
 * [User docs](https://globallydynamic.io/docs/user)
 * [Javadoc](https://globallydynamic.io/docs/javadoc)
 
+Release notes
+---
+* [Release notes](https://globallydynamic.io/release-notes)
 
 License
 ---

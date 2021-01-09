@@ -70,6 +70,10 @@ Docs
 * [User docs](/docs/user)
 * [Javadoc](/docs/javadoc)
 
+Release notes
+---
+* [Release notes](/release-notes)
+
 Support
 ---
 If you encounter problems, or have questions, drop an [issue](https://github.com/jeppeman/GloballyDynamic/issues) on GitHub.
