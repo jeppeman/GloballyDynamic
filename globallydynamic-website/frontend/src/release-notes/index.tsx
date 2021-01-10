@@ -10,11 +10,11 @@ Studio plugin 1.2.0 (January 2021)
 ---
 * Android Studio 4.2 compatibility.
 
-Note: This version breaks compatibility with AGP 4.1 and below.
-
 Gradle plugin 1.2.0 (January 2021)
 ---
 * AGP 4.2 compatibility.
+
+Note: This version breaks compatibility with AGP 4.1 and below.
 
 Studio plugin 1.1.0 (October 2020)
 ---
