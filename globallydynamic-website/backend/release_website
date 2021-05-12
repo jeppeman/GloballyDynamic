@@ -2,11 +2,13 @@
 
 set -e
 
+zone="europe-west1-b"
+
 # Start the instance that images are based on
-gcloud compute instances start globallydynamic
+gcloud compute instances start globallydynamic --zone=${zone}
 
 # Get the ip of the instance
-instance_ip=$(gcloud compute instances describe globallydynamic --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+instance_ip=$(gcloud compute instances describe globallydynamic --format='get(networkInterfaces[0].accessConfigs[0].natIP)' --zone=${zone})
 
 api_url="http://${instance_ip}:8080/api"
 
@@ -31,7 +33,7 @@ printf "\033[100C H\r"
 echo "Server up and running.. creating a new image"
 
 # Stop instance
-gcloud compute instances stop globallydynamic
+gcloud compute instances stop globallydynamic --zone=${zone}
 
 # Determine what name the new image should have (number incremented from the previous in the globallydynamic family)
 current_images=$(gcloud compute images list --no-standard-images | awk 'FNR > 1 {print $1}')
@@ -60,6 +62,6 @@ gcloud compute images create ${new_image_name} \
     --source-disk=globallydynamic
 
 # Do rolling update of instance group
-gcloud compute instance-groups managed rolling-action replace globallydynamic-managed --max-surge=2
+gcloud compute instance-groups managed rolling-action replace globallydynamic-managed --max-surge=2 --zone ${zone}
 
 echo "All done!"
