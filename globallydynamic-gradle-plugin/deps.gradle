@@ -1,6 +1,6 @@
 def androidPluginVersion = project.hasProperty("agpVersion")
         ? project.properties.get("agpVersion")
-        : '4.2.0-beta03'
+        : '4.2.0'
 
 def versions = [
         androidplugin         : androidPluginVersion,
