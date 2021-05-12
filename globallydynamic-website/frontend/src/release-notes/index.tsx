@@ -6,6 +6,10 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Gradle plugin 1.2.1 (May 2021)
+---
+* Fix broken APK producer tasks when using AGP 4.2.0.
+
 Studio plugin 1.2.0 (January 2021)
 ---
 * Android Studio 4.2 compatibility.
