@@ -237,7 +237,11 @@ private fun createProjectServices(project: Project): ProjectServices {
     val projectOptions = ProjectOptionService.RegistrationAction(project).execute().get()
         .projectOptions
     val syncIssueReporter =
-        SyncIssueReporterImpl(SyncOptions.getModelQueryMode(projectOptions), logger)
+        SyncIssueReporterImpl(
+                SyncOptions.getModelQueryMode(projectOptions),
+                SyncOptions.ErrorFormatMode.HUMAN_READABLE,
+                logger
+        )
     val deprecationReporter =
         DeprecationReporterImpl(syncIssueReporter, projectOptions, projectPath)
     return ProjectServices(
