@@ -30,7 +30,7 @@ abstract class BaseTaskTest {
     @BeforeEach
     fun setUp() {
         rootProjectDirPath.resolve("gradle.properties").toFile().writeText(
-            """
+                """
                 android.useAndroidX=true
             """.trimIndent()
         )
@@ -38,46 +38,46 @@ abstract class BaseTaskTest {
         appModuleProjectDirPath = rootProjectDirPath.resolve("app").apply { toFile().mkdirs() }
         appModuleBuildFilePath = appModuleProjectDirPath.resolve("build.gradle")
         appModuleSourceDir = appModuleProjectDirPath.resolve("src")
-            .resolve("main")
-            .apply { toFile().mkdirs() }
+                .resolve("main")
+                .apply { toFile().mkdirs() }
         appModuleAndroidManifestFilePath = appModuleSourceDir.resolve("AndroidManifest.xml")
         onDemandFeatureProjectDirPath = rootProjectDirPath.resolve(onDemandFeatureName).apply { toFile().mkdirs() }
         onDemandFeatureProjectBuildFilePath = onDemandFeatureProjectDirPath.resolve("build.gradle")
         onDemandFeatureAndroidManifestFilePath = onDemandFeatureProjectDirPath.resolve("src")
-            .resolve("main")
-            .apply { toFile().mkdirs() }
-            .resolve("AndroidManifest.xml")
+                .resolve("main")
+                .apply { toFile().mkdirs() }
+                .resolve("AndroidManifest.xml")
         installTimeFeatureDirPath = rootProjectDirPath.resolve(installTimeFeatureName).apply { toFile().mkdirs() }
         installTimeFeatureBuildFilePath = installTimeFeatureDirPath.resolve("build.gradle")
         installTimeFeatureAndroidManifestFilePath = installTimeFeatureDirPath.resolve("src")
-            .resolve("main")
-            .apply { toFile().mkdirs() }
-            .resolve("AndroidManifest.xml")
+                .resolve("main")
+                .apply { toFile().mkdirs() }
+                .resolve("AndroidManifest.xml")
 
         settingsFilePath = rootProjectDirPath.resolve("settings.gradle")
 
         rootProjectBuildFilePath.toFile().writeText(
-            """
+                """
                 buildscript {
                     repositories {
+                        google()
                         mavenCentral()
                         jcenter()
-                        google()
                     }
                 }
                 
                 subprojects { 
                     repositories {
+                        google()
                         mavenCentral()
                         jcenter()
-                        google()
                     }
                 }
             """.trimIndent()
         )
 
         installTimeFeatureBuildFilePath.toFile().writeText(
-            """
+                """
                 plugins {
                     id 'com.android.dynamic-feature'
                 }
@@ -97,7 +97,7 @@ abstract class BaseTaskTest {
         )
 
         installTimeFeatureAndroidManifestFilePath.toFile().writeText(
-            """
+                """
               <manifest xmlns:android="http://schemas.android.com/apk/res/android"
                     package="$BASE_PACKAGE_NAME">
                     <application/>
@@ -106,7 +106,7 @@ abstract class BaseTaskTest {
         )
 
         onDemandFeatureProjectBuildFilePath.toFile().writeText(
-            """
+                """
                 plugins {
                     id 'com.android.dynamic-feature'
                 }
@@ -126,7 +126,7 @@ abstract class BaseTaskTest {
         )
 
         onDemandFeatureAndroidManifestFilePath.toFile().writeText(
-            """
+                """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
                     package="$BASE_PACKAGE_NAME">
                     <application/>
@@ -135,7 +135,7 @@ abstract class BaseTaskTest {
         )
 
         settingsFilePath.toFile().writeText(
-            """
+                """
                 include ':app', ':$onDemandFeatureName', ':$installTimeFeatureName'
             """.trimIndent()
         )
@@ -145,8 +145,7 @@ abstract class BaseTaskTest {
 
     abstract fun beforeEach()
 
-    protected fun runTask(vararg args: String): BuildResult =
-        GradleRunner.create()
+    protected fun runTask(vararg args: String): BuildResult = GradleRunner.create()
             .withArguments(taskName, "--stacktrace", *args)
             .withProjectDir(rootProjectDirPath.toFile())
             .withPluginClasspath()

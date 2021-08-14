@@ -5,33 +5,42 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.12.0'
 }
 
-dependencies {
-  implementation gradleApi()
-  implementation localGroovy()
-  implementation deps.kotlin.stdlib
-  implementation deps.androidplugin
-  implementation deps.javapoet
+test {
+    useJUnitPlatform()
+}
 
-  testImplementation deps.globallydynamic_server
-  testImplementation deps.junit.api
-  testImplementation deps.junit.params
-  testImplementation deps.junit.engine
-  testImplementation deps.junit.runner
-  testImplementation deps.mockito.core
-  testImplementation deps.mockito.jupiter
-  testImplementation deps.mockito.kotlin
-  testImplementation deps.truth
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation deps.kotlin.stdlib
+    implementation deps.androidplugin
+    implementation deps.javapoet
+    implementation deps.gson
+    implementation deps.httpcomponents.client
+    implementation deps.httpcomponents.mime
+
+    compileOnly deps.bundletool
+
+    testImplementation deps.globallydynamic_server
+    testImplementation deps.junit.api
+    testImplementation deps.junit.params
+    testImplementation deps.junit.engine
+    testImplementation deps.junit.runner
+    testImplementation deps.mockito.core
+    testImplementation deps.mockito.jupiter
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.truth
 }
 
 gradlePlugin {
-  plugins {
-    globallyDynamicPlugin {
-      id = 'com.jeppeman.globallydynamic'
-      implementationClass = 'com.jeppeman.globallydynamic.gradle.GloballyDynamicPlugin'
-      displayName = 'GloballyDynamic'
-      description = "GloballyDynamic - Dynamic Delivery everywhere"
+    plugins {
+        globallyDynamicPlugin {
+            id = 'com.jeppeman.globallydynamic'
+            implementationClass = 'com.jeppeman.globallydynamic.gradle.GloballyDynamicPlugin'
+            displayName = 'GloballyDynamic'
+            description = "GloballyDynamic - Dynamic Delivery everywhere"
+        }
     }
-  }
 }
 
 pluginBundle {

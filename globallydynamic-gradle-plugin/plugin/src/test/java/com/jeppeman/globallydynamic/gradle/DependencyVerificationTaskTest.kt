@@ -16,7 +16,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
         appModuleAndroidManifestFilePath.toFile().writeText(
             """
                 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="com.jeppeman.globallydynamic">
+                    package="$BASE_PACKAGE_NAME">
                     <application android:name=".GloballyDynamicApplication" />
                 </manifest>
             """.trimIndent()
@@ -33,7 +33,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 android {
-                    compileSdkVersion 23
+                    compileSdk 29
                     
                     globallyDynamicServers {
                         server {
@@ -65,7 +65,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 android {
-                    compileSdkVersion 23
+                    compileSdk 29
                     
                     globallyDynamicServers {
                         server {
@@ -77,7 +77,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.2.0'
                 }
             """.trimIndent()
         )

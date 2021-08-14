@@ -1,7 +1,7 @@
-FROM openjdk:11
+FROM fabernovel/android:api-29-v1.1.0
 
 # Install packages
-RUN apt-get update && apt-get install -y sudo file
+RUN apt-get update && apt-get install -y sudo file curl
 
 # Install libonig2 (JQ dependency)
 RUN curl -L --output libonig2.deb http://security.ubuntu.com/ubuntu/pool/universe/libo/libonig/libonig2_5.9.6-1ubuntu0.1_amd64.deb \

@@ -1,18 +1,23 @@
+import java.nio.file.Paths
+
 def androidPluginVersion = project.hasProperty("agpVersion")
         ? project.properties.get("agpVersion")
-        : '4.2.0'
+        : '7.0.0'
 
 def versions = [
         androidplugin         : androidPluginVersion,
-        kotlin                : '1.4.0',
+        kotlin                : '1.5.21',
         versionsplugin        : '0.25.0',
+        gson                  : '2.8.6',
+        bundletool            : '1.8.0',
         javapoet              : '1.11.1',
         junit                 : '5.5.2',
         junit_platform        : '1.5.2',
         truth                 : '1.1.0',
-        mockito               : '2.23.4',
-        mockito_kotlin        : '2.1.0',
-        globallydynamic_server: '1.0.0'
+        httpcomponents        : '4.5.10',
+        mockito               : '3.11.2',
+        mockito_kotlin        : '3.2.0',
+        globallydynamic_server: '1.1.0'
 ]
 
 ext.versions = versions
@@ -27,6 +32,8 @@ deps.androidplugin = "com.android.tools.build:gradle:$versions.androidplugin"
 
 deps.javapoet = "com.squareup:javapoet:$versions.javapoet"
 
+deps.gson = "com.google.code.gson:gson:$versions.gson"
+
 deps.junit = [
         api   : "org.junit.jupiter:junit-jupiter-api:$versions.junit",
         params: "org.junit.jupiter:junit-jupiter-params:$versions.junit",
@@ -37,11 +44,28 @@ deps.junit = [
 deps.mockito = [
         core   : "org.mockito:mockito-core:$versions.mockito",
         jupiter: "org.mockito:mockito-junit-jupiter:$versions.mockito",
-        kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+        kotlin : "org.mockito.kotlin:mockito-kotlin:$versions.mockito_kotlin"
 ]
 
 deps.truth = "androidx.test.ext:truth:$versions.truth"
 
 deps.globallydynamic_server = "com.jeppeman.globallydynamic.server:server:$versions.globallydynamic_server"
+
+deps.httpcomponents = [
+        client: "org.apache.httpcomponents:httpclient:$versions.httpcomponents",
+        mime  : "org.apache.httpcomponents:httpmime:$versions.httpcomponents"
+]
+
+def gradleCacheDir = Paths.get(System.getProperty("user.home"), ".gradle", "caches", "modules-2", "files-2.1")
+gradleCacheDir.toFile().mkdirs()
+def bundleToolFile = gradleCacheDir.resolve("bundletool-${versions.bundletool}.jar").toFile()
+
+if (!bundleToolFile.exists()) {
+    new URL("https://github.com/google/bundletool/releases/download/${versions.bundletool}/bundletool-all-${versions.bundletool}.jar")
+            .withInputStream { i -> bundleToolFile.withOutputStream { it << i } }
+}
+
+deps.bundletool = files(bundleToolFile)
+deps.bundletool_maven = "com.android.tools.build:bundletool:$versions.bundletool"
 
 ext.deps = deps

@@ -1,13 +1,13 @@
 package com.jeppeman.globallydynamic.gradle
 
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import org.gradle.api.Project
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import java.lang.NumberFormatException
 
 @RunWith(JUnitPlatform::class)

@@ -6,6 +6,19 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Gradle plugin 1.3.0 (August 2021)
+---
+* AGP 7.0.0 compatibility
+
+Studio plugin 1.3.0 (August 2021)
+---
+* Android Studio Arctic Fox compatibility.
+* Bump GloballyDynamic Server to 1.1.0
+
+Server 1.1.0 (August 2021)
+---
+* Bump dependencies
+
 Gradle plugin 1.2.1 (May 2021)
 ---
 * Fix broken APK producer tasks when using AGP 4.2.0.
