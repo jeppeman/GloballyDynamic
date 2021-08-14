@@ -1,6 +1,6 @@
 def versions = [
-        kotlin                : '1.4.0',
-        globallydynamic_server: '1.0.0',
+        kotlin                : '1.5.21',
+        globallydynamic_server: '1.1.0',
         junit                 : '5.5.2',
         junit_platform        : '1.5.2',
         truth                 : '1.1.0',
