@@ -21,7 +21,7 @@ cd GloballyDynamic
 
 cd globallydynamic-server-lib && ./gradlew executableJar && ./gradlew dokka
 
-cd ../globallydynamic-android-lib && ./gradlew aggregateJavadoc
+cd ../globallydynamic-android-lib && ./gradlew assemble && ./gradlew aggregateJavadoc
 
 cd ../globallydynamic-website/frontend && npm install && npm run-script build
 
