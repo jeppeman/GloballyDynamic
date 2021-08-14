@@ -1,7 +1,7 @@
 package com.jeppeman.globallydynamic.idea
 
 import com.android.annotations.VisibleForTesting
-import com.android.ide.common.gradle.model.IdeAndroidProject
+import com.android.tools.idea.gradle.model.IdeAndroidProject
 import com.android.tools.idea.gradle.project.model.AndroidModuleModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
