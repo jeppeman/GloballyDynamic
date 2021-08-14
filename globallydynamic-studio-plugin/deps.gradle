@@ -4,8 +4,6 @@ def versions = [
         junit                 : '5.5.2',
         junit_platform        : '1.5.2',
         truth                 : '1.1.0',
-        mockito               : '2.23.4',
-        mockito_kotlin        : '2.1.0',
 ]
 
 ext.versions = versions
@@ -25,12 +23,6 @@ deps.junit = [
         params: "org.junit.jupiter:junit-jupiter-params:$versions.junit",
         engine: "org.junit.jupiter:junit-jupiter-engine:$versions.junit",
         runner: "org.junit.platform:junit-platform-runner:$versions.junit_platform",
-]
-
-deps.mockito = [
-        core   : "org.mockito:mockito-core:$versions.mockito",
-        jupiter: "org.mockito:mockito-junit-jupiter:$versions.mockito",
-        kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
 ]
 
 deps.truth = "androidx.test.ext:truth:$versions.truth"

@@ -8,6 +8,10 @@ apply from: 'deps.gradle'
 group GROUP
 version VERSION_NAME
 
+test {
+    useJUnitPlatform()
+}
+
 repositories {
     maven {
         url 'https://www.jetbrains.com/intellij-repository/releases'
@@ -17,17 +21,14 @@ repositories {
 }
 
 dependencies {
-    compile deps.kotlin.stdlib
-    compile deps.globallydynamic.server
+    implementation deps.kotlin.stdlib
+    implementation deps.globallydynamic.server
 
-    testCompile deps.truth
-    testCompile deps.junit.api
-    testCompile deps.junit.params
-    testCompile deps.junit.engine
-    testCompile deps.junit.runner
-    testCompile deps.mockito.core
-    testCompile deps.mockito.jupiter
-    testCompile deps.mockito.kotlin
+    testImplementation deps.truth
+    testImplementation deps.junit.api
+    testImplementation deps.junit.params
+    testImplementation deps.junit.engine
+    testImplementation deps.junit.runner
 }
 
 compileKotlin {
@@ -42,8 +43,14 @@ intellij {
     localPath "${System.getenv("ANDROID_STUDIO_PATH")}"
 }
 
+def instrumentCompilerVersion = "203.7717.56"
+
 instrumentCode {
-    compilerVersion = "203.7717.56"
+    compilerVersion = instrumentCompilerVersion
+}
+
+instrumentTestCode {
+    compilerVersion = instrumentCompilerVersion
 }
 
 publishPlugin {

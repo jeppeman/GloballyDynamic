@@ -4,6 +4,7 @@ import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.internal.errors.DeprecationReporterImpl
 import com.android.build.gradle.internal.errors.SyncIssueReporterImpl
 import com.android.build.gradle.internal.res.Aapt2FromMaven
+import com.android.build.gradle.internal.scope.ProjectInfo
 import com.android.build.gradle.internal.services.Aapt2Input
 import com.android.build.gradle.internal.services.ProjectServices
 import com.android.build.gradle.internal.services.getAapt2Executable
@@ -34,9 +35,10 @@ import java.util.concurrent.ForkJoinPool
 
 abstract class ApkProducerTask : DefaultTask() {
     private val gson: Gson by lazy { GsonBuilder().create() }
+
     // AGP 3.5 to 3.6 compatibility
     private fun JsonObject.getPropertyCompat(propName: String) =
-        get(propName) ?: get("m${propName.capitalize()}")
+            get(propName) ?: get("m${propName.capitalize()}")
 
     protected open val buildMode: BuildApksCommand.ApkBuildMode = BuildApksCommand.ApkBuildMode.DEFAULT
     protected abstract fun processApkSet(apkSet: Path)
@@ -70,22 +72,22 @@ abstract class ApkProducerTask : DefaultTask() {
         return if (signingConfigJson.isNotBlank() && signingConfigJson != "null") {
             val signingConfig = gson.fromJson(signingConfigJson, JsonObject::class.java)
             SigningConfiguration.extractFromKeystore(
-                Paths.get(signingConfig.getPropertyCompat("storeFile").asString),
-                signingConfig.getPropertyCompat("keyAlias").asString,
-                Optional.of(Password {
-                    KeyStore.PasswordProtection(
-                        signingConfig.getPropertyCompat("storePassword")
-                            .asString
-                            .toCharArray()
-                    )
-                }),
-                Optional.of(Password {
-                    KeyStore.PasswordProtection(
-                        signingConfig.getPropertyCompat("keyPassword")
-                            .asString
-                            .toCharArray()
-                    )
-                })
+                    Paths.get(signingConfig.getPropertyCompat("storeFile").asString),
+                    signingConfig.getPropertyCompat("keyAlias").asString,
+                    Optional.of(Password {
+                        KeyStore.PasswordProtection(
+                                signingConfig.getPropertyCompat("storePassword")
+                                        .asString
+                                        .toCharArray()
+                        )
+                    }),
+                    Optional.of(Password {
+                        KeyStore.PasswordProtection(
+                                signingConfig.getPropertyCompat("keyPassword")
+                                        .asString
+                                        .toCharArray()
+                        )
+                    })
             )
         } else {
             null
@@ -100,11 +102,11 @@ abstract class ApkProducerTask : DefaultTask() {
         apksOutputPath.deleteCompletely()
 
         val buildApksCommandBuilder = BuildApksCommand.builder()
-            .setExecutorService(MoreExecutors.listeningDecorator(ForkJoinPool.commonPool()))
-            .setBundlePath(bundle.toPath())
-            .setOutputFile(apksOutputPath)
-            .setApkBuildMode(buildMode)
-            .setAapt2Command(Aapt2Command.createFromExecutablePath(aapt2.getAapt2Executable().toFile().toPath()))
+                .setExecutorService(MoreExecutors.listeningDecorator(ForkJoinPool.commonPool()))
+                .setBundlePath(bundle.toPath())
+                .setOutputFile(apksOutputPath)
+                .setApkBuildMode(buildMode)
+                .setAapt2Command(Aapt2Command.createFromExecutablePath(aapt2.getAapt2Executable().toFile().toPath()))
 
         if (signed) {
             getSigningConfiguration().let(buildApksCommandBuilder::setSigningConfiguration)
@@ -132,25 +134,25 @@ abstract class ApkProducerTask : DefaultTask() {
     }
 
     abstract class CreationAction<T : ApkProducerTask>(
-        applicationVariant: ApplicationVariant,
-        private val signed: Boolean
+            applicationVariant: ApplicationVariant,
+            private val signed: Boolean
     ) : VariantTaskAction<T>(applicationVariant) {
         override fun execute(task: T) {
             task.variantName = applicationVariant.name
             task.signed = signed
             task.bundleDir = task.project.buildDir
-                .toPath()
-                .resolve("intermediates")
-                .resolve("intermediary_bundle")
-                .resolve(applicationVariant.name)
-                .toFile()
+                    .toPath()
+                    .resolve("intermediates")
+                    .resolve("intermediary_bundle")
+                    .resolve(applicationVariant.name)
+                    .toFile()
             task.signingConfig = task.project.buildDir
-                .toPath()
-                .resolve("intermediates")
-                .resolve("signing_config_data")
-                .resolve(applicationVariant.name)
-                .resolve("signing-config-data.json")
-                .toFile()
+                    .toPath()
+                    .resolve("intermediates")
+                    .resolve("signing_config_data")
+                    .resolve(applicationVariant.name)
+                    .resolve("signing-config-data.json")
+                    .toFile()
             createProjectServices(task.project).initializeAapt2Input(task.aapt2)
         }
     }
@@ -166,7 +168,7 @@ abstract class BuildUniversalApkTask : ApkProducerTask() {
         (tempDir.toFile().listFiles() ?: arrayOf()).forEach { file ->
             if (file.extension == "apk") {
                 val apk = outputDir.toPath()
-                    .resolve("${file.nameWithoutExtension}${if (signed) "" else "-unsigned"}.apk")
+                        .resolve("${file.nameWithoutExtension}${if (signed) "" else "-unsigned"}.apk")
                 Files.move(file.toPath(), apk, StandardCopyOption.REPLACE_EXISTING)
             }
         }
@@ -174,8 +176,8 @@ abstract class BuildUniversalApkTask : ApkProducerTask() {
     }
 
     class CreationAction(
-        applicationVariant: ApplicationVariant,
-        private val signed: Boolean
+            applicationVariant: ApplicationVariant,
+            private val signed: Boolean
     ) : ApkProducerTask.CreationAction<BuildUniversalApkTask>(applicationVariant, signed) {
         override val name: String
             get() = applicationVariant.getTaskName("build${if (signed) "" else "Unsigned"}UniversalApkFor")
@@ -183,10 +185,10 @@ abstract class BuildUniversalApkTask : ApkProducerTask() {
         override fun execute(task: BuildUniversalApkTask) {
             super.execute(task)
             task.outputDir = Paths.get(
-                task.project.buildDir.absolutePath,
-                "outputs",
-                "universal_apk",
-                applicationVariant.name
+                    task.project.buildDir.absolutePath,
+                    "outputs",
+                    "universal_apk",
+                    applicationVariant.name
             ).toFile()
         }
     }
@@ -198,18 +200,18 @@ abstract class BuildBaseApkTask : ApkProducerTask() {
         tempDir.deleteCompletely()
         apkSet.unzip(tempDir.toFile().absolutePath)
         tempDir.resolve("splits")
-            .resolve("base-master.apk")
-            .takeIf { Files.exists(it) }?.let { masterApk ->
-                val apk = outputDir.toPath()
-                    .resolve("${masterApk.toFile().nameWithoutExtension}${if (signed) "" else "-unsigned"}.apk")
-                Files.move(masterApk.toFile().toPath(), apk, StandardCopyOption.REPLACE_EXISTING)
-            }
+                .resolve("base-master.apk")
+                .takeIf { Files.exists(it) }?.let { masterApk ->
+                    val apk = outputDir.toPath()
+                            .resolve("${masterApk.toFile().nameWithoutExtension}${if (signed) "" else "-unsigned"}.apk")
+                    Files.move(masterApk.toFile().toPath(), apk, StandardCopyOption.REPLACE_EXISTING)
+                }
         tempDir.deleteCompletely()
     }
 
     class CreationAction(
-        applicationVariant: ApplicationVariant,
-        private val signed: Boolean
+            applicationVariant: ApplicationVariant,
+            private val signed: Boolean
     ) : ApkProducerTask.CreationAction<BuildBaseApkTask>(applicationVariant, signed) {
         override val name: String
             get() = applicationVariant.getTaskName("build${if (signed) "" else "Unsigned"}BaseApkFor")
@@ -217,10 +219,10 @@ abstract class BuildBaseApkTask : ApkProducerTask() {
         override fun execute(task: BuildBaseApkTask) {
             super.execute(task)
             task.outputDir = Paths.get(
-                task.project.buildDir.absolutePath,
-                "outputs",
-                "base_apk",
-                applicationVariant.name
+                    task.project.buildDir.absolutePath,
+                    "outputs",
+                    "base_apk",
+                    applicationVariant.name
             ).toFile()
         }
     }
@@ -235,27 +237,34 @@ private fun createProjectServices(project: Project): ProjectServices {
     val logger = project.logger
     val projectPath = project.path
     val projectOptions = ProjectOptionService.RegistrationAction(project).execute().get()
-        .projectOptions
+            .projectOptions
     val syncIssueReporter =
-        SyncIssueReporterImpl(
-                SyncOptions.getModelQueryMode(projectOptions),
-                SyncOptions.ErrorFormatMode.HUMAN_READABLE,
-                logger
-        )
+            SyncIssueReporterImpl(
+                    SyncOptions.getModelQueryMode(projectOptions),
+                    SyncOptions.ErrorFormatMode.HUMAN_READABLE,
+                    logger
+            )
     val deprecationReporter =
-        DeprecationReporterImpl(syncIssueReporter, projectOptions, projectPath)
+            DeprecationReporterImpl(syncIssueReporter, projectOptions, projectPath)
     return ProjectServices(
-        syncIssueReporter, deprecationReporter, objectFactory, project.logger,
-        project.providers, project.layout, projectOptions, project.gradle.sharedServices,
-        maxWorkerCount = project.gradle.startParameter.maxWorkerCount,
-        aapt2FromMaven = Aapt2FromMaven.create(project, projectOptions)
+            issueReporter = syncIssueReporter,
+            deprecationReporter = deprecationReporter,
+            objectFactory = objectFactory,
+            logger = project.logger,
+            providerFactory = project.providers,
+            projectLayout = project.layout,
+            projectInfo = ProjectInfo(project),
+            projectOptions = projectOptions,
+            buildServiceRegistry = project.gradle.sharedServices,
+            maxWorkerCount = project.gradle.startParameter.maxWorkerCount,
+            aapt2FromMaven = Aapt2FromMaven.create(project, projectOptions)
     ) { o: Any -> project.file(o) }
 }
 
 private fun getDebugKeystorePath(): Path? = listOf(
-    ENV_VAR_ANDROID_SDK_HOME,
-    ENV_VAR_HOME,
-    ENV_VAR_USER_HOME
+        ENV_VAR_ANDROID_SDK_HOME,
+        ENV_VAR_HOME,
+        ENV_VAR_USER_HOME
 ).asSequence().mapNotNull { envVar ->
     System.getenv(envVar)
 }.filter { envVar ->

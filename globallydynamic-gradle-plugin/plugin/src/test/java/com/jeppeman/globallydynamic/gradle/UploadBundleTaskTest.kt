@@ -79,10 +79,11 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    compileSdk 29
+                    
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        minSdk 29
+                        targetSdk 29
                         versionCode $VERSION_CODE
                     }
                     
@@ -109,7 +110,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.2.0'
                 }
             """.trimIndent()
         )
@@ -192,10 +193,11 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    compileSdk 29
+                    
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        minSdk 29
+                        targetSdk 29
                         versionCode $VERSION_CODE
                     }
                     
@@ -212,7 +214,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.2.0'
                 }
             """.trimIndent()
         )

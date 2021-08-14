@@ -37,7 +37,6 @@ dependencies {
     api deps.constraintlayout.constraintlayout
     api deps.autoservice.annotations
     api deps.appcompat.appcompat
-    api deps.kotlin.stdlib
     api deps.lifecycle.livedata
     api deps.lifecycle.viewmodel
     api deps.lifecycle.extensions

@@ -96,7 +96,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.2.0'
                 }
             """.trimIndent()
         )

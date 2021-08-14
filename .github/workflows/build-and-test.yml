@@ -90,7 +90,10 @@ jobs:
   gradle_tests:
     name: Run gradle plugin tests
     runs-on: ubuntu-latest
-    container: fabernovel/android:api-29-v1.1.0
+    container: jeppeman/globallydynamic-studio:as-2020.3.1.22
+    env:
+      ANDROID_SDK_ROOT: /opt/android/sdk
+      JAVA_HOME: /opt/android-studio/jre
     steps:
       - name: Checkout
         uses: actions/checkout@v2

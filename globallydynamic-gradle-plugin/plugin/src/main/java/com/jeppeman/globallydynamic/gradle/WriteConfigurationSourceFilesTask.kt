@@ -14,7 +14,6 @@ import com.jeppeman.globallydynamic.gradle.generators.*
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
-import org.gradle.api.internal.file.collections.ImmutableFileCollection
 import org.gradle.api.tasks.*
 import java.io.File
 import java.io.Serializable
@@ -116,7 +115,7 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
         val name: String,
         @get:InputFiles
         @get:PathSensitive(PathSensitivity.ABSOLUTE)
-        val linkedBundleRes: ImmutableFileCollection
+        val linkedBundleRes: FileCollection
     ) : Serializable
 
     class CreationAction(
@@ -135,7 +134,7 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
             task.version = applicationVariant.versionCode
             task.outputDir = outputDir
             // AGP 3.5 and 3.6 compatibility
-            task.linkedBundleRes = ImmutableFileCollection.of(
+            task.linkedBundleRes = task.project.files(
                 task.project
                     .getLinkedBundleResDir(applicationVariant)
                     .resolve("bundled-res.ap_")
@@ -150,7 +149,7 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
             task.dynamicFeatureInputs = dynamicFeatureVariantMap.map { (project, variant) ->
                 DynamicFeatureInput(
                     name = project.name,
-                    linkedBundleRes = ImmutableFileCollection.of(
+                    linkedBundleRes = project.files(
                         project.getLinkedBundleResDir(variant)
                             .resolve("bundled-res.ap_")
                             .toFile(),
