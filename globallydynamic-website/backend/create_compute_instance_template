@@ -19,6 +19,7 @@ export ANDROID_HOME=/opt/android/sdk
 
 #Create VM instance
 gcloud compute instance-templates create globallydynamic-instance-template \
+    --preemptible \
     --tags=http-server,https-server \
     --image-family=globallydynamic \
     --machine-type=n1-standard-1 \
