@@ -29,7 +29,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:${versions.AGP}'
         classpath 'com.jeppeman.globallydynamic.gradle:plugin:${versions.GRADLE}'
     }
 }

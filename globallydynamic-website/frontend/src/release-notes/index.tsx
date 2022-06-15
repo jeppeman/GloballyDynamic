@@ -6,6 +6,26 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Studio plugin 1.5.0 (June 2022)
+---
+* Android Studio Chipmunk compatibility.
+* Bumped GloballyDynamic server to 1.2.0
+
+Gradle plugin 1.4.0 (June 2022)
+---
+* AGP 7.2.1 compatibility.
+
+Note: This version breaks compatibility with AGP 7.0.0 and below.
+
+Server 1.2.0 (June 2022)
+---
+* Bumped bundletool to 1.10.0.
+* Fixed the address of GloballyDynamic server; made it configurable and made it so that the default value returns the correct address on the network.
+
+Studio plugin 1.4.0 (February 2022)
+---
+* Android Studio Bumblebee compatibility.
+
 Gradle plugin 1.3.0 (August 2021)
 ---
 * AGP 7.0.0 compatibility
