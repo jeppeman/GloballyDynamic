@@ -6,7 +6,7 @@ def versions = [
         versionsplugin: '0.25.0',
         shadowjar     : '4.0.4',
         guava         : '28.1-jre',
-        bundletool    : '1.8.0',
+        bundletool    : '1.10.0',
         gson          : '2.8.6',
         junit         : '5.5.2',
         junit_platform: '1.5.2',

@@ -13,6 +13,7 @@ private const val ARG_GCP_BUCKET_ID = "--gcp-bucket-id"
 private const val ARG_S3_BUCKET_ID = "--s3-bucket-id"
 private const val ARG_OVERRIDE_EXISTING_BUNDLES = "--override-existing-bundles"
 private const val ARG_VALIDATE_SIGNATURE_ON_DOWNLOAD = "--validate-signature-on-download"
+private const val ARG_HOST_ADDRESS = "--host-address"
 
 private const val ENV_VAR_PREFIX = "GLOBALLY_DYNAMIC_"
 private const val ENV_PORT = "${ENV_VAR_PREFIX}PORT"
@@ -25,6 +26,7 @@ private const val ENV_GCP_BUCKET_ID = "${ENV_VAR_PREFIX}GCP_BUCKET_ID"
 private const val ENV_S3_BUCKET_ID = "${ENV_VAR_PREFIX}S3_BUCKET_ID"
 private const val ENV_OVERRIDE_EXISTING_BUNDLES = "${ENV_VAR_PREFIX}OVERRIDE_EXISTING_BUNDLES"
 private const val ENV_VALIDATE_SIGNATURE_ON_DOWNLOAD = "${ENV_VAR_PREFIX}VALIDATE_SIGNATURE_ON_DOWNLOAD"
+private const val ENV_HOST_ADDRESS = "${ENV_VAR_PREFIX}HOST_ADDRESS"
 
 internal fun GloballyDynamicServer.Configuration.fromArgs(args: Array<String>): GloballyDynamicServer.Configuration {
     val configurationBuilder = newBuilder()
@@ -76,6 +78,9 @@ internal fun GloballyDynamicServer.Configuration.fromArgs(args: Array<String>): 
             }
             ARG_VALIDATE_SIGNATURE_ON_DOWNLOAD -> {
                 configurationBuilder.validateSignatureOnDownload = tryGetArgValue(ARG_VALIDATE_SIGNATURE_ON_DOWNLOAD, i + 1).toBoolean()
+            }
+            ARG_HOST_ADDRESS -> {
+                configurationBuilder.hostAddress = tryGetArgValue(ARG_HOST_ADDRESS, i + 1)
             }
             else -> throw IllegalArgumentException("Unrecognized argument $argName")
         }
@@ -147,6 +152,7 @@ private fun GloballyDynamicServer.Configuration.Companion.fromEnvironment(): Glo
     .apply { System.getenv(ENV_PORT)?.toInt()?.let(::setPort) }
     .apply { System.getenv(ENV_USERNAME)?.let(::setUsername) }
     .apply { System.getenv(ENV_PASSWORD)?.let(::setPassword) }
+    .apply { System.getenv(ENV_HOST_ADDRESS)?.let(::setHostAddress) }
     .apply { System.getenv(ENV_HTTPS_REDIRECT)?.toBoolean()?.let(::setHttpsRedirect) }
     .apply { System.getenv(ENV_OVERRIDE_EXISTING_BUNDLES)?.toBoolean()?.let(::setOverrideExistingBundles) }
     .apply { System.getenv(ENV_VALIDATE_SIGNATURE_ON_DOWNLOAD)?.toBoolean()?.let(::setValidateSignatureOnDownload) }
