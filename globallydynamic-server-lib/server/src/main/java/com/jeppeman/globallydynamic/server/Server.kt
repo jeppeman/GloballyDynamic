@@ -3,6 +3,7 @@ package com.jeppeman.globallydynamic.server
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.eclipse.jetty.server.Handler
+import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.URI
@@ -22,6 +23,7 @@ interface GloballyDynamicServer {
         val httpsRedirect: Boolean,
         val overrideExistingBundles: Boolean,
         val validateSignatureOnDownload: Boolean,
+        val hostAddress: String?,
         val logger: Logger,
         val pathHandlers: List<PathHandler>
     ) {
@@ -30,22 +32,33 @@ interface GloballyDynamicServer {
         class Builder internal constructor() {
             @set:JvmSynthetic
             var port: Int = 0
+
             @set:JvmSynthetic
             var username: String = ""
+
             @set:JvmSynthetic
             var password: String = ""
+
             @set:JvmSynthetic
             var logger: Logger = Logger()
+
             @set:JvmSynthetic
             var httpsRedirect: Boolean = false
+
             @set:JvmSynthetic
             var overrideExistingBundles: Boolean = false
+
             @set:JvmSynthetic
             var validateSignatureOnDownload: Boolean = false
+
             @set:JvmSynthetic
             var storageBackend: StorageBackend = StorageBackend.LOCAL_DEFAULT
+
             @set:JvmSynthetic
             var pathHandlers = mutableListOf<PathHandler>()
+
+            @set:JvmSynthetic
+            var hostAddress: String? = null
 
             internal constructor(configuration: Configuration) : this() {
                 port = configuration.port
@@ -53,6 +66,7 @@ interface GloballyDynamicServer {
                 username = configuration.username
                 password = configuration.password
                 httpsRedirect = configuration.httpsRedirect
+                hostAddress = configuration.hostAddress
                 overrideExistingBundles = configuration.overrideExistingBundles
                 validateSignatureOnDownload = configuration.validateSignatureOnDownload
                 logger = configuration.logger
@@ -63,8 +77,13 @@ interface GloballyDynamicServer {
             fun setUsername(username: String) = apply { this.username = username }
             fun setPassword(password: String) = apply { this.password = password }
             fun setHttpsRedirect(httpsRedirect: Boolean) = apply { this.httpsRedirect = httpsRedirect }
-            fun setOverrideExistingBundles(overrideExistingBundles: Boolean) = apply { this.overrideExistingBundles = overrideExistingBundles }
-            fun setValidateSignatureOnDownload(validateSignatureOnDownload: Boolean) = apply { this.validateSignatureOnDownload = validateSignatureOnDownload }
+            fun setHostAddress(hostAddress: String?) = apply { this.hostAddress = hostAddress }
+            fun setOverrideExistingBundles(overrideExistingBundles: Boolean) =
+                apply { this.overrideExistingBundles = overrideExistingBundles }
+
+            fun setValidateSignatureOnDownload(validateSignatureOnDownload: Boolean) =
+                apply { this.validateSignatureOnDownload = validateSignatureOnDownload }
+
             fun setLogger(logger: Logger) = apply { this.logger = logger }
             fun addPathHandlers(vararg pathHandlers: PathHandler) = apply { this.pathHandlers.addAll(pathHandlers) }
 
@@ -74,6 +93,7 @@ interface GloballyDynamicServer {
                 logger = logger,
                 password = password,
                 httpsRedirect = httpsRedirect,
+                hostAddress = hostAddress,
                 overrideExistingBundles = overrideExistingBundles,
                 validateSignatureOnDownload = validateSignatureOnDownload,
                 storageBackend = storageBackend,
@@ -156,12 +176,11 @@ internal class GloballyDynamicServerImpl(
     }
 ) : GloballyDynamicServer {
     override val address: String
-        get() = try {
-            Socket().run {
-                connect(InetSocketAddress("google.com", 80))
-                URI(server.uri.scheme, server.uri.userInfo, localAddress.hostAddress,
-                    server.uri.port, server.uri.path, server.uri.query, server.uri.fragment).toString()
-            }
+        get() = configuration.hostAddress ?: try {
+            URI(
+                server.uri.scheme, server.uri.userInfo, InetAddress.getLocalHost().hostAddress,
+                server.uri.port, server.uri.path, server.uri.query, server.uri.fragment
+            ).toString()
         } catch (exception: Exception) {
             "${server.uri}"
         }
