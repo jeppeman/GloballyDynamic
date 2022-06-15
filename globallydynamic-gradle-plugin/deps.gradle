@@ -2,14 +2,14 @@ import java.nio.file.Paths
 
 def androidPluginVersion = project.hasProperty("agpVersion")
         ? project.properties.get("agpVersion")
-        : '7.0.0'
+        : '7.2.1'
 
 def versions = [
         androidplugin         : androidPluginVersion,
-        kotlin                : '1.5.21',
+        kotlin                : '1.6.21',
         versionsplugin        : '0.25.0',
         gson                  : '2.8.6',
-        bundletool            : '1.8.0',
+        bundletool            : '1.10.0',
         javapoet              : '1.11.1',
         junit                 : '5.5.2',
         junit_platform        : '1.5.2',
@@ -17,7 +17,7 @@ def versions = [
         httpcomponents        : '4.5.10',
         mockito               : '3.11.2',
         mockito_kotlin        : '3.2.0',
-        globallydynamic_server: '1.1.0'
+        globallydynamic_server: '1.2.0'
 ]
 
 ext.versions = versions
