@@ -1,12 +1,13 @@
 package com.jeppeman.globallydynamic.gradle
 
+import com.jeppeman.globallydynamic.gradle.extensions.deleteCompletely
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
-const val ANDROID_LIB_VERSION = "1.0.0"
+const val ANDROID_LIB_VERSION = "1.1.1"
 
 abstract class BaseTaskTest {
     @TempDir
@@ -84,9 +85,9 @@ abstract class BaseTaskTest {
                 
                 android {
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        compileSdkVersion 32
+                        minSdkVersion 16
+                        targetSdkVersion 32
                     }
                 }
                 
@@ -99,7 +100,7 @@ abstract class BaseTaskTest {
         installTimeFeatureAndroidManifestFilePath.toFile().writeText(
                 """
               <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME">
+                    package="$BASE_PACKAGE_NAME.installtime">
                     <application/>
               </manifest> 
             """.trimIndent()
@@ -113,9 +114,9 @@ abstract class BaseTaskTest {
                 
                 android {
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        compileSdkVersion 32
+                        minSdkVersion 16
+                        targetSdkVersion 32
                     }
                 }
                 
@@ -128,7 +129,7 @@ abstract class BaseTaskTest {
         onDemandFeatureAndroidManifestFilePath.toFile().writeText(
                 """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME">
+                    package="$BASE_PACKAGE_NAME.ondemand">
                     <application/>
                 </manifest> 
             """.trimIndent()
@@ -154,6 +155,6 @@ abstract class BaseTaskTest {
             }
 
     companion object {
-        const val BASE_PACKAGE_NAME = "com.jeppeman.globallydynamic"
+        const val BASE_PACKAGE_NAME = "com.jeppeman.globallydynamic.test"
     }
 }

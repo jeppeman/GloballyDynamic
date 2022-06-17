@@ -24,6 +24,6 @@ public class GlobalSplitCompat {
     }
 
     public static boolean a() {
-        return SplitCompat.a();
+        return SplitCompat.zze();
     }
 }

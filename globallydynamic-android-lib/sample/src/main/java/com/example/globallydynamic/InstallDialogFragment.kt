@@ -105,7 +105,7 @@ class InstallDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         installDialogViewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return InstallDialogViewModel(
                         context = requireContext()
                 ) as T

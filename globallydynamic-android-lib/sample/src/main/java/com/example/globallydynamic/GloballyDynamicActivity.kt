@@ -180,7 +180,7 @@ class GloballyDynamicActivity : AppCompatActivity(),
         setContentView(R.layout.activity_globally_dynamic)
 
         globallyDynamicViewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return GloballyDynamicViewModel(
                         context = applicationContext,
                         installTimeFeatureDeps = object : InstallTimeFeature.Dependencies {

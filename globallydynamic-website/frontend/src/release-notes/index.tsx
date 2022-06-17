@@ -6,10 +6,16 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Android library 1.1.1 (June 2022)
+---
+* Android 12 (API level 31 and 32) support.
+* Bumped Play Core to 1.10.3.
+* Bumped Dynamic Ability to 1.0.17.300.
+
 Studio plugin 1.5.0 (June 2022)
 ---
 * Android Studio Chipmunk compatibility.
-* Bumped GloballyDynamic server to 1.2.0
+* Bumped GloballyDynamic server to 1.2.0.
 
 Gradle plugin 1.4.0 (June 2022)
 ---

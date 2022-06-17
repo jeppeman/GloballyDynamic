@@ -17,7 +17,7 @@ class GPlayGlobalSplitInstallSessionStateMapper {
         bundle.putStringArrayList("module_names", (ArrayList<String>) from.moduleNames());
         bundle.putStringArrayList("languages", (ArrayList<String>) from.languages());
         bundle.putParcelable("user_confirmation_intent", from.resolutionIntent());
-        return SplitInstallSessionState.a(bundle);
+        return SplitInstallSessionState.zzd(bundle);
     }
 
     static GlobalSplitInstallSessionState toGlobalSplitInstallSessionState(SplitInstallSessionState from) {

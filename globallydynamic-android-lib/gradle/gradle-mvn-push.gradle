@@ -36,7 +36,7 @@ afterEvaluate { project ->
             from android.sourceSets.main.java.source
         }
 
-        apply plugin: 'digital.wup.android-maven-publish'
+        apply plugin: 'maven-publish'
 
         publishing {
             publications {
@@ -45,7 +45,7 @@ afterEvaluate { project ->
                         version = version
                         groupId = GROUP
 
-                        from components.findByName("android${variant.name.capitalize()}")
+                        from components.findByName(variant.name)
                         artifact project.androidSourcesJar
 
                         pom {

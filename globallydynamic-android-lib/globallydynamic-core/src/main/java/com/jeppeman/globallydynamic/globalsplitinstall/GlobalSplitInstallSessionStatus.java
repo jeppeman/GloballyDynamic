@@ -1,26 +1,11 @@
 package com.jeppeman.globallydynamic.globalsplitinstall;
 
-import androidx.annotation.IntDef;
-
 /**
  * Matches the error codes of the underlying dynamic delivery mechanisms.
  * See <a target="_blank" href="https://developer.android.com/reference/com/google/android/play/core/splitinstall/model/SplitInstallSessionStatus">SplitInstallSessionStatus</a>
  * and <a target="_blank" href="https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-References/FeatureInstallSessionStatus">FeatureInstallSessionStatus</a>
  * for more information.
  */
-@IntDef({
-        GlobalSplitInstallSessionStatus.UNKNOWN,
-        GlobalSplitInstallSessionStatus.PENDING,
-        GlobalSplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION,
-        GlobalSplitInstallSessionStatus.DOWNLOADING,
-        GlobalSplitInstallSessionStatus.DOWNLOADED,
-        GlobalSplitInstallSessionStatus.INSTALLED,
-        GlobalSplitInstallSessionStatus.INSTALLING,
-        GlobalSplitInstallSessionStatus.FAILED,
-        GlobalSplitInstallSessionStatus.CANCELING,
-        GlobalSplitInstallSessionStatus.CANCELED,
-        GlobalSplitInstallSessionStatus.REQUIRES_PERSON_AGREEMENT
-})
 public @interface GlobalSplitInstallSessionStatus {
     /**
      * See <a target="_blank" href="https://developer.android.com/reference/com/google/android/play/core/splitinstall/model/SplitInstallSessionStatus.html#UNKNOWN">UNKNOWN</a>

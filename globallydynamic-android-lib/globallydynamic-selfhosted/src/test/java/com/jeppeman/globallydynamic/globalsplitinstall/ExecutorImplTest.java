@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.annotation.LooperMode;
 import org.robolectric.shadow.api.Shadow;
 import org.robolectric.shadows.ShadowLooper;
 
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
+@LooperMode(LooperMode.Mode.LEGACY)
 public class ExecutorImplTest {
     private Handler backgroundHandler = spy(new Handler(Looper.getMainLooper()));
     private Handler foregroundHandler = spy(new Handler(Looper.getMainLooper()));

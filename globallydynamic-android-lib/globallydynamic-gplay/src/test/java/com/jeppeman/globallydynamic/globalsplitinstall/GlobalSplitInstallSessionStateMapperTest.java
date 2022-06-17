@@ -58,7 +58,7 @@ public class GlobalSplitInstallSessionStateMapperTest {
         bundle.putStringArrayList("module_names", new ArrayList<String>(Arrays.asList("module1", "module2")));
         bundle.putStringArrayList("languages", new ArrayList<String>(Arrays.asList("lang1", "lang2")));
         bundle.putParcelable("user_confirmation_intent", PendingIntent.getBroadcast(context, 123, new Intent(), 0));
-        SplitInstallSessionState from = SplitInstallSessionState.a(bundle);
+        SplitInstallSessionState from = SplitInstallSessionState.zzd(bundle);
 
         GlobalSplitInstallSessionState globalSplitInstallSessionState = GPlayGlobalSplitInstallSessionStateMapper.toGlobalSplitInstallSessionState(from);
 

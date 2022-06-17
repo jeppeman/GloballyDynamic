@@ -146,7 +146,7 @@ class ApplicationPatcherImpl implements ApplicationPatcher {
     @Override
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void patchExistingApplication() {
-        SplitCompat.a(context);
+        SplitCompat.zzd(context);
 
         // Order matters here
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {

@@ -224,11 +224,16 @@ class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
 
     @VisibleForTesting
     IntentSender getIntentSenderForSession(@NonNull Intent intent) {
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            flags |= PendingIntent.FLAG_MUTABLE;
+        }
+
         return PendingIntent.getBroadcast(
                 context,
                 sessionId,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                flags
         ).getIntentSender();
     }
 

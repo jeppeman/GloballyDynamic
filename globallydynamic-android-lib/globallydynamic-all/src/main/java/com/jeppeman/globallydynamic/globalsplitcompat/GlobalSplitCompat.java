@@ -21,10 +21,10 @@ public class GlobalSplitCompat {
     }
 
     public static boolean a(Context context) {
-        return FeatureCompat.install(context) && SplitCompat.a(context);
+        return FeatureCompat.install(context) && SplitCompat.zzd(context);
     }
 
     public static boolean a() {
-        return SplitCompat.a();
+        return SplitCompat.zze();
     }
 }
