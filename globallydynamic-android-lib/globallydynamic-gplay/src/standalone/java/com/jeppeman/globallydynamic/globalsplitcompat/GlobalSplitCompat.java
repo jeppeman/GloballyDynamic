@@ -36,6 +36,6 @@ public class GlobalSplitCompat {
      * @see SplitCompat#a()
      */
     public static boolean a() {
-        return SplitCompat.a();
+        return SplitCompat.zze();
     }
 }

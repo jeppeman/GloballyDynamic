@@ -1,10 +1,10 @@
 package com.jeppeman.globallydynamic.globalsplitinstall;
 import com.google.android.play.core.splitinstall.SplitInstallException;
-import com.google.android.play.core.splitinstall.model.a;
+import com.google.android.play.core.splitinstall.model.zza;
 
 class GlobalSplitInstallExceptionFactory {
     static GlobalSplitInstallException create(@GlobalSplitInstallErrorCode int errorCode) {
-        return new GlobalSplitInstallException(errorCode, a.a(errorCode));
+        return new GlobalSplitInstallException(errorCode, zza.zzb(errorCode));
     }
 
 

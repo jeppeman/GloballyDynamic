@@ -33,7 +33,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 android {
-                    compileSdk 29
+                    compileSdk 32
                     
                     globallyDynamicServers {
                         server {
@@ -65,7 +65,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 android {
-                    compileSdk 29
+                    compileSdk 32
                     
                     globallyDynamicServers {
                         server {
@@ -77,7 +77,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'androidx.appcompat:appcompat:1.2.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )

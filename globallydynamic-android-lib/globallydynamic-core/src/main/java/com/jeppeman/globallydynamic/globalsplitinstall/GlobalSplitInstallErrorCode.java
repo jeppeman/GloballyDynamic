@@ -1,34 +1,11 @@
 package com.jeppeman.globallydynamic.globalsplitinstall;
 
-import androidx.annotation.IntDef;
-
 /**
  * Matches the error codes of the underlying dynamic delivery mechanisms.
  * See <a target="_blank" href="https://developer.android.com/reference/com/google/android/play/core/splitinstall/model/SplitInstallErrorCode">SplitInstallErrorCode</a>
  * and <a target="_blank" href="https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-References/FeatureInstallErrorCode">FeatureInstallErrorCode</a>
  * for more information.
  */
-@IntDef({
-        GlobalSplitInstallErrorCode.NO_ERROR,
-        GlobalSplitInstallErrorCode.ACTIVE_SESSIONS_LIMIT_EXCEEDED,
-        GlobalSplitInstallErrorCode.MODULE_UNAVAILABLE,
-        GlobalSplitInstallErrorCode.INVALID_REQUEST,
-        GlobalSplitInstallErrorCode.SESSION_NOT_FOUND,
-        GlobalSplitInstallErrorCode.API_NOT_AVAILABLE,
-        GlobalSplitInstallErrorCode.NETWORK_ERROR,
-        GlobalSplitInstallErrorCode.ACCESS_DENIED,
-        GlobalSplitInstallErrorCode.INCOMPATIBLE_WITH_EXISTING_SESSION,
-        GlobalSplitInstallErrorCode.SERVICE_DIED,
-        GlobalSplitInstallErrorCode.INSUFFICIENT_STORAGE,
-        GlobalSplitInstallErrorCode.SPLITCOMPAT_VERIFICATION_ERROR,
-        GlobalSplitInstallErrorCode.SPLITCOMPAT_EMULATION_ERROR,
-        GlobalSplitInstallErrorCode.SPLITCOMPAT_COPY_ERROR,
-        GlobalSplitInstallErrorCode.INTERNAL_ERROR,
-        GlobalSplitInstallErrorCode.NOT_SIGN_AGREEMENT,
-        GlobalSplitInstallErrorCode.REQUIRE_INSTALL_CONFIRM,
-        GlobalSplitInstallErrorCode.NO_INSTALL_PERMISSION,
-        GlobalSplitInstallErrorCode.INSTALL_APKS_FAILED
-})
 public @interface GlobalSplitInstallErrorCode {
     /**
      * See <a target="_blank" href="https://developer.android.com/reference/com/google/android/play/core/splitinstall/model/SplitInstallErrorCode.html#NO_ERROR">NO_ERROR</a>

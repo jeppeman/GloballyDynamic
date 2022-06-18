@@ -27,7 +27,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -51,12 +51,12 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 android {
-                    compileSdkVersion 23
+                    compileSdkVersion 32
                 }
 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -85,9 +85,9 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 
                 android {
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        compileSdkVersion 32
+                        minSdkVersion 16
+                        targetSdkVersion 32
                         versionCode 23
                     }
                     
@@ -95,7 +95,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 dependencies {
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -117,9 +117,9 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 
                 android {
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        compileSdkVersion 32
+                        minSdkVersion 16
+                        targetSdkVersion 32
                         versionCode 23
                     }
                     
@@ -142,7 +142,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -167,9 +167,9 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 
                 android {
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        compileSdkVersion 32
+                        minSdkVersion 16
+                        targetSdkVersion 32
                         versionCode 23
                     }
                     
@@ -193,7 +193,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -202,7 +202,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
                     package="$BASE_PACKAGE_NAME">
                     <application>
-                        <activity android:name=".GloballyDynamicActivity">
+                        <activity android:exported="true" android:name=".GloballyDynamicActivity">
                             <intent-filter>
                                 <action android:name="android.intent.action.VIEW" />
                                 <action android:name="android.intent.action.MAIN" />

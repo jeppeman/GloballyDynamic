@@ -79,11 +79,11 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 android {
-                    compileSdk 29
+                    compileSdk 32
                     
                     defaultConfig {
-                        minSdk 29
-                        targetSdk 29
+                        minSdk 16
+                        targetSdk 32
                         versionCode $VERSION_CODE
                     }
                     
@@ -110,7 +110,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.2.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -119,7 +119,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
             """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:dist="http://schemas.android.com/apk/distribution"
-                    package="$BASE_PACKAGE_NAME">
+                    package="$BASE_PACKAGE_NAME.ondemand">
                     
                     <application/>
                     
@@ -139,7 +139,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
             """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:dist="http://schemas.android.com/apk/distribution"
-                    package="$BASE_PACKAGE_NAME">
+                    package="$BASE_PACKAGE_NAME.installtime">
                     
                     <application/>
                     
@@ -155,7 +155,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                                     </dist:user-countries>
                                     <dist:device-feature dist:name="android.hardware.feature.ar"/>
                                     <dist:device-feature dist:name="android.hardware.feature.vr"/>
-                                    <dist:min-sdk dist:value="29"/>
+                                    <dist:min-sdk dist:value="16"/>
                                 </dist:conditions>
                             </dist:install-time>
                         </dist:delivery>
@@ -193,11 +193,11 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 android {
-                    compileSdk 29
+                    compileSdk 32
                     
                     defaultConfig {
-                        minSdk 29
-                        targetSdk 29
+                        minSdk 16
+                        targetSdk 32
                         versionCode $VERSION_CODE
                     }
                     
@@ -214,7 +214,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.2.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )

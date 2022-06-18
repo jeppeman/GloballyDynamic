@@ -47,7 +47,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
                     package="$BASE_PACKAGE_NAME">
                     <application>
-                        <activity android:name="$MAIN_ACTIVITY_NAME" >
+                        <activity android:exported="true" android:name="$MAIN_ACTIVITY_NAME" >
                             <intent-filter>
                                 <action android:name="android.intent.action.VIEW" />
                                 <action android:name="android.intent.action.MAIN" />
@@ -69,9 +69,9 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 
                 android {
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        compileSdkVersion 32
+                        minSdkVersion 16
+                        targetSdkVersion 32
                         versionCode $VERSION_CODE
                     }
                     
@@ -96,7 +96,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.2.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -226,9 +226,9 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 
                 android {
                     defaultConfig {
-                        compileSdkVersion 29
-                        minSdkVersion 29
-                        targetSdkVersion 29
+                        compileSdkVersion 32
+                        minSdkVersion 16
+                        targetSdkVersion 32
                         versionCode $VERSION_CODE
                     }
                     
@@ -250,7 +250,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
-                    implementation 'androidx.appcompat:appcompat:1.1.0'
+                    implementation 'androidx.appcompat:appcompat:1.4.2'
                 }
             """.trimIndent()
         )
@@ -275,7 +275,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
     }
 
     companion object {
-        private const val CLASS_PREFIX = "$BASE_PACKAGE_NAME.generated"
+        private const val CLASS_PREFIX = "com.jeppeman.globallydynamic.generated"
         private const val GLOBALLY_DYNAMIC_BUILD_CONFIG_CLASS = "$CLASS_PREFIX.GloballyDynamicBuildConfig"
         private const val MAIN_ACTIVITY_NAME = "$BASE_PACKAGE_NAME.GloballyDynamicActivity"
         private const val SERVER_URL = "http://globallydynamic.io"
@@ -284,7 +284,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
         private const val THROTTLE_DOWNLOAD_BY = 5000
         private const val VARIANT = "instrumentation"
         private const val VERSION_CODE = 5
-        private const val INSTALL_TIME_MIN_SDK = 24
+        private const val INSTALL_TIME_MIN_SDK = 16
         private val INSTALL_TIME_USER_COUNTRIES = listOf("CN", "HK")
         private val INSTALL_TIME_DEVICE_FEATURES = listOf("android.hardware.camera.ar", "android.hardware.camera.vr")
     }

@@ -12,9 +12,11 @@ import android.widget.Toast;
 import com.jeppeman.globallydynamic.generated.GloballyDynamicBuildConfig;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class PackageInstallerResultReceiver extends BroadcastReceiver {
     private static final String EXTRA_PREFIX =
             "com.jeppeman.globallydynamic.globalsplitinstall.PackageInstallerResultReceiver";

@@ -9,6 +9,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name="com.jeppeman.globallydynamic.globalsplitinstall.UserConfirmationActivity"
+            android:exported="true"
             android:theme="@style/Theme.Transparent" />
 
         <receiver android:name="com.jeppeman.globallydynamic.globalsplitinstall.PackageInstallerResultReceiver" />
