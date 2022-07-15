@@ -8,6 +8,8 @@ internal const val USERNAME_PROPERTY = "$PROPERTY_PREFIX.username"
 internal const val PASSWORD_PROPERTY = "$PROPERTY_PREFIX.password"
 internal const val THROTTLE_PROPERTY = "$PROPERTY_PREFIX.throttleDownloadBy"
 internal const val UPLOAD_AUTOMATICALLY_PROPERTY = "$PROPERTY_PREFIX.uploadAutomatically"
+internal const val DOWNLOAD_CONNECT_TIMEOUT_PROPERTY = "$PROPERTY_PREFIX.downloadConnectTimeout"
+internal const val DOWNLOAD_READ_TIMEOUT_PROPERTY = "$PROPERTY_PREFIX.downloadReadTimeout"
 
 /**
  * GloballyDynamic server configuration, applied as follows:
@@ -46,6 +48,14 @@ open class GloballyDynamicServer(val name: String) {
      */
     var uploadAutomatically: Boolean = true
     /**
+     * The HTTP connect timeout when downloading bundles, given in milliseconds
+     */
+    var downloadConnectTimeout: Long = 15 * 1000
+    /**
+     *  The HTTP read timeout when downloading bundles, given in milliseconds
+     */
+    var downloadReadTimeout: Long = 2 * 60 * 1000
+    /**
      * The build variants for which this server should be applied to
      */
     internal var buildVariants: MutableSet<String> = mutableSetOf()
@@ -59,6 +69,8 @@ open class GloballyDynamicServer(val name: String) {
         "serverUrl=$serverUrl, " +
         "username=$username, " +
         "password=$password," +
+        "downloadConnectTimeout=$downloadConnectTimeout," +
+        "downloadReadTimeout=$downloadReadTimeout," +
         "buildVariants=$buildVariants," +
         ")"
 }
@@ -86,3 +98,22 @@ internal fun GloballyDynamicServer.resolvePassword(project: Project) =
 
 internal fun GloballyDynamicServer.resolveUploadAutomatically(project: Project) =
     project.resolveProperty(UPLOAD_AUTOMATICALLY_PROPERTY)?.toBoolean() ?: uploadAutomatically
+
+internal fun GloballyDynamicServer.resolveDownloadConnectTimeout(project: Project) =
+    project.resolveProperty(DOWNLOAD_CONNECT_TIMEOUT_PROPERTY)?.let { downloadConnectTimeout ->
+        try {
+            downloadConnectTimeout.toLong()
+        } catch (numberFormatException: NumberFormatException) {
+            throw NumberFormatException("Failed to parse $DOWNLOAD_CONNECT_TIMEOUT_PROPERTY as Long, got $downloadConnectTimeout")
+        }
+    } ?: downloadConnectTimeout
+
+internal fun GloballyDynamicServer.resolveDownloadReadTimeout(project: Project) =
+    project.resolveProperty(DOWNLOAD_READ_TIMEOUT_PROPERTY)?.let { downloadReadTimeout ->
+        try {
+            downloadReadTimeout.toLong()
+        } catch (numberFormatException: NumberFormatException) {
+            throw NumberFormatException("Failed to parse $DOWNLOAD_READ_TIMEOUT_PROPERTY as Long, got $downloadReadTimeout")
+        }
+    } ?: downloadReadTimeout
+

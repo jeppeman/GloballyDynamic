@@ -14,6 +14,8 @@ internal class GloballyDynamicBuildConfigGenerator(
     mainActivityFullyQualifiedName: String?,
     version: Int?,
     variantName: String,
+    downloadConnectTimeout: Long,
+    downloadReadTimeout: Long,
     throttleDownloadBy: Long
 ) : Generator(outputFile) {
     private val staticInitializer = CodeBlock.builder().apply {
@@ -141,6 +143,20 @@ internal class GloballyDynamicBuildConfigGenerator(
         .initializer("\$S", variantName)
         .build()
 
+    private val downloadConnectTimeoutField = FieldSpec.builder(
+        TypeName.LONG,
+        DOWNLOAD_CONNECT_TIMEOUT_NAME,
+        Modifier.STATIC, Modifier.PRIVATE, Modifier.FINAL)
+        .initializer("\$L", downloadConnectTimeout)
+        .build()
+
+    private val downloadReadTimeoutField = FieldSpec.builder(
+        TypeName.LONG,
+        DOWNLOAD_READ_TIMEOUT_NAME,
+        Modifier.STATIC, Modifier.PRIVATE, Modifier.FINAL)
+        .initializer("\$L", downloadReadTimeout)
+        .build()
+
     private val throttleDownloadByField = FieldSpec.builder(
         TypeName.LONG,
         THROTTLE_DOWNLOAD_BY_NAME,
@@ -165,6 +181,8 @@ internal class GloballyDynamicBuildConfigGenerator(
             applicationIdField,
             mainActivityFullyQualifiedNameField,
             variantNameField,
+            downloadConnectTimeoutField,
+            downloadReadTimeoutField,
             throttleDownloadByField,
             versionCodeField
         ))
@@ -175,6 +193,8 @@ internal class GloballyDynamicBuildConfigGenerator(
             applicationIdField.asGetter("applicationId"),
             mainActivityFullyQualifiedNameField.asGetter("mainActivityFullyQualifiedName"),
             variantNameField.asGetter("variantName"),
+            downloadConnectTimeoutField.asGetter("downloadConnectTimeout"),
+            downloadReadTimeoutField.asGetter("downloadReadTimeout"),
             throttleDownloadByField.asGetter("throttleDownloadBy"),
             versionCodeField.asGetter("versionCode")
         ))
@@ -187,6 +207,8 @@ internal class GloballyDynamicBuildConfigGenerator(
         private const val APPLICATION_ID_NAME = "APPLICATION_ID"
         private const val VARIANT_NAME_NAME = "VARIANT_NAME"
         private const val VERSION_CODE_NAME = "VERSION_CODE"
+        private const val DOWNLOAD_CONNECT_TIMEOUT_NAME = "DOWNLOAD_CONNECT_TIMEOUT"
+        private const val DOWNLOAD_READ_TIMEOUT_NAME = "DOWNLOAD_READ_TIMEOUT"
         private const val THROTTLE_DOWNLOAD_BY_NAME = "THROTTLE_DOWNLOAD_BY"
         private const val MAIN_ACTIVITY_FULLY_QUALIFIED_NAME_NAME = "MAIN_ACTIVITY_FULLY_QUALIFIED_NAME"
     }
