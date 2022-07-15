@@ -32,6 +32,14 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
         private set
 
     @get:Input
+    var downloadConnectTimeout: Long = 0
+        private set
+
+    @get:Input
+    var downloadReadTimeout: Long = 0
+        private set
+
+    @get:Input
     var throttleDownloadBy: Long = 0
         private set
 
@@ -103,6 +111,8 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
                 mainActivityFullyQualifiedName = mainActivityName,
                 version = version,
                 variantName = variantName,
+                downloadConnectTimeout = downloadConnectTimeout,
+                downloadReadTimeout = downloadReadTimeout,
                 throttleDownloadBy = throttleDownloadBy
             )
         )
@@ -160,6 +170,8 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
                     )
                 )
             }
+            task.downloadConnectTimeout = extension.resolveDownloadConnectTimeout(task.project)
+            task.downloadReadTimeout = extension.resolveDownloadReadTimeout(task.project)
             task.throttleDownloadBy = extension.resolveThrottleDownloadBy(task.project)
             task.serverInfo = task.project.resolveServerInfo(extension)
         }

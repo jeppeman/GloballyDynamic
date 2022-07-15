@@ -16,6 +16,8 @@ class GloballyDynamicExtensionTest {
         serverUrl = "serverUrl"
         username = "username"
         password = "password"
+        downloadConnectTimeout = 75
+        downloadReadTimeout = 25
     }
 
     @Test
@@ -111,6 +113,78 @@ class GloballyDynamicExtensionTest {
 
         val executable = {
             globallyDynamicExtension.resolveThrottleDownloadBy(mockProject)
+            Unit
+        }
+
+        assertThrows<NumberFormatException>(executable)
+    }
+
+    @Test
+    fun whenPropertyDoesNotExist_resolveDownloadConnectTimeout_shouldFallbackOnValue() {
+        val mockProject = mock<Project> { on { properties } doReturn mock() }
+
+        val throttle = globallyDynamicExtension.resolveDownloadConnectTimeout(mockProject)
+
+        assertThat(throttle).isEqualTo(globallyDynamicExtension.downloadConnectTimeout)
+    }
+
+    @Test
+    fun whenPropertyExists_resolveDownloadConnectTimeout_shouldReturnIt() {
+        val downloadConnectTimeoutProperty = "5000"
+        val mockProject = mock<Project> {
+            on { properties } doReturn mutableMapOf(DOWNLOAD_CONNECT_TIMEOUT_PROPERTY to downloadConnectTimeoutProperty)
+        }
+
+        val throttle = globallyDynamicExtension.resolveDownloadConnectTimeout(mockProject)
+
+        assertThat(throttle).isEqualTo(5000)
+    }
+
+    @Test
+    fun whenPropertyIsNotANumber_resolveDownloadConnectTimeout_shouldThrow() {
+        val downloadConnectTimeoutProperty = "notANumber"
+        val mockProject = mock<Project> {
+            on { properties } doReturn mutableMapOf(DOWNLOAD_CONNECT_TIMEOUT_PROPERTY to downloadConnectTimeoutProperty)
+        }
+
+        val executable = {
+            globallyDynamicExtension.resolveDownloadConnectTimeout(mockProject)
+            Unit
+        }
+
+        assertThrows<NumberFormatException>(executable)
+    }
+
+    @Test
+    fun whenPropertyDoesNotExist_resolveDownloadReadTimeout_shouldFallbackOnValue() {
+        val mockProject = mock<Project> { on { properties } doReturn mock() }
+
+        val throttle = globallyDynamicExtension.resolveDownloadReadTimeout(mockProject)
+
+        assertThat(throttle).isEqualTo(globallyDynamicExtension.downloadReadTimeout)
+    }
+
+    @Test
+    fun whenPropertyExists_resolveDownloadReadTimeout_shouldReturnIt() {
+        val downloadReadTimeoutProperty = "5000"
+        val mockProject = mock<Project> {
+            on { properties } doReturn mutableMapOf(DOWNLOAD_READ_TIMEOUT_PROPERTY to downloadReadTimeoutProperty)
+        }
+
+        val throttle = globallyDynamicExtension.resolveDownloadReadTimeout(mockProject)
+
+        assertThat(throttle).isEqualTo(5000)
+    }
+
+    @Test
+    fun whenPropertyIsNotANumber_resolveDownloadReadTimeout_shouldThrow() {
+        val downloadReadTimeoutProperty = "notANumber"
+        val mockProject = mock<Project> {
+            on { properties } doReturn mutableMapOf(DOWNLOAD_READ_TIMEOUT_PROPERTY to downloadReadTimeoutProperty)
+        }
+
+        val executable = {
+            globallyDynamicExtension.resolveDownloadReadTimeout(mockProject)
             Unit
         }
 

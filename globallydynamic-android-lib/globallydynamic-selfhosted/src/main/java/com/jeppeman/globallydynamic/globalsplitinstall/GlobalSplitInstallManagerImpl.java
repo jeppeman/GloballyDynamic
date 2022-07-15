@@ -59,10 +59,8 @@ class GlobalSplitInstallManagerImpl implements GlobalSplitInstallManager, Instal
                 ApplicationPatcherFactory.create(context, logger),
                 signatureProvider,
                 HttpClientFactory.builder()
-                        .setReadTimeout(Math.max(
-                                globallyDynamicBuildConfig.getThrottleDownloadBy() + 10000,
-                                15000
-                        ))
+                        .setConnectTimeout(globallyDynamicBuildConfig.getDownloadConnectTimeout())
+                        .setReadTimeout(globallyDynamicBuildConfig.getDownloadReadTimeout())
                         .setLogger(LoggerFactory.createHttpLogger(logger))
                         .build()
         );

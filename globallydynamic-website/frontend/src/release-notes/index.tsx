@@ -6,6 +6,18 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Android library 1.2.0 (July 2022)
+---
+* Support for customizable HTTP timeouts (read and connect) for the selfhosted variant. 
+
+Note: this requires version > 1.5.0 of the GloballyDynamic gradle plugin.
+
+Gradle plugin 1.5.0 (July 2022)
+---
+* Support for customizable HTTP timeouts (read and connect). 
+
+Note: this requires version > 1.2.0 of the GloballyDynamic Android plugin selfhosted variant.
+
 Android library 1.1.1 (June 2022)
 ---
 * Android 12 (API level 31 and 32) support.

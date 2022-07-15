@@ -41,7 +41,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
         deviceFeatureConditionPath = configurationPath.resolve("DeviceFeatureCondition.java")
         moduleConditionsPath = configurationPath.resolve("ModuleConditions.java")
         userCountriesConditionPath = configurationPath.resolve("UserCountriesCondition.java")
-        
+
         appModuleAndroidManifestFilePath.toFile().writeText(
             """
                 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -86,6 +86,8 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                             serverUrl = "$SERVER_URL"
                             username = "$USERNAME"
                             password = "$PASSWORD"
+                            downloadConnectTimeout = $DOWNLOAD_CONNECT_TIMEOUT
+                            downloadReadTimeout = $DOWNLOAD_READ_TIMEOUT
                             throttleDownloadBy = $THROTTLE_DOWNLOAD_BY
                             applyToBuildVariants '$VARIANT'
                         }
@@ -195,6 +197,8 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
         assertThat(globallyDynamicBuildConfig.invokeMethod<String>("getMainActivityFullyQualifiedName")).isEqualTo(MAIN_ACTIVITY_NAME)
         assertThat(globallyDynamicBuildConfig.invokeMethod<String>("getServerUrl")).isEqualTo(SERVER_URL)
         assertThat(globallyDynamicBuildConfig.invokeMethod<String>("getVariantName")).isEqualTo(VARIANT)
+        assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getDownloadConnectTimeout")).isEqualTo(DOWNLOAD_CONNECT_TIMEOUT)
+        assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getDownloadReadTimeout")).isEqualTo(DOWNLOAD_READ_TIMEOUT)
         assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getThrottleDownloadBy")).isEqualTo(THROTTLE_DOWNLOAD_BY)
         assertThat(globallyDynamicBuildConfig.invokeMethod<Int>("getVersionCode")).isEqualTo(VERSION_CODE)
         assertThat(globallyDynamicBuildConfig.invokeMethod<Array<String>>("getOnDemandFeatures")).isEqualTo(arrayOf(onDemandFeatureName))
@@ -204,14 +208,21 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
     fun whenConfigurationIsProvidedThroughArguments_task_shouldGenerateFilesAccordingly() {
         val serverUrlArgument = "http://program.argument"
         val throttleByArgument = 1000
+        val downloadConnectTimeoutArgument = 5000
+        val downloadReadTimeoutArgument = 10000
 
         val result = runTask(
             "-PgloballyDynamicServer.serverUrl=$serverUrlArgument",
-            "-PgloballyDynamicServer.throttleDownloadBy=$throttleByArgument")
+            "-PgloballyDynamicServer.throttleDownloadBy=$throttleByArgument",
+            "-PgloballyDynamicServer.downloadConnectTimeout=$downloadConnectTimeoutArgument",
+            "-PgloballyDynamicServer.downloadReadTimeout=$downloadReadTimeoutArgument"
+        )
         val globallyDynamicBuildConfig = compileGeneratedFiles()
 
         assertThat(result.task(taskName)?.outcome).isEqualTo(TaskOutcome.SUCCESS)
         assertThat(globallyDynamicBuildConfig.invokeMethod<String>("getServerUrl")).isEqualTo(serverUrlArgument)
+        assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getDownloadConnectTimeout")).isEqualTo(5000L)
+        assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getDownloadReadTimeout")).isEqualTo(10000L)
         assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getThrottleDownloadBy")).isEqualTo(throttleByArgument)
     }
 
@@ -271,6 +282,8 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
 
         assertThat(result.task(taskName)?.outcome).isEqualTo(TaskOutcome.SUCCESS)
         assertThat(globallyDynamicBuildConfig.invokeMethod<String>("getServerUrl")).isEqualTo(globallyDynamicServerInfo.serverUrl)
+        assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getDownloadConnectTimeout")).isEqualTo(15 * 1000L)
+        assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getDownloadReadTimeout")).isEqualTo(2 * 60 * 1000L)
         assertThat(globallyDynamicBuildConfig.invokeMethod<Long>("getThrottleDownloadBy")).isEqualTo(THROTTLE_DOWNLOAD_BY)
     }
 
@@ -282,6 +295,8 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
         private const val USERNAME = "username"
         private const val PASSWORD = "password"
         private const val THROTTLE_DOWNLOAD_BY = 5000
+        private const val DOWNLOAD_CONNECT_TIMEOUT = 30 * 1000L
+        private const val DOWNLOAD_READ_TIMEOUT = 4 * 60 * 1000L
         private const val VARIANT = "instrumentation"
         private const val VERSION_CODE = 5
         private const val INSTALL_TIME_MIN_SDK = 16

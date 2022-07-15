@@ -77,6 +77,8 @@ android {
             serverUrl 'https://my.server.url'
             username 'username'
             password 'password'
+            downloadConnectTimeout 15000
+            downloadReadTimeout 120000
             applyToBuildVariants 'freeDebug', 'paidDebug'
         }
     }
@@ -93,6 +95,8 @@ android {
             serverUrl = "https://my.server.url"
             username = "username"
             password = "password"
+            downloadConnectTimeout = 15000
+            downloadReadTimeout = 120000
             applyToBuildVariants("freeDebug", "paidDebug")
         }
     }
@@ -107,6 +111,8 @@ The \`GloballyDynamicServer\` configuration object has the following attributes:
 | <kbd>serverUrl</kbd> - the URL of the GloballyDynamic server that the application will get its split APK:s from <br/><br/>**Note**: when left empty, the plugin will try to use the server that is running in Android Studio, if it is running. | **Acceptable Values:** <kbd>string</kbd> - e.g. \`'http://192.168.0.58:8080'\`|
 | <kbd>username</kbd> - the username for the GloballyDynamic server, leave empty if there are no credentials | **Acceptable Values:** <kbd>string</kbd> - e.g. \`'myusername'\`|
 | <kbd>password</kbd> - the password for the GloballyDynamic server, leave empty if there are no credentials | **Acceptable Values:** <kbd>string</kbd> - e.g. \`'mypassword'\`|
+| <kbd>downloadConnectTimeout</kbd> - the HTTP connect timeout when downloading bundles, given in milliseconds | **Acceptable Values:** <kbd>long</kbd> > 0 - e.g. 5000 (will set connect timeout to 5s)<br/><br/>**Default Value:** <kbd>15000</kbd>|
+| <kbd>downloadReadTimeout</kbd> - the HTTP read timeout when downloading bundles, given in milliseconds | **Acceptable Values:** <kbd>long</kbd> > 0 - e.g. 5000 (will set read timeout to 5s)<br/><br/>**Default Value:** <kbd>120000</kbd>|
 | <kbd>applyToBuildVariants</kbd> - the build variants that this server should be applied to | **Acceptable Values:** <kbd>string...</kbd> - e.g. \`'freeDebug', 'paidRelease'\`|
 | <kbd>uploadAutomatically</kbd> - whether or not to upload bundles to the server automatically after they have been produced | **Acceptable Values:** <kbd>true</kbd> <kbd>false</kbd><br/><br/>**Default Value:** <kbd>true</kbd>|
 
@@ -115,6 +121,8 @@ These can also be specified through properties with the same name, prefixed by \
 ./gradlew bundleDebug \\
     -PgloballyDynamicServer.serverUrl=http://my.url \\
     -PgloballyDynamicServer.throttleDownloadBy=5000 \\
+    -PgloballyDynamicServer.downloadConnectTimeout=15000 \\
+    -PgloballyDynamicServer.throttleDownloadBy=120000 \\
     -PgloballyDynamicServer.username=username \\
     -PgloballyDynamicServer.password=password
 \`\`\`

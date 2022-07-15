@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
-const val ANDROID_LIB_VERSION = "1.1.1"
+const val ANDROID_LIB_VERSION = "1.2.0"
 
 abstract class BaseTaskTest {
     @TempDir

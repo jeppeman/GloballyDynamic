@@ -39,4 +39,12 @@ public final class GloballyDynamicBuildConfig {
     public long getThrottleDownloadBy() {
         return 0;
     }
+
+    public long getDownloadConnectTimeout() {
+        return 0;
+    }
+
+    public long getDownloadReadTimeout() {
+        return 0;
+    }
 }
