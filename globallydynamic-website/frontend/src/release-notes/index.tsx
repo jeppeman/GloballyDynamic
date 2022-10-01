@@ -6,6 +6,10 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Studio plugin 1.6.0 (October 2022)
+---
+* Android Studio Dolphin (2021.3.1) compatibility.
+
 Android library 1.2.0 (July 2022)
 ---
 * Support for customizable HTTP timeouts (read and connect) for the selfhosted variant. 

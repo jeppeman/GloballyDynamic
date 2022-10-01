@@ -22,7 +22,7 @@ const versions: Versions = {
     'GRADLE': '1.5.0',
     'ANDROID': '1.2.0',
     'SERVER': '1.2.0',
-    'STUDIO': '1.5.0',
+    'STUDIO': '1.6.0',
     'AGP': '7.2.1'
 }
 

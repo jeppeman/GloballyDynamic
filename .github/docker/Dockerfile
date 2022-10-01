@@ -12,7 +12,7 @@ RUN curl -L --output jq.deb http://security.ubuntu.com/ubuntu/pool/universe/j/jq
     && apt install ./jq.deb
 
 # Install Android Studio
-RUN curl -L --output android-studio.tar.gz https://storage.googleapis.com/android-studio-distributions/android-studio-2020.3.1.22-linux.tar.gz \
+RUN curl -L --output android-studio.tar.gz https://storage.googleapis.com/android-studio-distributions/android-studio-2021.3.1.16-linux.tar.gz \
     && tar -xvf android-studio.tar.gz -C opt \
     && rm android-studio.tar.gz
 
