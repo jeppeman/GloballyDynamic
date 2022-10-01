@@ -109,7 +109,7 @@ jobs:
   build_studio_plugin:
     name: Build studio plugin
     runs-on: ubuntu-latest
-    container: jeppeman/globallydynamic-studio:as-2020.3.1.22
+    container: jeppeman/globallydynamic-studio:as-2021.3.1.16
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -125,7 +125,7 @@ jobs:
   studio_tests:
     name: Run studio plugin tests
     runs-on: ubuntu-latest
-    container: jeppeman/globallydynamic-studio:as-2020.3.1.22
+    container: jeppeman/globallydynamic-studio:as-2021.3.1.16
     steps:
       - name: Checkout
         uses: actions/checkout@v2

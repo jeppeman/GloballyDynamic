@@ -1,8 +1,7 @@
 package com.jeppeman.globallydynamic.idea
 
 import com.android.annotations.VisibleForTesting
-import com.android.tools.idea.gradle.model.IdeAndroidProject
-import com.android.tools.idea.gradle.project.model.AndroidModuleModel
+import com.android.tools.idea.gradle.project.facet.gradle.GradleFacet
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.intellij.openapi.module.ModuleManager
@@ -13,6 +12,7 @@ import com.jeppeman.globallydynamic.idea.extensions.hasGloballyDynamicEnabled
 import com.jeppeman.globallydynamic.server.GloballyDynamicServer
 import com.jeppeman.globallydynamic.server.LocalStorageBackend
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.*
 
@@ -74,9 +74,9 @@ class GloballyDynamicServerManagerImpl(
     }
 
     private fun writeServerInfoFiles(address: String) {
-        getBundleProjects().forEach { androidProject ->
+        getBundleBuildProjectPaths().forEach { path ->
             writeServerInfoFile(
-                androidProject = androidProject,
+                buildFolderPath = path,
                 serverInfo = GloballyDynamicServerInfoDto(
                     serverUrl = address,
                     username = username,
@@ -86,11 +86,8 @@ class GloballyDynamicServerManagerImpl(
         }
     }
 
-    private fun writeServerInfoFile(androidProject: IdeAndroidProject, serverInfo: GloballyDynamicServerInfoDto) {
-        val serverInfoDirPath = Paths.get(
-            androidProject.buildFolder.absolutePath,
-            SERVER_INFO_DIR
-        ).apply {
+    private fun writeServerInfoFile(buildFolderPath: Path, serverInfo: GloballyDynamicServerInfoDto) {
+        val serverInfoDirPath = buildFolderPath.resolve(SERVER_INFO_DIR).apply {
             toFile().mkdirs()
         }
 
@@ -105,24 +102,28 @@ class GloballyDynamicServerManagerImpl(
     }
 
     private fun deleteServerInfoFiles() {
-        getBundleProjects().forEach(::deleteServerInfoFile)
+        getBundleBuildProjectPaths().forEach(::deleteServerInfoFile)
     }
 
-    private fun deleteServerInfoFile(androidProject: IdeAndroidProject) {
-        val serverInfoPath = Paths.get(
-            androidProject.buildFolder.absolutePath,
-            SERVER_INFO_DIR,
-            SERVER_INFO_FILE
-        )
+    private fun deleteServerInfoFile(buildFolderPath: Path) {
+        val serverInfoPath = buildFolderPath.resolve(SERVER_INFO_DIR)
+            .resolve(SERVER_INFO_FILE)
 
         Files.deleteIfExists(serverInfoPath)
     }
 
     @VisibleForTesting
-    fun getBundleProjects(): List<IdeAndroidProject> = ModuleManager.getInstance(project)
+    fun getBundleBuildProjectPaths(): List<Path> = ModuleManager.getInstance(project)
         ?.modules
         ?.filter { module -> module.hasGloballyDynamicEnabled }
-        ?.mapNotNull { module -> AndroidModuleModel.get(module)?.androidProject }
+        ?.mapNotNull { module ->
+            GradleFacet.getInstance(module)
+                ?.gradleModuleModel
+                ?.buildFilePath
+                ?.parentFile
+                ?.resolve("build")
+                ?.toPath()
+        }
         ?: listOf()
 
     @VisibleForTesting
