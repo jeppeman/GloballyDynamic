@@ -6,6 +6,14 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Gradle plugin 1.6.0 (February 2023)
+---
+* AGP 7.4.1 compatibility.
+
+Studio plugin 1.7.0 (February 2023)
+---
+* Android Studio Electric Eel (2022.1.1) compatibility.
+
 Studio plugin 1.6.0 (October 2022)
 ---
 * Android Studio Dolphin (2021.3.1) compatibility.
