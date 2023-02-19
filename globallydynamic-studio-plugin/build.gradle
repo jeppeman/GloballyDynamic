@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
-    id 'org.jetbrains.intellij' version '1.9.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
+    id 'org.jetbrains.intellij' version '1.13.0'
 }
 
 apply from: 'deps.gradle'
@@ -43,7 +43,7 @@ intellij {
     localPath = "${System.getenv("ANDROID_STUDIO_PATH")}"
 }
 
-def instrumentCompilerVersion = "213.7172.25"
+def instrumentCompilerVersion = "221.6008.13"
 
 instrumentCode {
     compilerVersion = instrumentCompilerVersion
@@ -62,6 +62,10 @@ buildSearchableOptions.systemProperty("idea.is.internal", "")
 
 patchPluginXml {
     changeNotes = """
+    <h1>1.7.0</h1>
+    <ul>
+        <li>Android Studio Electric Eel (2022.1.1) compatibility</li>
+    </ul>
     <h1>1.6.0</h1>
     <ul>
         <li>Android Studio Dolphin (2021.3.1) compatibility</li>

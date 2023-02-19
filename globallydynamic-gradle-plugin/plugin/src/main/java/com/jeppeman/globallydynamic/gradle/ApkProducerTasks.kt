@@ -258,13 +258,17 @@ private fun createProjectServices(project: Project): ProjectServices {
         projectOptions = projectOptions,
         buildServiceRegistry = project.gradle.sharedServices,
         maxWorkerCount = project.gradle.startParameter.maxWorkerCount,
-        aapt2FromMaven = Aapt2FromMaven.create(project, projectOptions),
+        aapt2FromMaven = Aapt2FromMaven.create(project, projectOptions::get),
         lintFromMaven = LintFromMaven.from(
             project = project,
             projectOptions = projectOptions,
             issueReporter = syncIssueReporter
-        )
-    ) { o: Any -> project.file(o) }
+        ),
+        fileResolver = project::file,
+        configurationContainer = project.configurations,
+        dependencyHandler = project.dependencies,
+        extraProperties = project.extensions.extraProperties
+    )
 }
 
 private fun getDebugKeystorePath(): Path? = listOf(

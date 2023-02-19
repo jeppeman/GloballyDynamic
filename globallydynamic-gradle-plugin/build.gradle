@@ -13,9 +13,9 @@ buildscript {
 }
 
 ext {
-    sourceCompatibilityVersion = JavaVersion.VERSION_1_8
-    targetCompatibilityVersion = JavaVersion.VERSION_1_8
-    jvmTargetVersion = "1.8"
+    sourceCompatibilityVersion = "11"
+    targetCompatibilityVersion = "11"
+    jvmTargetVersion = "11"
 }
 
 subprojects {
