@@ -2,7 +2,7 @@ def versions = [
         kotlin                : '1.6.21',
         appcompat             : '1.4.2',
         coroutines            : '1.6.2',
-        androidplugin         : '7.2.1',
+        androidplugin         : '7.4.1',
         lifecycle             : '2.4.1',
         lifecycle_extensions  : '2.2.0',
         mockito               : '3.3.3',
@@ -25,7 +25,7 @@ def versions = [
         play                  : '1.10.3',
         dynamicability        : '1.0.17.300',
         autoservice           : '1.0-rc6',
-        globallydynamic_gradle: '1.5.0',
+        globallydynamic_gradle: '1.6.0',
         uiautomator           : '2.2.0',
         javadoc               : '0.3.0'
 ]
