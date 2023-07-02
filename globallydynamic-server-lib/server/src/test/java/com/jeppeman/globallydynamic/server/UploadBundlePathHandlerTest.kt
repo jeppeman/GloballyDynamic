@@ -2,10 +2,10 @@ package com.jeppeman.globallydynamic.server
 
 import com.google.common.truth.Truth.assertThat
 import com.jeppeman.globallydynamic.server.*
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.eclipse.jetty.http.HttpStatus
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

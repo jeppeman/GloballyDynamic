@@ -2,9 +2,16 @@ package com.jeppeman.globallydynamic.server
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jeppeman.globallydynamic.server.server.BuildConfig
+import org.apache.http.client.config.RequestConfig
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.HttpClientBuilder
+import org.apache.http.impl.client.HttpClients
 import org.eclipse.jetty.server.Handler
+import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.InetSocketAddress
+import java.net.NetworkInterface
 import java.net.Socket
 import java.net.URI
 
@@ -175,15 +182,43 @@ internal class GloballyDynamicServerImpl(
         ) + configuration.pathHandlers
     }
 ) : GloballyDynamicServer {
-    override val address: String
-        get() = configuration.hostAddress ?: try {
-            URI(
-                server.uri.scheme, server.uri.userInfo, InetAddress.getLocalHost().hostAddress,
-                server.uri.port, server.uri.path, server.uri.query, server.uri.fragment
-            ).toString()
+    override val address: String by lazy {
+        configuration.hostAddress ?: try {
+            val httpClient = HttpClientBuilder.create()
+                .setDefaultRequestConfig(
+                    RequestConfig.custom()
+                        .setConnectTimeout(1000)
+                        .setConnectionRequestTimeout(1000)
+                        .build()
+                )
+                .build()
+
+            NetworkInterface.getNetworkInterfaces()
+                .toList()
+                .flatMap { it.interfaceAddresses }
+                .asSequence()
+                .map { it.address }
+                .filterIsInstance<Inet4Address>()
+                .filter { !it.isLoopbackAddress }
+                .mapNotNull { server.uri.withHost(it.hostAddress) }
+                .find { uri ->
+                    try {
+                        val response = httpClient.execute(HttpGet("$uri/${LivenessPathHandler().path}"))
+                        response.statusLine.statusCode == 200
+                    } catch (exception: Exception) {
+                        false
+                    }
+                }?.toString() ?: server.uri.toString()
         } catch (exception: Exception) {
-            "${server.uri}"
+            server.uri.toString()
         }
+    }
+
+    private fun URI.withHost(host: String): URI? = try {
+        URI(scheme, userInfo, host, port, path, query, fragment)
+    } catch (exception: Exception) {
+        null
+    }
 
     override val isRunning: Boolean get() = server.isRunning
 

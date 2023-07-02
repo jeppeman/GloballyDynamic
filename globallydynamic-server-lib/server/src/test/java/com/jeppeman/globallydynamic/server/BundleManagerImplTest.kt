@@ -1,20 +1,21 @@
 package com.jeppeman.globallydynamic.server
 
 import com.android.bundle.Devices
+import com.google.common.collect.ImmutableList
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.Gson
 import com.jeppeman.globallydynamic.server.extensions.deleteCompletely
 import com.jeppeman.globallydynamic.server.extensions.unzip
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.whenever
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.whenever
 import java.nio.file.Path
 
 @RunWith(JUnitPlatform::class)
@@ -99,7 +100,7 @@ class BundleManagerImplTest {
             writeText("Hi, I am a little keystore")
         }
         val unzipDir = tempDir.resolve("unzipped_apks")
-        val files = listOf(
+        val files = ImmutableList.of(
             tempDir.resolve("base-se.apk").apply {
                 toFile().writeText("file1")
             },

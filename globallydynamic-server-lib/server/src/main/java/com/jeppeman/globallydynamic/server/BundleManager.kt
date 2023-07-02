@@ -6,6 +6,7 @@ import com.android.tools.build.bundletool.commands.ExtractApksCommand
 import com.android.tools.build.bundletool.model.Password
 import com.android.tools.build.bundletool.model.SigningConfiguration
 import com.android.tools.build.bundletool.model.exceptions.CommandExecutionException
+import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableSet
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -101,7 +102,7 @@ internal class BundleManagerImpl(
         outputDirectory: Path,
         deviceSpec: Devices.DeviceSpec,
         features: Array<String>
-    ): List<Path> = ExtractApksCommand.builder()
+    ): ImmutableList<Path> = ExtractApksCommand.builder()
         .setApksArchivePath(apksArchivePath)
         .setOutputDirectory(outputDirectory)
         .setDeviceSpec(deviceSpec)
@@ -231,9 +232,9 @@ internal class BundleManagerImpl(
                 keyPass = keyPass,
                 keyAlias = keyAlias
             )
-        } catch (commandExecutionException: CommandExecutionException) {
+        } catch (exception: Exception) {
             return BundleManager.Result.Error.BuildApksFailure(
-                commandExecutionException.message ?: commandExecutionException.stackTraceToString())
+                exception.message ?: exception.stackTraceToString())
         }
 
         val apkSetFileName = getFinalFileName(applicationId, version, variant, "apks")
