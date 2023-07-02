@@ -1,14 +1,9 @@
 package com.jeppeman.globallydynamic.idea
 
-import com.android.annotations.VisibleForTesting
-import com.android.tools.idea.gradle.project.facet.gradle.GradleFacet
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.ProjectManager
-import com.intellij.openapi.project.ProjectManagerListener
-import com.jeppeman.globallydynamic.idea.extensions.hasGloballyDynamicEnabled
+import com.jeppeman.globallydynamic.idea.tooling.globallyDynamicGradle
 import com.jeppeman.globallydynamic.server.GloballyDynamicServer
 import com.jeppeman.globallydynamic.server.LocalStorageBackend
 import java.nio.file.Files
@@ -21,6 +16,7 @@ interface GloballyDynamicServerManager {
     val logger: GloballyDynamicServerLogger
     fun start()
     fun stop()
+    fun destroy()
 
     companion object {
         private val managersForProjects = mutableMapOf<Project, GloballyDynamicServerManager>()
@@ -41,14 +37,8 @@ interface GloballyDynamicServerManager {
     }
 }
 
-abstract class AbstractProjectManagerListener(
-    @set:VisibleForTesting
-    var globallyDynamicServerManager: GloballyDynamicServerManagerImpl
-) : ProjectManagerListener {
-    override fun projectClosed(project: Project) {
-        globallyDynamicServerManager.handleProjectClosed(project)
-    }
-}
+val Project.globallyDynamicServerManager: GloballyDynamicServerManager
+    get() = GloballyDynamicServerManager.getInstance(this)
 
 class GloballyDynamicServerManagerImpl(
     private val project: Project,
@@ -57,26 +47,19 @@ class GloballyDynamicServerManagerImpl(
     private val gson: Gson = GsonBuilder().disableHtmlEscaping().create(),
     override val logger: GloballyDynamicServerLogger = GloballyDynamicServerLogger()
 ) : GloballyDynamicServerManager {
-    @VisibleForTesting
     var server: GloballyDynamicServer? = null
     override val isRunning: Boolean get() = server?.isRunning == true
 
-    init {
-        project.messageBus.connect().subscribe(ProjectManager.TOPIC,
-            object : AbstractProjectManagerListener(this) {})
-    }
-
-    fun handleProjectClosed(project: Project) {
-        if (project.name == this.project.name && project.locationHash == this.project.locationHash) {
-            stop()
-            GloballyDynamicServerManager.unregister(project)
-        }
+    override fun destroy() {
+        stop()
+        GloballyDynamicServerManager.unregister(project)
+        server = null
     }
 
     private fun writeServerInfoFiles(address: String) {
         getBundleBuildProjectPaths().forEach { path ->
             writeServerInfoFile(
-                buildFolderPath = path,
+                globallyDynamicFolder = path,
                 serverInfo = GloballyDynamicServerInfoDto(
                     serverUrl = address,
                     username = username,
@@ -86,15 +69,10 @@ class GloballyDynamicServerManagerImpl(
         }
     }
 
-    private fun writeServerInfoFile(buildFolderPath: Path, serverInfo: GloballyDynamicServerInfoDto) {
-        val serverInfoDirPath = buildFolderPath.resolve(SERVER_INFO_DIR).apply {
-            toFile().mkdirs()
-        }
+    private fun writeServerInfoFile(globallyDynamicFolder: Path, serverInfo: GloballyDynamicServerInfoDto) {
+        globallyDynamicFolder.toFile().mkdirs()
 
-        val serverInfoPath = Paths.get(
-            serverInfoDirPath.toString(),
-            SERVER_INFO_FILE
-        )
+        val serverInfoPath = globallyDynamicFolder.resolve(SERVER_INFO_FILE)
 
         Files.deleteIfExists(serverInfoPath)
 
@@ -105,30 +83,17 @@ class GloballyDynamicServerManagerImpl(
         getBundleBuildProjectPaths().forEach(::deleteServerInfoFile)
     }
 
-    private fun deleteServerInfoFile(buildFolderPath: Path) {
-        val serverInfoPath = buildFolderPath.resolve(SERVER_INFO_DIR)
-            .resolve(SERVER_INFO_FILE)
+    private fun deleteServerInfoFile(globallyDynamicFolder: Path) {
+        val serverInfoPath = globallyDynamicFolder.resolve(SERVER_INFO_FILE)
 
         Files.deleteIfExists(serverInfoPath)
     }
 
-    @VisibleForTesting
-    fun getBundleBuildProjectPaths(): List<Path> = ModuleManager.getInstance(project)
-        ?.modules
-        ?.filter { module -> module.hasGloballyDynamicEnabled }
-        ?.mapNotNull { module ->
-            GradleFacet.getInstance(module)
-                ?.gradleModuleModel
-                ?.buildFilePath
-                ?.parentFile
-                ?.resolve("build")
-                ?.toPath()
-        }
-        ?: listOf()
-
-    @VisibleForTesting
-    fun createServer(configuration: GloballyDynamicServer.Configuration): GloballyDynamicServer =
-        GloballyDynamicServer(configuration)
+    private fun getBundleBuildProjectPaths(): List<Path> = project.globallyDynamicGradle.run {
+        gradleProjects
+            .filter { it.hasGloballyDynamicEnabled }
+            .map { it.buildDirectory.resolve("globallydynamic").toPath() }
+    }
 
     override fun start() {
         if (isRunning) {
@@ -136,7 +101,7 @@ class GloballyDynamicServerManagerImpl(
             return
         }
 
-        val newServer = createServer(
+        val newServer = GloballyDynamicServer(
             GloballyDynamicServer.Configuration.builder()
                 .setStorageBackend(
                     LocalStorageBackend.builder()
@@ -165,7 +130,6 @@ class GloballyDynamicServerManagerImpl(
     }
 
     companion object {
-        private const val SERVER_INFO_DIR = "globallydynamic"
         private const val SERVER_INFO_FILE = "server_info.json"
     }
 }

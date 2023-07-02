@@ -22,6 +22,8 @@
                     icon="PluginIcons.logo1616"
                     anchor="bottom"
                     factoryClass="com.jeppeman.globallydynamic.idea.GloballyDynamicConsoleWindowFactory"/>
+        <projectCloseHandler implementation="com.jeppeman.globallydynamic.idea.GloballyDynamicProjectCloseHandler" />
+        <postStartupActivity implementation="com.jeppeman.globallydynamic.idea.GloballyDynamicStartupActivity" />
     </extensions>
 
     <extensions defaultExtensionNs="com.android.gradle.sync">

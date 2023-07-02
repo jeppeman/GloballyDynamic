@@ -1,6 +1,5 @@
 package com.jeppeman.globallydynamic.idea
 
-import com.android.annotations.VisibleForTesting
 import com.android.tools.idea.run.AndroidRunConfigurationBase
 import com.intellij.execution.BeforeRunTask
 import com.intellij.execution.BeforeRunTaskProvider
@@ -12,11 +11,6 @@ import icons.PluginIcons
 import javax.swing.Icon
 
 class GloballyDynamicBuildPreparationProvider : BeforeRunTaskProvider<GloballyDynamicBuildPreparationTask>() {
-    @VisibleForTesting
-    fun getGloballyDynamicServerManager(runConfiguration: RunConfiguration): GloballyDynamicServerManager =
-        GloballyDynamicServerManager.getInstance(runConfiguration.project)
-
-    @VisibleForTesting
     fun shouldCreateTask(runConfiguration: RunConfiguration): Boolean = runConfiguration is AndroidRunConfigurationBase
 
     override fun getName(): String = "GloballyDynamic build preparation"
@@ -39,7 +33,7 @@ class GloballyDynamicBuildPreparationProvider : BeforeRunTaskProvider<GloballyDy
         executionEnvironment: ExecutionEnvironment,
         task: GloballyDynamicBuildPreparationTask
     ): Boolean {
-        getGloballyDynamicServerManager(runConfiguration).start()
+        runConfiguration.project.globallyDynamicServerManager.start()
         return true
     }
 

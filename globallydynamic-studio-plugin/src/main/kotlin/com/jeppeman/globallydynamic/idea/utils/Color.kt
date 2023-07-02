@@ -1,4 +1,4 @@
-package com.jeppeman.globallydynamic.idea.extensions
+package com.jeppeman.globallydynamic.idea.utils
 
 import com.intellij.ui.ColorUtil
 import java.awt.Color
