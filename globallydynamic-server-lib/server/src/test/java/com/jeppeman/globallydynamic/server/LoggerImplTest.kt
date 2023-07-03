@@ -3,8 +3,8 @@ package com.jeppeman.globallydynamic.server
 import com.google.common.truth.Truth.assertThat
 import com.jeppeman.globallydynamic.server.Logger
 import com.jeppeman.globallydynamic.server.extensions.stackTraceToString
-import com.nhaarman.mockitokotlin2.argumentCaptor
-import com.nhaarman.mockitokotlin2.verify
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

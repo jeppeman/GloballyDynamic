@@ -78,8 +78,6 @@ internal class DownloadSplitsPathHandler(
                 "got ${versionParam.joinToString(",")}")
         }
 
-        val includeMissing = includeMissingParam?.first()?.toBoolean() ?: false
-
         if (featuresToInstallParam.isEmpty() && languagesToInstallParam.isEmpty()) {
             throw HttpException(HttpStatus.BAD_REQUEST_400, "No features or languages included in the request")
         }
@@ -93,8 +91,11 @@ internal class DownloadSplitsPathHandler(
             when (val validationResult = bundleManager.validateSignature(signature, applicationId, version, variant)) {
                 is BundleManager.Result.Error ->
                     throw HttpException(HttpStatus.BAD_REQUEST_400, validationResult.message)
+                else -> Unit
             }
         }
+
+        val includeMissing = includeMissingParam?.first()?.toBoolean() ?: false
 
         val compressedSplitsResult = bundleManager.generateCompressedSplits(
             applicationId = applicationIdParam.first(),
@@ -211,6 +212,7 @@ internal class UploadBundlePathHandler(
                 logger.e(result.message)
                 throw HttpException(HttpStatus.BAD_REQUEST_400, result.message)
             }
+            else -> Unit
         }
     }
 

@@ -1,7 +1,7 @@
 package com.jeppeman.globallydynamic.server
 
 import com.jeppeman.globallydynamic.server.extensions.toBase64
-import com.nhaarman.mockitokotlin2.*
+import org.mockito.kotlin.*
 import org.eclipse.jetty.http.HttpStatus
 import org.eclipse.jetty.server.Request
 import org.junit.jupiter.api.BeforeEach

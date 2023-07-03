@@ -6,6 +6,17 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Studio plugin 1.8.0 (July 2023)
+---
+* Android Studio Flamingo (2022.2.1) compatibility.
+* Bump GloballyDynamic Server to 1.3.1
+* Reworked the way the plugin determines whether GloballyDynamic is enabled for a module or not by leveraging the Gradle tooling API. 
+
+Server 1.3.1 (July 2023)
+---
+* Bump to Java 17 source compat
+* Fixed the address of GloballyDynamic server; made it so that the default value returns the correct address on the network.
+
 Gradle plugin 1.6.0 (February 2023)
 ---
 * AGP 7.4.1 compatibility.

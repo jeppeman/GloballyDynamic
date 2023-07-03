@@ -6,15 +6,15 @@ test {
 }
 
 dependencies {
-  testCompile project(':server')
-  testCompile deps.junit.api
-  testCompile deps.junit.params
-  testCompile deps.junit.engine
-  testCompile deps.junit.runner
-  testCompile deps.mockito.core
-  testCompile deps.mockito.jupiter
-  testCompile deps.mockito.kotlin
-  testCompile deps.truth
-  testCompile deps.httpcomponents.client
-  testCompile deps.httpcomponents.mime
+  testImplementation project(':server')
+  testImplementation deps.junit.api
+  testImplementation deps.junit.params
+  testImplementation deps.junit.engine
+  testImplementation deps.junit.runner
+  testImplementation deps.mockito.core
+  testImplementation deps.mockito.jupiter
+  testImplementation deps.mockito.kotlin
+  testImplementation deps.truth
+  testImplementation deps.httpcomponents.client
+  testImplementation deps.httpcomponents.mime
 }

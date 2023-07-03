@@ -2,6 +2,7 @@ package com.jeppeman.globallydynamic.server
 
 import com.jeppeman.globallydynamic.server.extensions.stackTraceToString
 import com.jeppeman.globallydynamic.server.extensions.toBase64
+import com.jeppeman.globallydynamic.server.server.BuildConfig
 import org.eclipse.jetty.http.HttpStatus
 import org.eclipse.jetty.server.Request
 import org.eclipse.jetty.server.handler.AbstractHandler

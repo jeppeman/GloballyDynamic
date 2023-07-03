@@ -12,16 +12,16 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
-        classpath "gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8"
+        classpath "com.github.gmazzo.buildconfig:com.github.gmazzo.buildconfig.gradle.plugin:3.0.3"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
         classpath "com.github.jengelman.gradle.plugins:shadow:$versions.shadowjar"
     }
 }
 
 ext {
-    sourceCompatibilityVersion = JavaVersion.VERSION_1_8
-    targetCompatibilityVersion = JavaVersion.VERSION_1_8
-    jvmTargetVersion = "1.8"
+    sourceCompatibilityVersion = JavaVersion.VERSION_17
+    targetCompatibilityVersion = JavaVersion.VERSION_17
+    jvmTargetVersion = "17"
 }
 
 subprojects {

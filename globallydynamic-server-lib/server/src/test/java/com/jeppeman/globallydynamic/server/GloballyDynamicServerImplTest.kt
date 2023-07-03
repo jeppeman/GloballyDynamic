@@ -2,7 +2,7 @@ package com.jeppeman.globallydynamic.server
 
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.GsonBuilder
-import com.nhaarman.mockitokotlin2.*
+import org.mockito.kotlin.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

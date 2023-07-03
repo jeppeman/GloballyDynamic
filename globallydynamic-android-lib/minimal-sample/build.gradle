@@ -5,8 +5,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.2.1"
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.5.0"
+        classpath "com.android.tools.build:gradle:7.4.1"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.6.0"
     }
 }
 

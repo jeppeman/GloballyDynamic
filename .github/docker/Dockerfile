@@ -1,4 +1,4 @@
-FROM fabernovel/android:api-29-v1.1.0
+FROM openjdk:17-oracle
 
 # Install packages
 RUN apt-get update && apt-get install -y sudo file curl
@@ -12,7 +12,7 @@ RUN curl -L --keepalive --output jq.deb http://security.ubuntu.com/ubuntu/pool/u
     && apt install ./jq.deb
 
 # Install Android Studio
-RUN curl -C - -L --progress-bar --output android-studio.tar.gz https://storage.googleapis.com/android-studio-distributions/android-studio-2022.1.1.20-linux.tar.gz \
+RUN curl -C - -L --progress-bar --output android-studio.tar.gz https://storage.googleapis.com/android-studio-distributions/android-studio-2022.2.1.20-linux.tar.gz \
     && tar -xvf android-studio.tar.gz -C opt \
     && rm android-studio.tar.gz
 
