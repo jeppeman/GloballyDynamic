@@ -9,17 +9,27 @@ task executableJar(type: ShadowJar) {
     if (project.hasProperty("archiveName")) {
         archiveName = "${project.property("archiveName")}"
     } else {
-        baseName = 'globallydynamic-server'
-        classifier = 'standalone'
+        archiveBaseName = 'globallydynamic-server'
+        archiveClassifier = 'standalone'
     }
     if (project.hasProperty("outputDir")) {
-        destinationDir = file(project.property("outputDir"))
+        destinationDirectory = file(project.property("outputDir"))
     }
     from sourceSets.main.output
     configurations = [project.configurations.runtimeClasspath]
     manifest {
         attributes 'Main-Class': 'com.jeppeman.globallydynamic.server.GloballyDynamicMainKt'
     }
+
+    /*
+    If one dependency jar is signed when making a fat jar,
+    all unsigned classes will be ignored by the Java runtime.
+    This causes the "Could not find or load main class"-error;
+    hence we exclude all signatures from the fat jar
+     */
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
 }
 
 task runExecutableJar(type: JavaExec) {

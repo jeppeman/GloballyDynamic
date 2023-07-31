@@ -14,7 +14,7 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
         classpath "com.github.gmazzo.buildconfig:com.github.gmazzo.buildconfig.gradle.plugin:3.0.3"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
-        classpath "com.github.jengelman.gradle.plugins:shadow:$versions.shadowjar"
+        classpath "com.github.johnrengelman:shadow:$versions.shadowjar"
     }
 }
 
@@ -45,7 +45,7 @@ subprojects {
             mavenCentral()
         }
 
-        if (project.hasProperty('java')) {
+        if (project.hasProperty('kotlin')) {
             sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
             targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
