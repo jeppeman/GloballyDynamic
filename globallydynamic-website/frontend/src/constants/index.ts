@@ -21,7 +21,7 @@ export type Versions = { AGP: string, GRADLE: string, ANDROID: string, SERVER: s
 const versions: Versions = {
     'GRADLE': '1.6.0',
     'ANDROID': '1.2.0',
-    'SERVER': '1.3.1',
+    'SERVER': '1.5.0',
     'STUDIO': '1.8.0',
     'AGP': '7.2.1'
 }

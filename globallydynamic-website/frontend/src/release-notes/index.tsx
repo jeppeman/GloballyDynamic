@@ -6,6 +6,10 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Server 1.5.0 (July 2023)
+---
+* Make compatible with gradle 8.x
+
 Studio plugin 1.8.0 (July 2023)
 ---
 * Android Studio Flamingo (2022.2.1) compatibility.
