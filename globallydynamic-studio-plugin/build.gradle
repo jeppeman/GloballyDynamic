@@ -45,7 +45,7 @@ intellij {
     localPath = "${System.getenv("ANDROID_STUDIO_PATH")}"
 }
 
-def instrumentCompilerVersion = "222.4459.24"
+def instrumentCompilerVersion = "223.8836.35"
 
 instrumentCode {
     compilerVersion = instrumentCompilerVersion
@@ -64,6 +64,11 @@ buildSearchableOptions.systemProperty("idea.is.internal", "")
 
 patchPluginXml {
     changeNotes = """
+    <h1>1.9.0</h1>
+    <ul>
+        <li>Android Studio Giraffe (2022.3.1) compatibility</li>
+        <li>Bump GloballyDynamic Server to 1.5.0</li>
+    </ul>
     <h1>1.8.0</h1>
     <ul>
         <li>Android Studio Flamingo (2022.2.1) compatibility</li>
