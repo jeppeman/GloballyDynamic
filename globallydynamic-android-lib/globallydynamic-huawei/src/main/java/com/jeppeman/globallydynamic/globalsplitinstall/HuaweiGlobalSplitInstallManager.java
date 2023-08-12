@@ -73,6 +73,11 @@ class HuaweiGlobalSplitInstallManager implements GlobalSplitInstallManager {
     }
 
     @Override
+    public GlobalSplitInstallTask<Integer> startUninstall(List<String> moduleNames) {
+        return GlobalSplitInstallTasks.empty(0);
+    }
+
+    @Override
     public GlobalSplitInstallTask<Void> deferredInstall(List<String> moduleNames) {
         return new HuaweiGlobalSplitInstallTask<Void, Void>(delegate.delayedInstallFeature(moduleNames));
     }

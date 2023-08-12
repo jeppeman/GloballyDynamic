@@ -56,4 +56,7 @@ public @interface GlobalSplitInstallSessionStatus {
      * See <a target="_blank" href="https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-References/FeatureInstallSessionStatus">Huawei status codes</a>
      */
     int REQUIRES_PERSON_AGREEMENT = 10;
+
+    int UNINSTALLING = 11;
+    int UNINSTALLED = 12;
 }

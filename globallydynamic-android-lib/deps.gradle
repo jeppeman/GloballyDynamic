@@ -5,7 +5,7 @@ def versions = [
         androidplugin         : '7.4.1',
         lifecycle             : '2.4.1',
         lifecycle_extensions  : '2.2.0',
-        mockito               : '3.3.3',
+        mockito               : '5.4.0',
         robolectric           : '4.8',
         junit                 : '1.1.1',
         truth                 : '1.2.0',

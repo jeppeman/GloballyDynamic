@@ -39,6 +39,12 @@ class GlobalSplitInstallSessionStatusMapper {
         if (status instanceof ApkInstaller.Status.Installed) {
             return GlobalSplitInstallSessionStatus.INSTALLED;
         }
+        if (status instanceof ApkInstaller.Status.Uninstalling) {
+            return GlobalSplitInstallSessionStatus.UNINSTALLING;
+        }
+        if (status instanceof ApkInstaller.Status.Uninstalled) {
+            return GlobalSplitInstallSessionStatus.UNINSTALLED;
+        }
         if (status instanceof ApkInstaller.Status.Failed) {
             return GlobalSplitInstallSessionStatus.FAILED;
         }

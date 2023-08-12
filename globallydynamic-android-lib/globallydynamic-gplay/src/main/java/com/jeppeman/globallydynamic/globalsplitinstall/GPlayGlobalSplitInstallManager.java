@@ -72,6 +72,11 @@ class GPlayGlobalSplitInstallManager implements GlobalSplitInstallManager {
     }
 
     @Override
+    public GlobalSplitInstallTask<Integer> startUninstall(List<String> moduleNames) {
+        return GlobalSplitInstallTasks.empty(0);
+    }
+
+    @Override
     public GlobalSplitInstallTask<Void> deferredInstall(List<String> moduleNames) {
         return new GPlayGlobalSplitInstallTask<Void, Void>(delegate.deferredInstall(moduleNames));
     }

@@ -20,36 +20,39 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        installButton.setOnClickListener { installDynamicFeature() }
+        installButton.setOnClickListener {
+            installDynamicFeature(globalSplitInstallManager.installedModules.isNotEmpty())
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == INSTALL_REQUEST_CODE
-                && data?.hasExtra(GlobalSplitInstallConfirmResult.EXTRA_RESULT) == true) {
+            && data?.hasExtra(GlobalSplitInstallConfirmResult.EXTRA_RESULT) == true
+        ) {
             val confirmResult = data.getIntExtra(
-                    GlobalSplitInstallConfirmResult.EXTRA_RESULT,
-                    GlobalSplitInstallConfirmResult.RESULT_DENIED
+                GlobalSplitInstallConfirmResult.EXTRA_RESULT,
+                GlobalSplitInstallConfirmResult.RESULT_DENIED
             )
 
             if (confirmResult == GlobalSplitInstallConfirmResult.RESULT_CONFIRMED) {
                 // User granted permission, install again!
-                installDynamicFeature()
+                installDynamicFeature(globalSplitInstallManager.installedModules.isNotEmpty())
             }
         }
     }
 
     private fun launchDynamicActivity() {
         val dynamicActivityClass =
-                Class.forName("com.example.globallydynamic.minimal_sample.dynamicfeature.DynamicActivity")
+            Class.forName("com.example.globallydynamic.minimal_sample.dynamicfeature.DynamicActivity")
         startActivity(Intent(this, dynamicActivityClass))
 
     }
 
-    private fun installDynamicFeature() {
+    private fun installDynamicFeature(isUninstall: Boolean) {
         val request = GlobalSplitInstallRequest.newBuilder()
-                .addModule("dynamicfeature")
-                .build()
+            .addModule("dynamicfeature")
+            .build()
 
 
         inProgressGroup.visibility = View.VISIBLE
@@ -65,41 +68,73 @@ class MainActivity : AppCompatActivity() {
                         inProgressGroup.visibility = View.GONE
                         installButton.visibility = View.VISIBLE
                     }
+
                     GlobalSplitInstallSessionStatus.DOWNLOADING -> {
                         stateText.text = "Downloading feature"
-                        progressBar.progress = (state.bytesDownloaded() * 100f / state.totalBytesToDownload().toFloat()).roundToInt()
+                        progressBar.progress =
+                            (state.bytesDownloaded() * 100f / state.totalBytesToDownload()
+                                .toFloat()).roundToInt()
                     }
+
                     GlobalSplitInstallSessionStatus.INSTALLING -> {
                         progressBar.progress = 100
                         stateText.text = "Installing feature"
                     }
+
                     GlobalSplitInstallSessionStatus.INSTALLED -> {
                         stateText.text = "Successfully installed feature"
                         launchDynamicActivity()
                     }
+
+                    GlobalSplitInstallSessionStatus.UNINSTALLED -> {
+                        updateUi()
+                    }
+
+                    GlobalSplitInstallSessionStatus.UNINSTALLING -> {
+                        stateText.text = "Uninstalling feature"
+                    }
+
                     GlobalSplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
                         globalSplitInstallManager.startConfirmationDialogForResult(
-                                state,
-                                this,
-                                INSTALL_REQUEST_CODE
+                            state,
+                            this,
+                            INSTALL_REQUEST_CODE
                         )
                     }
                 }
             }
         }
-        globalSplitInstallManager.startInstall(request)
-                .addOnSuccessListener { sessionId ->
-                    if (sessionId == 0) {
-                        // Already installed
-                        launchDynamicActivity()
-                    } else {
-                        mySessionId = sessionId
-                    }
-                }
-                .addOnFailureListener {
-                    stateText.text = "Install failed"
-                    inProgressGroup.visibility = View.VISIBLE
-                    installButton.visibility = View.VISIBLE
-                }
+        if (isUninstall) {
+            globalSplitInstallManager.startUninstall(listOf("dynamicfeature"))
+        } else {
+            globalSplitInstallManager.startInstall(request)
+        }.addOnSuccessListener { sessionId ->
+            if (sessionId == 0) {
+                // Already installed
+                launchDynamicActivity()
+            } else {
+                mySessionId = sessionId
+            }
+        }.addOnFailureListener {
+            stateText.text = "Install failed"
+            inProgressGroup.visibility = View.VISIBLE
+            installButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateUi() {
+        stateText.text = ""
+        inProgressGroup.visibility = View.GONE
+        installButton.visibility = View.VISIBLE
+        installButton.text = if (globalSplitInstallManager.installedModules.isNotEmpty()) {
+            "Uninstall feature"
+        } else {
+            "Install feature"
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateUi();
     }
 }

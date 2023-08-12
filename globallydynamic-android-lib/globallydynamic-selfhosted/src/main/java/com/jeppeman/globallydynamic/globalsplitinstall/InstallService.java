@@ -102,6 +102,7 @@ public class InstallService extends Service {
                     notificationManager.notify(notificationId, activeInstallation.buildNotification());
                     if (state.status() == GlobalSplitInstallSessionStatus.CANCELED
                             || state.status() == GlobalSplitInstallSessionStatus.INSTALLED
+                            || state.status() == GlobalSplitInstallSessionStatus.UNINSTALLED
                             || state.status() == GlobalSplitInstallSessionStatus.FAILED) {
 
                         removeInstallation(notificationId);
@@ -246,6 +247,14 @@ public class InstallService extends Service {
                     break;
                 case GlobalSplitInstallSessionStatus.INSTALLED:
                     notificationBuilder.setContentText(context.getString(R.string.status_installed));
+                    notificationBuilder.setProgress(100, progress, false);
+                    break;
+                case GlobalSplitInstallSessionStatus.UNINSTALLING:
+                    notificationBuilder.setContentText(context.getString(R.string.status_uninstalling));
+                    notificationBuilder.setProgress(100, progress, true);
+                    break;
+                case GlobalSplitInstallSessionStatus.UNINSTALLED:
+                    notificationBuilder.setContentText(context.getString(R.string.status_uninstalled));
                     notificationBuilder.setProgress(100, progress, false);
                     break;
                 case GlobalSplitInstallSessionStatus.CANCELING:

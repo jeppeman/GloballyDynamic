@@ -24,13 +24,14 @@ public class PackageInstallerResultReceiver extends BroadcastReceiver {
     static final String EXTRA_RESULT_RECEIVER = EXTRA_PREFIX + ".RESULT_RECEIVER";
     static final String EXTRA_NEEDS_RESTART = EXTRA_PREFIX + ".NEEDS_RESTART";
     static final String EXTRA_RESTART_MESSAGE = EXTRA_PREFIX + ".RESTART_MESSAGE";
+    static final String EXTRA_IS_UNINSTALL = EXTRA_PREFIX + ".IS_UNINSTALL";
     private static final int BOGUS_SESSION_ID = -10;
     private final Logger logger = LoggerFactory.create();
     private final GloballyDynamicBuildConfig globallyDynamicBuildConfig =
             GloballyDynamicBuildConfigFactory.create();
 
     @Nullable
-    private Intent getNestedIntent(Intent intent) {
+    static Intent getNestedIntent(Intent intent) {
         Intent nestedIntent = intent.getParcelableExtra(EXTRA_NESTED_INTENT);
         if (nestedIntent != null) {
             nestedIntent.setExtrasClassLoader(ApkInstallerImpl.class.getClassLoader());
@@ -40,7 +41,7 @@ public class PackageInstallerResultReceiver extends BroadcastReceiver {
     }
 
     @Nullable
-    private ResultReceiver extractReceiverFromIntent(Intent intent) {
+    static ResultReceiver extractReceiverFromIntent(Intent intent) {
         Intent nestedIntent = getNestedIntent(intent);
         if (nestedIntent != null) {
             return nestedIntent.getParcelableExtra(EXTRA_RESULT_RECEIVER);
@@ -49,10 +50,19 @@ public class PackageInstallerResultReceiver extends BroadcastReceiver {
         return null;
     }
 
-    private boolean extraRequiresRestart(Intent intent) {
+    static boolean extraRequiresRestart(Intent intent) {
         Intent nestedIntent = getNestedIntent(intent);
         if (nestedIntent != null) {
             return nestedIntent.getBooleanExtra(EXTRA_NEEDS_RESTART, false);
+        }
+
+        return false;
+    }
+
+    static boolean extraIsUninstall(Intent intent) {
+        Intent nestedIntent = getNestedIntent(intent);
+        if (nestedIntent != null) {
+            return nestedIntent.getBooleanExtra(EXTRA_IS_UNINSTALL, false);
         }
 
         return false;

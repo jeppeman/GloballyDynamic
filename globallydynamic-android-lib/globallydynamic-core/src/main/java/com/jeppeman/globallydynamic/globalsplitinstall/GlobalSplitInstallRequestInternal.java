@@ -12,6 +12,8 @@ class GlobalSplitInstallRequestInternal {
     private final List<Locale> languages;
     private final boolean includeMissing;
 
+    private final boolean isUninstall;
+
     private GlobalSplitInstallRequestInternal() {
         throw new IllegalStateException("Not allowed");
     }
@@ -19,10 +21,13 @@ class GlobalSplitInstallRequestInternal {
     private GlobalSplitInstallRequestInternal(
             List<String> moduleNames,
             List<Locale> languages,
-            boolean includeMissing) {
+            boolean includeMissing,
+            boolean isUninstall
+    ) {
         this.moduleNames = moduleNames;
         this.languages = languages;
         this.includeMissing = includeMissing;
+        this.isUninstall = isUninstall;
     }
 
     public List<String> getModuleNames() {
@@ -35,6 +40,10 @@ class GlobalSplitInstallRequestInternal {
 
     public boolean shouldIncludeMissingSplits() {
         return includeMissing;
+    }
+
+    public boolean isUninstall() {
+        return isUninstall;
     }
 
     /**
@@ -59,6 +68,7 @@ class GlobalSplitInstallRequestInternal {
         }
 
         builder.shouldIncludeMissingSplits(false);
+        builder.isUninstall(false);
 
         return builder.build();
     }
@@ -70,6 +80,8 @@ class GlobalSplitInstallRequestInternal {
         private List<String> moduleNames = new LinkedList<String>();
         private List<Locale> languages = new LinkedList<Locale>();
         private boolean includeMissing;
+
+        private boolean isUninstall;
 
         Builder() {
 
@@ -109,13 +121,29 @@ class GlobalSplitInstallRequestInternal {
         }
 
         /**
+         * Whether or not to uninstall
+         *
+         * @param isUninstall whether or not to uninstall
+         * @return itself
+         */
+        public Builder isUninstall(boolean isUninstall) {
+            this.isUninstall = isUninstall;
+            return this;
+        }
+
+        /**
          * Builds a new {@link GlobalSplitInstallRequestInternal} with the modules and languages
          * added to this builder.
          *
          * @return a new {@link GlobalSplitInstallRequestInternal}
          */
         public GlobalSplitInstallRequestInternal build() {
-            return new GlobalSplitInstallRequestInternal(moduleNames, languages, includeMissing);
+            return new GlobalSplitInstallRequestInternal(
+                    moduleNames,
+                    languages,
+                    includeMissing,
+                    isUninstall
+            );
         }
     }
 }
