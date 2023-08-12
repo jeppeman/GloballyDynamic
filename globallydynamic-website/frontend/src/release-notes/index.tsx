@@ -6,6 +6,28 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Android library 1.3.0 (August 2023)
+---
+* Support for uninstalling modules on demand for the self hosted variant, use as follows:
+\`\`\`kotlin
+var mySessionId = 0
+globalSplitInstallManager.registerListener { state ->
+    if (state.sessionId() == mySessionId) {
+       GlobalSplitInstallSessionStatus.UNINSTALLED -> ...
+       GlobalSplitInstallSessionStatus.UNINSTALLING -> ...
+    }
+}
+
+globalSplitInstallManager.startUninstall(listOf("mymodule"))
+    .addOnSuccessListener { mySessionId = it }
+\`\`\`
+Note: this is a no-op for the gplay and huawei-variants.
+
+Studio plugin 1.9.0 (August 2023)
+---
+* Android Studio Giraffe (2022.3.1) compatibility.
+* Bump GloballyDynamic Server to 1.5.0
+
 Server 1.5.0 (July 2023)
 ---
 * Make compatible with gradle 8.x
