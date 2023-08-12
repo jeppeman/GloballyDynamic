@@ -19,6 +19,10 @@ class GlobalSplitInstallSessionStateHelper {
                 return "INSTALLED(" + GlobalSplitInstallSessionStatus.INSTALLED + ")";
             case GlobalSplitInstallSessionStatus.INSTALLING:
                 return "INSTALLING(" + GlobalSplitInstallSessionStatus.INSTALLING + ")";
+            case GlobalSplitInstallSessionStatus.UNINSTALLED:
+                return "UNINSTALLED(" + GlobalSplitInstallSessionStatus.UNINSTALLED + ")";
+            case GlobalSplitInstallSessionStatus.UNINSTALLING:
+                return "UNINSTALLING(" + GlobalSplitInstallSessionStatus.UNINSTALLING + ")";
             case GlobalSplitInstallSessionStatus.PENDING:
                 return "PENDING(" + GlobalSplitInstallSessionStatus.PENDING + ")";
             case GlobalSplitInstallSessionStatus.REQUIRES_PERSON_AGREEMENT:

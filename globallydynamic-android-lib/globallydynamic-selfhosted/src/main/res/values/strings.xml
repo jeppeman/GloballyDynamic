@@ -9,6 +9,8 @@
     <string name="status_pending">Pending</string>
     <string name="status_installing">Installing</string>
     <string name="status_installed">Installed</string>
+    <string name="status_uninstalling">Uninstalling</string>
+    <string name="status_uninstalled">Uninstalled</string>
     <string name="status_canceling">Canceling</string>
     <string name="status_canceled">Canceled</string>
     <string name="status_requires_confirmation">Requires confirmation</string>

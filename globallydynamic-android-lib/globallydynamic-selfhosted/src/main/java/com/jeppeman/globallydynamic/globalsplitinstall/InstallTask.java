@@ -148,7 +148,11 @@ class InstallTaskImpl
                 result.doOnSuccess(new Result.Success.Callback<GloballyDynamicConfigurationDto>() {
                     @Override
                     public void success(GloballyDynamicConfigurationDto configuration) {
-                        startDownload(configuration);
+                        if (splitInstallRequest.isUninstall()) {
+                            startUninstall();
+                        } else {
+                            startDownload(configuration);
+                        }
                     }
                 }).doOnFailure(new Result.Failure.Callback() {
                     @Override
@@ -257,6 +261,44 @@ class InstallTaskImpl
         notifySuccess();
     }
 
+    private void startUninstall() {
+        ApkInstaller apkInstaller = createApkInstaller(new ApkInstaller.StatusListener() {
+            @Override
+            public void onUpdate(ApkInstaller.Status installerStatus) {
+                if (installerStatus instanceof ApkInstaller.Status.Installing) {
+                    handleInstalling((ApkInstaller.Status.Installing) installerStatus);
+                } else if (installerStatus instanceof ApkInstaller.Status.Installed) {
+                    handleInstallSuccessful((ApkInstaller.Status.Installed) installerStatus);
+                }if (installerStatus instanceof ApkInstaller.Status.Uninstalling) {
+                    handleUninstalling((ApkInstaller.Status.Uninstalling) installerStatus);
+                } else if (installerStatus instanceof ApkInstaller.Status.Uninstalled) {
+                    handleUninstalled((ApkInstaller.Status.Uninstalled) installerStatus);
+                } else if (installerStatus instanceof ApkInstaller.Status.Pending) {
+                    handleInstallPending((ApkInstaller.Status.Pending) installerStatus);
+                } else if (installerStatus instanceof ApkInstaller.Status.Failed) {
+                    handleInstallFailure((ApkInstaller.Status.Failed) installerStatus);
+                } else if (installerStatus instanceof ApkInstaller.Status.RequiresUserPermission) {
+                    handleRequiresUserPermission((ApkInstaller.Status.RequiresUserPermission) installerStatus);
+                } else if (installerStatus instanceof ApkInstaller.Status.Canceled) {
+                    handleInstallCanceled((ApkInstaller.Status.Canceled) installerStatus);
+                }
+            }
+        });
+
+        sessionId = httpClient.getNextDownloadId();
+
+        notifySuccess();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            apkInstaller.uninstall(splitInstallRequest.getModuleNames());
+        } else {
+            notifyFailure(new GlobalSplitInstallException(
+                    GlobalSplitInstallErrorCode.INTERNAL_ERROR,
+                    "Uninstalling requires API level >= 24 (N)"
+            ), GlobalSplitInstallErrorCode.INTERNAL_ERROR);
+        }
+    }
+
     private void handleDownloadSuccessful(final ApkDownloadRequest.Status.Successful status) {
         notifyInstallListeners(status);
 
@@ -267,6 +309,10 @@ class InstallTaskImpl
                     handleInstalling((ApkInstaller.Status.Installing) installerStatus);
                 } else if (installerStatus instanceof ApkInstaller.Status.Installed) {
                     handleInstallSuccessful((ApkInstaller.Status.Installed) installerStatus);
+                }if (installerStatus instanceof ApkInstaller.Status.Uninstalling) {
+                    handleUninstalling((ApkInstaller.Status.Uninstalling) installerStatus);
+                } else if (installerStatus instanceof ApkInstaller.Status.Uninstalled) {
+                    handleUninstalled((ApkInstaller.Status.Uninstalled) installerStatus);
                 } else if (installerStatus instanceof ApkInstaller.Status.Pending) {
                     handleInstallPending((ApkInstaller.Status.Pending) installerStatus);
                 } else if (installerStatus instanceof ApkInstaller.Status.Failed) {
@@ -291,6 +337,14 @@ class InstallTaskImpl
     }
 
     private void handleInstalling(ApkInstaller.Status.Installing status) {
+        notifyInstallListeners(status);
+    }
+
+    private void handleUninstalling(ApkInstaller.Status.Uninstalling status) {
+        notifyInstallListeners(status);
+    }
+
+    private void handleUninstalled(ApkInstaller.Status.Uninstalled status) {
         notifyInstallListeners(status);
     }
 
@@ -370,6 +424,7 @@ class InstallTaskImpl
 
         if (status == GlobalSplitInstallSessionStatus.FAILED
                 || status == GlobalSplitInstallSessionStatus.INSTALLED
+                || status == GlobalSplitInstallSessionStatus.UNINSTALLED
                 || status == GlobalSplitInstallSessionStatus.CANCELED) {
             if (isBoundToService) {
                 try {

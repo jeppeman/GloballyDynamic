@@ -174,6 +174,8 @@ class GlobalSplitInstallManagerImpl implements GlobalSplitInstallManager, Instal
     }
 
     private boolean hasFeaturesAndLanguages(GlobalSplitInstallRequestInternal request) {
+        if (request.isUninstall()) return false;
+
         boolean hasAllModules = true;
         boolean hasAllLanguages = true;
         for (String module : request.getModuleNames()) {
@@ -308,6 +310,14 @@ class GlobalSplitInstallManagerImpl implements GlobalSplitInstallManager, Instal
             return GloballyDynamicTasks.empty(GlobalSplitInstallExceptionFactory.create(
                     GlobalSplitInstallErrorCode.SESSION_NOT_FOUND));
         }
+    }
+
+    @Override
+    public GlobalSplitInstallTask<Integer> startUninstall(List<String> moduleNames) {
+        GlobalSplitInstallRequestInternal.Builder request =
+                GlobalSplitInstallRequestInternal.newBuilder().isUninstall(true);
+        for (String moduleName : moduleNames) request.addModule(moduleName);
+        return startInstall(request.build());
     }
 
     @Override

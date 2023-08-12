@@ -72,6 +72,18 @@ public interface GlobalSplitInstallManager {
     GlobalSplitInstallTask<Void> cancelInstall(int sessionId);
 
     /**
+     * Starts an uninstallation of the provided modules.
+     * <p>
+     * <b>Note</b>: this only has any effect in the com.jeppeman.globallydynamic.android:selfhosted
+     * artifact, for gplay and huawei it is a no-op Google Play Store and Huawei App Gallery
+     * support Dynamic Delivery natively.
+     *
+     * @param moduleNames the modules to uninstall
+     * @return a {@link GlobalSplitInstallTask} performing the deferred uninstallation
+     */
+    GlobalSplitInstallTask<Integer> startUninstall(List<String> moduleNames);
+
+    /**
      * Performs a deferred installation of the provided modules.
      *
      * @param moduleNames the modules to install

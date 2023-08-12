@@ -71,6 +71,9 @@ interface ApkInstaller extends Parcelable {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void install(List<File> apks);
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void uninstall(List<String> moduleNames);
+
     int getSessionId();
 
     void receiveInstallationResult(@NonNull Intent intent);
@@ -93,6 +96,18 @@ interface ApkInstaller extends Parcelable {
         static class Installed extends Status {
             Installed(String installMessage) {
                 super("Success", installMessage);
+            }
+        }
+
+        static class Uninstalling extends Status {
+            Uninstalling() {
+                super("Uninstalling", "");
+            }
+        }
+
+        static class Uninstalled extends Status {
+            Uninstalled(String message) {
+                super("Success", message);
             }
         }
 
@@ -215,6 +230,26 @@ class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
         return context.getString(R.string.restart_message_marshmallow);
     }
 
+    private void patchAppInBackground(String successMessage) {
+        executor.execute(new Executor.Callbacks<Void>() {
+            @Override
+            Void execute() {
+                applicationPatcher.patchExistingApplication();
+                return null;
+            }
+
+            @Override
+            void onComplete(Void result) {
+                updateStatus(new ApkInstaller.Status.Installed(successMessage));
+            }
+
+            @Override
+            void onError(Exception exception) {
+                onInstallError(exception);
+            }
+        });
+    }
+
     @VisibleForTesting
     PackageInstaller.Session createSession(@NonNull PackageInstaller.SessionParams sessionParams) throws IOException {
         PackageInstaller packageInstaller = context.getPackageManager().getPackageInstaller();
@@ -287,6 +322,44 @@ class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
         session.close();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void doUninstall(List<String> moduleNames) throws Exception {
+        PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(
+                PackageInstaller.SessionParams.MODE_INHERIT_EXISTING
+        );
+
+        setDontKillApp(sessionParams);
+        sessionParams.setAppPackageName(context.getPackageName());
+
+        PackageInstaller.Session session = createSession(sessionParams);
+
+        for (String moduleName : moduleNames) {
+            session.removeSplit(moduleName);
+        }
+
+        Intent nestedIntent = new Intent().putExtra(
+                PackageInstallerResultReceiver.EXTRA_RESULT_RECEIVER,
+                ApkInstallerImpl.this
+        ).putExtra(
+                PackageInstallerResultReceiver.EXTRA_NEEDS_RESTART,
+                requiresRestart()
+        ).putExtra(
+                PackageInstallerResultReceiver.EXTRA_RESTART_MESSAGE,
+                restartMessage()
+        ).putExtra(
+                PackageInstallerResultReceiver.EXTRA_IS_UNINSTALL,
+                true
+        );
+        Intent intent = new Intent(context, PackageInstallerResultReceiver.class);
+        intent.putExtra(
+                PackageInstallerResultReceiver.EXTRA_NESTED_INTENT,
+                nestedIntent
+        );
+
+        session.commit(getIntentSenderForSession(intent));
+        session.close();
+    }
+
     @VisibleForTesting
     void onInstallError(Exception exception) {
         updateStatus(new Status.Failed(
@@ -316,7 +389,7 @@ class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
             receiveInstallationResult(intent);
         } else if (canceled) {
             cancel();
-        }  else {
+        } else {
             updateStatus(
                     new ApkInstaller.Status.Failed(
                             Intent.EXTRA_INTENT + " not found " +
@@ -338,23 +411,12 @@ class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
             int status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, 0);
             final String message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
             if (status == PackageInstaller.STATUS_SUCCESS) {
-                executor.execute(new Executor.Callbacks<Void>() {
-                    @Override
-                    Void execute() {
-                        applicationPatcher.patchExistingApplication();
-                        return null;
-                    }
-
-                    @Override
-                    void onComplete(Void result) {
-                        updateStatus(new ApkInstaller.Status.Installed(message));
-                    }
-
-                    @Override
-                    void onError(Exception exception) {
-                        onInstallError(exception);
-                    }
-                });
+                final boolean isUninstall = PackageInstallerResultReceiver.extraIsUninstall(intent);
+                if (isUninstall) {
+                    updateStatus(new ApkInstaller.Status.Uninstalled(message));
+                } else {
+                    patchAppInBackground(message);
+                }
             } else if (status == PackageInstaller.STATUS_PENDING_USER_ACTION) {
                 Intent confirmIntent = intent.getParcelableExtra(Intent.EXTRA_INTENT);
                 if (confirmIntent != null) {
@@ -391,6 +453,18 @@ class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
         executor.execute(new ExecutorInstallCallbacks(apks));
     }
 
+    @Override
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void uninstall(final List<String> moduleNames) {
+        if (moduleNames.isEmpty()) {
+            updateStatus(new Status.Failed("moduleNames must not be empty", GlobalSplitInstallErrorCode.INTERNAL_ERROR));
+            return;
+        }
+
+        updateStatus(new Status.Uninstalling());
+        executor.execute(new ExecutorUninstallCallbacks(moduleNames));
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -413,6 +487,26 @@ class ApkInstallerImpl extends ResultReceiver implements ApkInstaller {
         @Override
         Void execute() throws Exception {
             doInstall(apks);
+            return null;
+        }
+
+        @Override
+        void onError(Exception exception) {
+            onInstallError(exception);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private class ExecutorUninstallCallbacks extends Executor.Callbacks<Void> {
+        private final List<String> moduleNames;
+
+        ExecutorUninstallCallbacks(List<String> moduleNames) {
+            this.moduleNames = moduleNames;
+        }
+
+        @Override
+        Void execute() throws Exception {
+            doUninstall(moduleNames);
             return null;
         }
 
