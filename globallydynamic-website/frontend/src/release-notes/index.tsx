@@ -6,6 +6,10 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Gradle plugin 1.7.0 (August 2023)
+---
+* AGP 8.1.1 compatibility.
+
 Android library 1.3.0 (August 2023)
 ---
 * Support for uninstalling modules on demand for the self hosted variant, use as follows:
