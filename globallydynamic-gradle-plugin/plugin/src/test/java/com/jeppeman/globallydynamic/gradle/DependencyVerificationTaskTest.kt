@@ -15,8 +15,7 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
     override fun beforeEach() {
         appModuleAndroidManifestFilePath.toFile().writeText(
             """
-                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME">
+                <manifest xmlns:android="http://schemas.android.com/apk/res/android">
                     <application android:name=".GloballyDynamicApplication" />
                 </manifest>
             """.trimIndent()
@@ -33,6 +32,8 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     compileSdk 32
                     
                     globallyDynamicServers {
@@ -65,6 +66,8 @@ class DependencyVerificationTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     compileSdk 32
                     
                     globallyDynamicServers {

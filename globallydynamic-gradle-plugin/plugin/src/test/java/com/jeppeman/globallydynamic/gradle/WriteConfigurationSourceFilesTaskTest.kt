@@ -44,8 +44,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
 
         appModuleAndroidManifestFilePath.toFile().writeText(
             """
-                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME">
+                <manifest xmlns:android="http://schemas.android.com/apk/res/android">
                     <application>
                         <activity android:exported="true" android:name="$MAIN_ACTIVITY_NAME" >
                             <intent-filter>
@@ -68,6 +67,8 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     defaultConfig {
                         compileSdkVersion 32
                         minSdkVersion 16
@@ -106,8 +107,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
         onDemandFeatureAndroidManifestFilePath.toFile().writeText(
             """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:dist="http://schemas.android.com/apk/distribution"
-                    package="$BASE_PACKAGE_NAME">
+                    xmlns:dist="http://schemas.android.com/apk/distribution">
                     
                     <application/>
                     
@@ -126,8 +126,7 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
         installTimeFeatureAndroidManifestFilePath.toFile().writeText(
             """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:dist="http://schemas.android.com/apk/distribution"
-                    package="$BASE_PACKAGE_NAME">
+                    xmlns:dist="http://schemas.android.com/apk/distribution">
                     
                     <application/>
                     
@@ -236,6 +235,8 @@ class WriteConfigurationSourceFilesTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     defaultConfig {
                         compileSdkVersion 32
                         minSdkVersion 16

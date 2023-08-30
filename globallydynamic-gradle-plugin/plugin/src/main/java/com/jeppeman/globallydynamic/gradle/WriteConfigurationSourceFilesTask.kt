@@ -3,7 +3,7 @@ package com.jeppeman.globallydynamic.gradle
 import com.android.SdkConstants
 import com.android.aapt.Resources
 import com.android.build.gradle.api.ApplicationVariant
-import com.android.builder.packaging.JarMerger
+import com.android.builder.packaging.JarFlinger
 import com.android.tools.build.bundletool.model.AndroidManifest
 import com.android.tools.build.bundletool.model.ManifestDeliveryElement
 import com.jeppeman.globallydynamic.gradle.extensions.deleteCompletely
@@ -231,7 +231,7 @@ private fun File.extractAndroidManifest(): AndroidManifest? = try {
         "bundle_res.zip"
     )
 
-    JarMerger(outputZip.toPath()).use { jarMerger ->
+    JarFlinger(outputZip.toPath()).use { jarMerger ->
         jarMerger.setCompressionLevel(0)
 
         jarMerger.addJar(linkedBundleResPath)

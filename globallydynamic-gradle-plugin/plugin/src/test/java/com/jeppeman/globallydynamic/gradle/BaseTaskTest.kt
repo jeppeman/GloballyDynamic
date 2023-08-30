@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
-const val ANDROID_LIB_VERSION = "1.2.0"
+const val ANDROID_LIB_VERSION = "1.3.0"
 
 abstract class BaseTaskTest {
     @TempDir
@@ -77,6 +77,12 @@ abstract class BaseTaskTest {
             """.trimIndent()
         )
 
+        appModuleBuildFilePath.toFile().writeText(
+            """
+                
+            """.trimIndent()
+        )
+
         installTimeFeatureBuildFilePath.toFile().writeText(
                 """
                 plugins {
@@ -84,6 +90,8 @@ abstract class BaseTaskTest {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME.installtime'
+                    
                     defaultConfig {
                         compileSdkVersion 32
                         minSdkVersion 16
@@ -99,8 +107,7 @@ abstract class BaseTaskTest {
 
         installTimeFeatureAndroidManifestFilePath.toFile().writeText(
                 """
-              <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME.installtime">
+              <manifest xmlns:android="http://schemas.android.com/apk/res/android">
                     <application/>
               </manifest> 
             """.trimIndent()
@@ -113,6 +120,8 @@ abstract class BaseTaskTest {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME.ondemand'
+                    
                     defaultConfig {
                         compileSdkVersion 32
                         minSdkVersion 16
@@ -128,8 +137,7 @@ abstract class BaseTaskTest {
 
         onDemandFeatureAndroidManifestFilePath.toFile().writeText(
                 """
-               <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME.ondemand">
+               <manifest xmlns:android="http://schemas.android.com/apk/res/android">
                     <application/>
                 </manifest> 
             """.trimIndent()
