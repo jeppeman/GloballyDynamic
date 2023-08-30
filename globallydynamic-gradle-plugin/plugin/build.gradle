@@ -2,7 +2,6 @@ plugins {
     id 'java-gradle-plugin'
     id 'java'
     id 'kotlin'
-    id 'com.gradle.plugin-publish' version '0.12.0'
 }
 
 test {
@@ -33,21 +32,19 @@ dependencies {
 }
 
 gradlePlugin {
+    website = POM_URL
+    vcsUrl = POM_SCM_URL
+    description = POM_DESCRIPTION
+
     plugins {
         globallyDynamicPlugin {
             id = 'com.jeppeman.globallydynamic'
             implementationClass = 'com.jeppeman.globallydynamic.gradle.GloballyDynamicPlugin'
             displayName = 'GloballyDynamic'
             description = "GloballyDynamic - Dynamic Delivery everywhere"
+            tags.set(['android', 'dynamic-delivery'])
         }
     }
-}
-
-pluginBundle {
-    website = POM_URL
-    vcsUrl = POM_SCM_URL
-    description = POM_DESCRIPTION
-    tags = ['android', 'dynamic-delivery']
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

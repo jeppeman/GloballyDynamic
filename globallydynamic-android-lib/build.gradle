@@ -38,7 +38,7 @@ allprojects {
     }
 }
 
-apply plugin: 'aggregate-javadoc'
+//apply plugin: 'aggregate-javadoc'
 
 subprojects {
     configurations.all {
@@ -66,7 +66,7 @@ subprojects {
         }
 
         if (project.hasProperty('android')) {
-            apply plugin: "com.vanniktech.android.javadoc"
+//            apply plugin: "com.vanniktech.android.javadoc"
 
             android {
                 compileSdkVersion rootProject.ext.compileSdkVersion

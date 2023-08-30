@@ -1,4 +1,8 @@
 apply plugin: 'com.android.library'
 
+android {
+    namespace "com.jeppeman.globallydynamic"
+}
+
 project.ext.javadocTask = 'generateReleaseJavadoc'
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

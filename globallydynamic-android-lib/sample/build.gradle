@@ -1,14 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jeppeman.globallydynamic'
 
 android {
+    namespace "com.example.globallydynamic"
+
     buildTypes {
         release {
             minifyEnabled true
         }
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     flavorDimensions 'packaging'

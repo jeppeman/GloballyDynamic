@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace "com.jeppeman.globallydynamic.all"
+
     flavorDimensions 'packaging'
 
     productFlavors {

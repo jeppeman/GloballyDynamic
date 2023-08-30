@@ -30,12 +30,12 @@ def getRepositoryPassword() {
 
 afterEvaluate { project ->
     task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
+        archiveClassifier = 'sources'
         from sourceSets.main.allSource
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
+        archiveClassifier = 'javadoc'
         from javadoc.destinationDir
     }
 
@@ -133,5 +133,9 @@ afterEvaluate { project ->
     signing {
         required { isReleaseBuild() && gradle.taskGraph.hasTask("publish") }
         sign publishing.publications
+    }
+
+    tasks.withType(AbstractPublishToMaven) {
+        mustRunAfter tasks.withType(Sign)
     }
 }

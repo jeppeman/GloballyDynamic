@@ -15,10 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.example.globallydynamic.databinding.ActivityGloballyDynamicBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jeppeman.globallydynamic.globalsplitcompat.GlobalSplitCompat
 import com.jeppeman.globallydynamic.globalsplitinstall.GlobalSplitInstallConfirmResult
-import kotlinx.android.synthetic.main.activity_globally_dynamic.*
 import kotlin.reflect.KClass
 
 
@@ -29,6 +29,7 @@ class GloballyDynamicActivity : AppCompatActivity(),
 
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var globallyDynamicViewModel: GloballyDynamicViewModel
+    private lateinit var binding: ActivityGloballyDynamicBinding
 
     private fun goToFeatureEntryPoint(@IdRes actionId: Int) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -68,7 +69,7 @@ class GloballyDynamicActivity : AppCompatActivity(),
     }
 
     private fun featureInstalled(featureInfo: Feature.Info) {
-        bottomNavigation?.selectedItemId = featureInfo.actionId
+        binding.bottomNavigation.selectedItemId = featureInfo.actionId
         initiateLanguageContainers()
     }
 
@@ -87,7 +88,7 @@ class GloballyDynamicActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == bottomNavigation?.selectedItemId) {
+        if (item.itemId == binding.bottomNavigation.selectedItemId) {
             return false
         }
 
@@ -105,54 +106,54 @@ class GloballyDynamicActivity : AppCompatActivity(),
     private fun initiateLanguageContainers() {
         GlobalSplitCompat.installActivity(this)
         listOf(
-            swedishContainer,
-            koreanContainer,
-            germanContainer,
-            italianContainer
+            binding.swedishContainer,
+            binding.koreanContainer,
+            binding.germanContainer,
+            binding.italianContainer
         ).forEach { container ->
-            container?.setOnClickListener {
+            container.setOnClickListener {
                 launchInstallDialog(it.tag.toString())
             }
         }
 
         if (globallyDynamicViewModel.isLanguageInstalled(Swedish::class)) {
-            coverSv?.visibility = View.GONE
-            downloadSv?.visibility = View.GONE
-            helloSv?.text = Swedish::class.getString(R.string.hello)
+            binding.coverSv.visibility = View.GONE
+            binding.downloadSv.visibility = View.GONE
+            binding.helloSv.text = Swedish::class.getString(R.string.hello)
         } else {
-            coverSv?.visibility = View.VISIBLE
-            downloadSv?.visibility = View.VISIBLE
-            helloSv?.text = getString(R.string.swedish)
+            binding.coverSv.visibility = View.VISIBLE
+            binding.downloadSv.visibility = View.VISIBLE
+            binding.helloSv.text = getString(R.string.swedish)
         }
 
         if (globallyDynamicViewModel.isLanguageInstalled(Korean::class)) {
-            coverKo?.visibility = View.GONE
-            downloadKo?.visibility = View.GONE
-            helloKo?.text = Korean::class.getString(R.string.hello)
+            binding.coverKo.visibility = View.GONE
+            binding.downloadKo.visibility = View.GONE
+            binding.helloKo.text = Korean::class.getString(R.string.hello)
         } else {
-            coverKo?.visibility = View.VISIBLE
-            downloadKo?.visibility = View.VISIBLE
-            helloKo?.text = getString(R.string.korean)
+            binding.coverKo.visibility = View.VISIBLE
+            binding.downloadKo.visibility = View.VISIBLE
+            binding.helloKo.text = getString(R.string.korean)
         }
 
         if (globallyDynamicViewModel.isLanguageInstalled(German::class)) {
-            coverDe?.visibility = View.GONE
-            downloadDe?.visibility = View.GONE
-            helloDe?.text = German::class.getString(R.string.hello)
+            binding.coverDe.visibility = View.GONE
+            binding.downloadDe.visibility = View.GONE
+            binding.helloDe.text = German::class.getString(R.string.hello)
         } else {
-            coverDe?.visibility = View.VISIBLE
-            downloadDe?.visibility = View.VISIBLE
-            helloDe?.text = getString(R.string.german)
+            binding.coverDe.visibility = View.VISIBLE
+            binding.downloadDe.visibility = View.VISIBLE
+            binding.helloDe.text = getString(R.string.german)
         }
 
         if (globallyDynamicViewModel.isLanguageInstalled(Italian::class)) {
-            coverIt?.visibility = View.GONE
-            downloadIt?.visibility = View.GONE
-            helloIt?.text = Italian::class.getString(R.string.hello)
+            binding.coverIt.visibility = View.GONE
+            binding.downloadIt.visibility = View.GONE
+            binding.helloIt.text = Italian::class.getString(R.string.hello)
         } else {
-            coverIt?.visibility = View.VISIBLE
-            downloadIt?.visibility = View.VISIBLE
-            helloIt?.text = getString(R.string.italian)
+            binding.coverIt.visibility = View.VISIBLE
+            binding.downloadIt.visibility = View.VISIBLE
+            binding.helloIt.text = getString(R.string.italian)
         }
     }
 
@@ -177,7 +178,8 @@ class GloballyDynamicActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_globally_dynamic)
+        binding = ActivityGloballyDynamicBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         globallyDynamicViewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -207,6 +209,6 @@ class GloballyDynamicActivity : AppCompatActivity(),
         globallyDynamicViewModel.featureInstalled.observe(this, ::featureInstalled)
         globallyDynamicViewModel.languageInstalled.observe(this, ::languageInstalled)
 
-        bottomNavigation?.setOnNavigationItemSelectedListener(this)
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
     }
 }

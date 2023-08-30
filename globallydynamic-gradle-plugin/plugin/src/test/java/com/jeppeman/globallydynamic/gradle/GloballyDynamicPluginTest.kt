@@ -24,6 +24,10 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 plugins {
                     id 'com.jeppeman.globallydynamic'
                 }
+                
+                android {
+                    namespace '$BASE_PACKAGE_NAME'
+                }
 
                 dependencies {
                     implementation 'com.jeppeman.globallydynamic.android:selfhosted:${ANDROID_LIB_VERSION}'
@@ -51,6 +55,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
                     compileSdkVersion 32
                 }
 
@@ -84,6 +89,8 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     defaultConfig {
                         compileSdkVersion 32
                         minSdkVersion 16
@@ -116,6 +123,8 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     defaultConfig {
                         compileSdkVersion 32
                         minSdkVersion 16
@@ -166,6 +175,8 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     defaultConfig {
                         compileSdkVersion 32
                         minSdkVersion 16
@@ -199,8 +210,7 @@ class GloballyDynamicPluginTest : BaseTaskTest() {
         )
         appModuleAndroidManifestFilePath.toFile().writeText(
             """
-                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME">
+                <manifest xmlns:android="http://schemas.android.com/apk/res/android">
                     <application>
                         <activity android:exported="true" android:name=".GloballyDynamicActivity">
                             <intent-filter>

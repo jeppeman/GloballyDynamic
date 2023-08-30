@@ -13,6 +13,7 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.nio.file.Paths
+import java.util.LinkedList
 
 @RunWith(JUnitPlatform::class)
 class UploadBundleTaskTest : BaseTaskTest() {
@@ -64,8 +65,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
 
         appModuleAndroidManifestFilePath.toFile().writeText(
             """
-                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="$BASE_PACKAGE_NAME">
+                <manifest xmlns:android="http://schemas.android.com/apk/res/android">
                     <application />
                 </manifest>
             """.trimIndent()
@@ -79,6 +79,8 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     compileSdk 32
                     
                     defaultConfig {
@@ -118,8 +120,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
         onDemandFeatureAndroidManifestFilePath.toFile().writeText(
             """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:dist="http://schemas.android.com/apk/distribution"
-                    package="$BASE_PACKAGE_NAME.ondemand">
+                    xmlns:dist="http://schemas.android.com/apk/distribution">
                     
                     <application/>
                     
@@ -138,8 +139,7 @@ class UploadBundleTaskTest : BaseTaskTest() {
         installTimeFeatureAndroidManifestFilePath.toFile().writeText(
             """
                <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:dist="http://schemas.android.com/apk/distribution"
-                    package="$BASE_PACKAGE_NAME.installtime">
+                    xmlns:dist="http://schemas.android.com/apk/distribution">
                     
                     <application/>
                     
@@ -193,6 +193,8 @@ class UploadBundleTaskTest : BaseTaskTest() {
                 }
                 
                 android {
+                    namespace '$BASE_PACKAGE_NAME'
+                    
                     compileSdk 32
                     
                     defaultConfig {

@@ -1,10 +1,15 @@
 apply plugin: 'com.android.dynamic-feature'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
+    namespace "com.example.globallydynamic.installtimefeature"
+
     flavorDimensions 'packaging'
+
+    buildFeatures {
+        viewBinding = true
+    }
 
     productFlavors {
         fused {

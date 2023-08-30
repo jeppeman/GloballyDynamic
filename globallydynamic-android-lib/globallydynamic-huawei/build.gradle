@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace "com.jeppeman.globallydynamic.huawei"
+
     flavorDimensions 'packaging'
 
     productFlavors {
