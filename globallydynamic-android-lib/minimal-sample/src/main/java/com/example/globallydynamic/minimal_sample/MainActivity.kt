@@ -4,13 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.globallydynamic.minimal_sample.databinding.ActivityMainBinding
 import com.jeppeman.globallydynamic.globalsplitinstall.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.roundToInt
 
 private const val INSTALL_REQUEST_CODE = 123
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     private val globalSplitInstallManager: GlobalSplitInstallManager by lazy {
         GlobalSplitInstallManagerFactory.create(applicationContext)
@@ -18,9 +19,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        installButton.setOnClickListener {
+        binding.installButton.setOnClickListener {
             installDynamicFeature(globalSplitInstallManager.installedModules.isNotEmpty())
         }
     }
@@ -55,8 +57,8 @@ class MainActivity : AppCompatActivity() {
             .build()
 
 
-        inProgressGroup.visibility = View.VISIBLE
-        installButton.visibility = View.GONE
+        binding.inProgressGroup.visibility = View.VISIBLE
+        binding.installButton.visibility = View.GONE
 
         var mySessionId = 0
 
@@ -64,25 +66,25 @@ class MainActivity : AppCompatActivity() {
             if (state.sessionId() == mySessionId) {
                 when (state.status()) {
                     GlobalSplitInstallSessionStatus.CANCELED -> {
-                        stateText.text = "Canceled"
-                        inProgressGroup.visibility = View.GONE
-                        installButton.visibility = View.VISIBLE
+                        binding.stateText.text = "Canceled"
+                        binding.inProgressGroup.visibility = View.GONE
+                        binding.installButton.visibility = View.VISIBLE
                     }
 
                     GlobalSplitInstallSessionStatus.DOWNLOADING -> {
-                        stateText.text = "Downloading feature"
-                        progressBar.progress =
+                        binding.stateText.text = "Downloading feature"
+                        binding.progressBar.progress =
                             (state.bytesDownloaded() * 100f / state.totalBytesToDownload()
                                 .toFloat()).roundToInt()
                     }
 
                     GlobalSplitInstallSessionStatus.INSTALLING -> {
-                        progressBar.progress = 100
-                        stateText.text = "Installing feature"
+                        binding.progressBar.progress = 100
+                        binding.stateText.text = "Installing feature"
                     }
 
                     GlobalSplitInstallSessionStatus.INSTALLED -> {
-                        stateText.text = "Successfully installed feature"
+                        binding.stateText.text = "Successfully installed feature"
                         launchDynamicActivity()
                     }
 
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     GlobalSplitInstallSessionStatus.UNINSTALLING -> {
-                        stateText.text = "Uninstalling feature"
+                        binding.stateText.text = "Uninstalling feature"
                     }
 
                     GlobalSplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
@@ -116,17 +118,17 @@ class MainActivity : AppCompatActivity() {
                 mySessionId = sessionId
             }
         }.addOnFailureListener {
-            stateText.text = "Install failed"
-            inProgressGroup.visibility = View.VISIBLE
-            installButton.visibility = View.VISIBLE
+            binding.stateText.text = "Install failed"
+            binding.inProgressGroup.visibility = View.VISIBLE
+            binding.installButton.visibility = View.VISIBLE
         }
     }
 
     private fun updateUi() {
-        stateText.text = ""
-        inProgressGroup.visibility = View.GONE
-        installButton.visibility = View.VISIBLE
-        installButton.text = if (globalSplitInstallManager.installedModules.isNotEmpty()) {
+        binding.stateText.text = ""
+        binding.inProgressGroup.visibility = View.GONE
+        binding.installButton.visibility = View.VISIBLE
+        binding.installButton.text = if (globalSplitInstallManager.installedModules.isNotEmpty()) {
             "Uninstall feature"
         } else {
             "Install feature"

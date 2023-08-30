@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.globallydynamic.R
-import kotlinx.android.synthetic.main.install_feature_dialog.*
+import com.example.globallydynamic.databinding.InstallFeatureDialogBinding
 
 private const val ARG_LANGUAGE_CODE = "com.example.globallydynamic.ARG_LANGUAGE_CODE"
 private const val ARG_FEATURE_ACTION_ID = "com.example.globallydynamic.ARG_FEATURE_ACTION_ID"
@@ -32,35 +32,35 @@ fun createInstallDialogFragment(feature: Int): InstallDialogFragment =
     }
 
 class InstallDialogFragment : DialogFragment() {
-    lateinit var installDialogViewModel: InstallDialogViewModel
+    private lateinit var installDialogViewModel: InstallDialogViewModel
+    private lateinit var binding: InstallFeatureDialogBinding
 
     private fun progressTo(to: Int) {
-        if (to > loader?.progress ?: 0) {
-            progressValueText?.animateProgress(loader?.progress ?: 0, to, 333)
-            loader?.animateBetween(loader?.progress ?: 0, to, 333)
+        if (to > binding.loader.progress) {
+            binding.progressValueText.animateProgress(binding.loader.progress, to, 333)
+            binding.loader.animateBetween(binding.loader.progress, to, 333)
         }
     }
 
     private fun handleDownloadingState(state: FeatureManager.InstallState.Downloading) {
-        progressText?.text = getString(R.string.install_dialog_step_downloading)
+        binding.progressText.text = getString(R.string.install_dialog_step_downloading)
         progressTo(state.progress)
     }
 
     private fun handleInstallingState(state: FeatureManager.InstallState.Installing) {
-        installDialogContainer?.transitionToState(R.id.installing)
-        progressText?.text = getString(R.string.install_dialog_installing)
+        binding.installDialogContainer.transitionToState(R.id.installing)
+        binding.progressText.text = getString(R.string.install_dialog_installing)
         progressTo(state.progress)
     }
 
     private fun handleInstalledState(state: FeatureManager.InstallState.Installed) {
-        progressText?.text = getString(R.string.install_dialog_installed)
+        binding.progressText.text = getString(R.string.install_dialog_installed)
         progressTo(100)
         throttleDismiss()
     }
 
     private fun handleFailedState(state: FeatureManager.InstallState.Failed) {
-        progressText?.text = getString(R.string.install_dialog_failed, state.code.toString())
-
+        binding.progressText.text = getString(R.string.install_dialog_failed, state.code.toString())
     }
 
     private fun handleUserConfirmationRequired(state: FeatureManager.InstallState.RequiresUserConfirmation) {
@@ -68,29 +68,33 @@ class InstallDialogFragment : DialogFragment() {
     }
 
     private fun handleCanceledState(state: FeatureManager.InstallState.Canceled) {
-        progressText?.text = getString(R.string.install_dialog_canceled)
+        binding.progressText.text = getString(R.string.install_dialog_canceled)
         throttleDismiss()
     }
 
     private fun onInstallStateChanged(state: FeatureManager.InstallState?) {
         if (state != null) {
-            dialog?.setTitle(if (state.featureInfo != null) {
-                getString(R.string.install_dialog_title_feature, state.featureInfo.name)
-            } else {
-                getString(R.string.install_dialog_title_language, state.language?.displayName)
-            })
-            installDialogContainer?.transitionToEnd()
+            dialog?.setTitle(
+                if (state.featureInfo != null) {
+                    getString(R.string.install_dialog_title_feature, state.featureInfo.name)
+                } else {
+                    getString(R.string.install_dialog_title_language, state.language?.displayName)
+                }
+            )
+            binding.installDialogContainer.transitionToEnd()
         }
 
         when (state) {
             is FeatureManager.InstallState.RequiresUserConfirmation -> handleUserConfirmationRequired(
                 state
             )
+
             is FeatureManager.InstallState.Downloading -> handleDownloadingState(state)
             is FeatureManager.InstallState.Installing -> handleInstallingState(state)
             is FeatureManager.InstallState.Installed -> handleInstalledState(state)
             is FeatureManager.InstallState.Failed -> handleFailedState(state)
             is FeatureManager.InstallState.Canceled -> handleCanceledState(state)
+            null -> {}
         }
     }
 
@@ -107,7 +111,7 @@ class InstallDialogFragment : DialogFragment() {
         installDialogViewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return InstallDialogViewModel(
-                        context = requireContext()
+                    context = requireContext()
                 ) as T
             }
 
@@ -133,8 +137,9 @@ class InstallDialogFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.install_feature_dialog, container, false)
+    ): View = InstallFeatureDialogBinding.inflate(inflater, container, false).let { binding ->
+        this.binding = binding
+        binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -143,6 +148,6 @@ class InstallDialogFragment : DialogFragment() {
 
         dialog?.window?.setWindowAnimations(R.style.DialogAnimation)
         dialog?.setCanceledOnTouchOutside(false)
-        cancelInstall?.setOnClickListener { installDialogViewModel.cancelInstall() }
+        binding.cancelInstall.setOnClickListener { installDialogViewModel.cancelInstall() }
     }
 }

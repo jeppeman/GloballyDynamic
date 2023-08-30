@@ -5,17 +5,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.4.1"
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.6.0"
+        classpath "com.android.tools.build:gradle:8.1.1:"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.7.0"
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.jeppeman.globallydynamic'
 
 android {
+    namespace "com.example.globallydynamic.minimal_sample"
+
     compileSdkVersion 32
 
     defaultConfig {
@@ -26,6 +27,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     buildTypes {
