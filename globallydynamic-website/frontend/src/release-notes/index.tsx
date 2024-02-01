@@ -6,6 +6,10 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Studio plugin 1.10.0 (January 2024)
+---
+* Android Studio Hedgehog (2023.1.1) compatibility.
+
 Gradle plugin 1.7.0 (August 2023)
 ---
 * AGP 8.1.1 compatibility.
