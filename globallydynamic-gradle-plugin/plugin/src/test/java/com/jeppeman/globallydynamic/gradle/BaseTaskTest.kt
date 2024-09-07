@@ -1,6 +1,5 @@
 package com.jeppeman.globallydynamic.gradle
 
-import com.jeppeman.globallydynamic.gradle.extensions.deleteCompletely
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.BeforeEach

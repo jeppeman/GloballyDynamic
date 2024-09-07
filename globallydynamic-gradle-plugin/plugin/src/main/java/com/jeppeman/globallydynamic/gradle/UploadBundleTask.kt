@@ -150,12 +150,14 @@ open class UploadBundleTask : DefaultTask() {
                 .resolve("intermediates")
                 .resolve("intermediary_bundle")
                 .resolve(applicationVariant.name)
+                .resolve(applicationVariant.getTaskName("package", "Bundle"))
                 .toFile()
             task.signingConfig = task.project.buildDir
                 .toPath()
                 .resolve("intermediates")
                 .resolve("signing_config_data")
                 .resolve(applicationVariant.name)
+                .resolve(applicationVariant.getTaskName("signingConfigWriter"))
                 .resolve("signing-config-data.json")
                 .toFile()
         }

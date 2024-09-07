@@ -2,13 +2,11 @@ buildscript {
     apply from: 'deps.gradle'
 
     repositories {
-        jcenter()
         google()
         mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-        classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
     }
 }
 
@@ -32,7 +30,6 @@ subprojects {
         }
 
         repositories {
-            jcenter()
             google()
             mavenCentral()
         }
@@ -50,21 +47,6 @@ subprojects {
                 kotlinOptions {
                     jvmTarget = rootProject.ext.jvmTargetVersion
                 }
-            }
-        }
-    }
-}
-
-apply plugin: "com.github.ben-manes.versions"
-
-dependencyUpdates.resolutionStrategy = {
-    componentSelection { rules ->
-        rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
-                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
-            }
-            if (rejected) {
-                selection.reject('Release candidate')
             }
         }
     }
