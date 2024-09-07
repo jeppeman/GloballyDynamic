@@ -1,11 +1,8 @@
 package com.jeppeman.globallydynamic.idea.tooling
 
-import com.android.tools.idea.gradle.util.ImportUtil
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtil
-import com.jeppeman.globallydynamic.idea.utils.runInBackground
-import com.jeppeman.globallydynamic.idea.utils.runInBackgroundAndWait
 import org.gradle.tooling.BuildAction
 import org.gradle.tooling.GradleConnector
 import org.gradle.tooling.ProjectConnection
@@ -129,7 +126,7 @@ private fun createClassPathString(paths: List<String?>): String? {
     classpath.append("classpath files([")
     val pathCount = paths.size
     for (i in 0 until pathCount) {
-        val jarPath = ImportUtil.escapeGroovyStringLiteral(paths[i]!!)
+        val jarPath = escapeGroovyStringLiteral(paths[i]!!)
         classpath.append("'").append(jarPath).append("'")
         if (i < pathCount - 1) {
             classpath.append(", ")
@@ -137,6 +134,21 @@ private fun createClassPathString(paths: List<String?>): String? {
     }
     classpath.append("])")
     return classpath.toString()
+}
+
+private fun escapeGroovyStringLiteral(s: String): String {
+    val sb = java.lang.StringBuilder(s.length + 5)
+    var i = 0
+    val n = s.length
+    while (i < n) {
+        val c = s[i]
+        if (c == '\\' || c == '\'') {
+            sb.append('\\')
+        }
+        sb.append(c)
+        i++
+    }
+    return sb.toString()
 }
 
 private val jarPaths: List<String>
