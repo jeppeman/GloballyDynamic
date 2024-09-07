@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
-    id 'org.jetbrains.intellij' version '1.16.1'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.20'
+    id 'org.jetbrains.intellij' version '1.17.4'
 }
 
 apply from: 'deps.gradle'
@@ -45,7 +45,7 @@ intellij {
     localPath = "${System.getenv("ANDROID_STUDIO_PATH")}"
 }
 
-def instrumentCompilerVersion = "231.9392.1"
+def instrumentCompilerVersion = "241.18034.62"
 
 instrumentCode {
     compilerVersion = instrumentCompilerVersion
@@ -64,6 +64,10 @@ buildSearchableOptions.systemProperty("idea.is.internal", "")
 
 patchPluginXml {
     changeNotes = """
+    <h1>1.11.0</h1>
+    <ul>
+        <li>Android Studio Koala Feature Drop (2024.1.2) compatibility</li>
+    </ul>
     <h1>1.10.0</h1>
     <ul>
         <li>Android Studio Hedgehog (2023.1.1) compatibility</li>

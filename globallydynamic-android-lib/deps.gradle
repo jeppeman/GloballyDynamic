@@ -2,7 +2,7 @@ def versions = [
         kotlin                : '1.9.0',
         appcompat             : '1.4.2',
         coroutines            : '1.6.2',
-        androidplugin         : '8.1.1',
+        androidplugin         : '8.6.0',
         lifecycle             : '2.4.1',
         lifecycle_extensions  : '2.2.0',
         mockito               : '5.4.0',
@@ -11,7 +11,6 @@ def versions = [
         truth                 : '1.2.0',
         espresso              : '3.4.0',
         runner                : '1.2.0',
-        versionsplugin        : '0.28.0',
         material              : '1.6.1',
         constraintlayout      : '2.1.4',
         core                  : '1.8.0',
@@ -25,7 +24,7 @@ def versions = [
         play                  : '1.10.3',
         dynamicability        : '1.0.17.300',
         autoservice           : '1.0-rc6',
-        globallydynamic_gradle: '1.7.0',
+        globallydynamic_gradle: '1.8.0',
         uiautomator           : '2.2.0',
         javadoc               : '0.3.0'
 ]

@@ -2,14 +2,12 @@ buildscript {
     apply from: 'deps.gradle'
 
     repositories {
-        jcenter()
         google()
         mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$versions.androidplugin"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-        classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
         classpath "com.jeppeman.globallydynamic.gradle:plugin:$versions.globallydynamic_gradle"
         classpath "com.vanniktech:gradle-android-javadoc-plugin:$versions.javadoc"
     }
@@ -31,7 +29,6 @@ ext {
 
 allprojects {
     repositories {
-        jcenter()
         google()
         mavenCentral()
         maven { url 'https://developer.huawei.com/repo' }
@@ -110,21 +107,6 @@ subprojects {
                         jvmTarget = rootProject.ext.jvmTargetVersion
                     }
                 }
-            }
-        }
-    }
-}
-
-apply plugin: "com.github.ben-manes.versions"
-
-dependencyUpdates.resolutionStrategy {
-    componentSelection { rules ->
-        rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
-                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
-            }
-            if (rejected) {
-                selection.reject('Release candidate')
             }
         }
     }
