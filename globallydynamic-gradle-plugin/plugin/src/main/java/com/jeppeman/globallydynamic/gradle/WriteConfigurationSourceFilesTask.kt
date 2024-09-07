@@ -143,31 +143,12 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
             task.applicationId = applicationVariant.applicationId!!
             task.version = applicationVariant.versionCode
             task.outputDir = outputDir
-            // AGP 3.5 and 3.6 compatibility
-            task.linkedBundleRes = task.project.files(
-                task.project
-                    .getLinkedBundleResDir(applicationVariant)
-                    .resolve("bundled-res.ap_")
-                    .toFile(),
-                task.project
-                    .getLinkedBundleResDir(applicationVariant)
-                    .resolve(applicationVariant.getTaskName("bundle", "Resources"))
-                    .resolve("bundled-res.ap_")
-                    .toFile()
-            )
+            task.linkedBundleRes = task.project.bundledProtoRes(applicationVariant)
 
             task.dynamicFeatureInputs = dynamicFeatureVariantMap.map { (project, variant) ->
                 DynamicFeatureInput(
                     name = project.name,
-                    linkedBundleRes = project.files(
-                        project.getLinkedBundleResDir(variant)
-                            .resolve("bundled-res.ap_")
-                            .toFile(),
-                        project.getLinkedBundleResDir(variant)
-                            .resolve(variant.getTaskName("bundle", "Resources"))
-                            .resolve("bundled-res.ap_")
-                            .toFile()
-                    )
+                    linkedBundleRes = project.bundledProtoRes(variant)
                 )
             }
             task.downloadConnectTimeout = extension.resolveDownloadConnectTimeout(task.project)
@@ -178,11 +159,40 @@ open class WriteConfigurationSourceFilesTask : DefaultTask() {
     }
 }
 
-private fun Project.getLinkedBundleResDir(applicationVariant: ApplicationVariant) =
-    buildDir.toPath()
-        .resolve("intermediates")
-        .resolve("linked_res_for_bundle")
-        .resolve(applicationVariant.name)
+private fun Project.bundledProtoRes(variant: ApplicationVariant): FileCollection = files(
+    // <= AGP 3.5
+    project
+        .getLinkedBundleResDir(variant.name, true)
+        .resolve("bundled-res.ap_")
+        .toFile(),
+
+    // >= AGP 3.6
+    project
+        .getLinkedBundleResDir(variant.name, true)
+        .resolve(variant.getTaskName("bundle", "Resources"))
+        .resolve("bundled-res.ap_")
+        .toFile(),
+
+    // >= AGP 8.6
+    project
+        .getLinkedBundleResDir(variant.name)
+        .resolve(variant.getTaskName("bundle", "Resources"))
+        .resolve("linked-resources-proto-format.ap_")
+        .toFile()
+)
+
+private fun Project.getLinkedBundleResDir(variantName: String, legacy: Boolean = false) =
+    if (legacy) {
+        buildDir.toPath()
+            .resolve("intermediates")
+            .resolve("linked_res_for_bundle")
+            .resolve(variantName)
+    } else {
+        buildDir.toPath()
+            .resolve("intermediates")
+            .resolve("linked_resources_for_bundle_proto_format")
+            .resolve(variantName)
+    }
 
 private const val ANDROID_XML_NS = "http://schemas.android.com/apk/res/android"
 

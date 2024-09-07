@@ -2,7 +2,7 @@ import java.nio.file.Paths
 
 def androidPluginVersion = project.hasProperty("agpVersion")
         ? project.properties.get("agpVersion")
-        : '8.1.1'
+        : '8.6.0'
 
 def versions = [
         androidplugin         : androidPluginVersion,

@@ -267,7 +267,9 @@ private fun createProjectServices(project: Project): ProjectServices {
         fileResolver = project::file,
         configurationContainer = project.configurations,
         dependencyHandler = project.dependencies,
-        extraProperties = project.extensions.extraProperties
+        extraProperties = project.extensions.extraProperties,
+        emptyTaskCreator = { name -> project.tasks.register(name) },
+        plugins = project.pluginManager,
     )
 }
 
