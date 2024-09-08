@@ -19,7 +19,7 @@ const pageNames: { [key: string]: string[] } = {
 export type Versions = { AGP: string, GRADLE: string, ANDROID: string, SERVER: string, STUDIO: string }
 
 const versions: Versions = {
-    'GRADLE': '1.8.0',
+    'GRADLE': '1.9.0',
     'ANDROID': '1.3.0',
     'SERVER': '1.5.0',
     'STUDIO': '1.11.0',

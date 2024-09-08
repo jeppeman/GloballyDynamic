@@ -6,6 +6,10 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Gradle plugin 1.9.0 (September 2024)
+---
+* Fix broken APK producer tasks.
+
 Studio plugin 1.11.0 (September 2024)
 ---
 * Android Studio Koala Feature Drop (2024.1.2) compatibility.
