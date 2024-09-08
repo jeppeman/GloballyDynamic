@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:8.6.0"
-        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.8.0"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:1.9.0"
     }
 }
 

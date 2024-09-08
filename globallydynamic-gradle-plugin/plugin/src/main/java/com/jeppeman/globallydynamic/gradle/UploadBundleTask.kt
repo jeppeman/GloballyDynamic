@@ -4,7 +4,7 @@ import com.android.build.gradle.api.ApplicationVariant
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import com.jeppeman.globallydynamic.gradle.extensions.getTaskName
+import com.jeppeman.globallydynamic.gradle.extensions.*
 import com.jeppeman.globallydynamic.gradle.extensions.stackTraceToString
 import com.jeppeman.globallydynamic.gradle.extensions.toBase64
 import org.apache.http.HttpException
@@ -145,21 +145,8 @@ open class UploadBundleTask : DefaultTask() {
             task.applicationId = applicationVariant.applicationId
             task.version = applicationVariant.versionCode
             task.serverInfo = task.project.resolveServerInfo(extension)
-            task.bundleDir = task.project.buildDir
-                .toPath()
-                .resolve("intermediates")
-                .resolve("intermediary_bundle")
-                .resolve(applicationVariant.name)
-                .resolve(applicationVariant.getTaskName("package", "Bundle"))
-                .toFile()
-            task.signingConfig = task.project.buildDir
-                .toPath()
-                .resolve("intermediates")
-                .resolve("signing_config_data")
-                .resolve(applicationVariant.name)
-                .resolve(applicationVariant.getTaskName("signingConfigWriter"))
-                .resolve("signing-config-data.json")
-                .toFile()
+            task.bundleDir = task.project.intermediaryBundleDir(applicationVariant)
+            task.signingConfig = task.project.intermediarySigningConfig(applicationVariant)
         }
     }
 }
