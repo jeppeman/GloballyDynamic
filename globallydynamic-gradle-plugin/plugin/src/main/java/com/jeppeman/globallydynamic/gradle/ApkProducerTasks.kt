@@ -19,8 +19,8 @@ import com.google.common.util.concurrent.MoreExecutors
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import com.jeppeman.globallydynamic.gradle.extensions.*
 import com.jeppeman.globallydynamic.gradle.extensions.deleteCompletely
-import com.jeppeman.globallydynamic.gradle.extensions.getTaskName
 import com.jeppeman.globallydynamic.gradle.extensions.unzip
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -41,7 +41,8 @@ abstract class ApkProducerTask : DefaultTask() {
     private fun JsonObject.getPropertyCompat(propName: String) =
         get(propName) ?: get("m${propName.capitalize()}")
 
-    protected open val buildMode: BuildApksCommand.ApkBuildMode = BuildApksCommand.ApkBuildMode.DEFAULT
+    @get:Input
+    protected abstract val buildMode: BuildApksCommand.ApkBuildMode
     protected abstract fun processApkSet(apkSet: Path)
 
     @get:InputFiles
@@ -54,7 +55,6 @@ abstract class ApkProducerTask : DefaultTask() {
         private set
 
     @get:OutputDirectory
-    @get:PathSensitive(PathSensitivity.ABSOLUTE)
     lateinit var outputDir: File
         protected set
 
@@ -65,6 +65,7 @@ abstract class ApkProducerTask : DefaultTask() {
     @get:Nested
     abstract val aapt2: Aapt2Input
 
+    @get:Input
     lateinit var variantName: String
         private set
 
@@ -141,19 +142,8 @@ abstract class ApkProducerTask : DefaultTask() {
         override fun execute(task: T) {
             task.variantName = applicationVariant.name
             task.signed = signed
-            task.bundleDir = task.project.buildDir
-                .toPath()
-                .resolve("intermediates")
-                .resolve("intermediary_bundle")
-                .resolve(applicationVariant.name)
-                .toFile()
-            task.signingConfig = task.project.buildDir
-                .toPath()
-                .resolve("intermediates")
-                .resolve("signing_config_data")
-                .resolve(applicationVariant.name)
-                .resolve("signing-config-data.json")
-                .toFile()
+            task.bundleDir = task.project.intermediaryBundleDir(applicationVariant)
+            task.signingConfig = task.project.intermediarySigningConfig(applicationVariant)
             createProjectServices(task.project).initializeAapt2Input(task.aapt2)
         }
     }
@@ -196,6 +186,8 @@ abstract class BuildUniversalApkTask : ApkProducerTask() {
 }
 
 abstract class BuildBaseApkTask : ApkProducerTask() {
+    override val buildMode: BuildApksCommand.ApkBuildMode = BuildApksCommand.ApkBuildMode.DEFAULT
+
     override fun processApkSet(apkSet: Path) {
         val tempDir = Paths.get(outputDir.absolutePath, "temp")
         tempDir.deleteCompletely()
