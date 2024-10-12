@@ -1,6 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.0.20'
-    id 'org.jetbrains.intellij' version '1.17.4'
+    id 'org.jetbrains.intellij.platform' version '2.1.0' // https://github.com/JetBrains/intellij-platform-gradle-plugin/releases
 }
 
 apply from: 'deps.gradle'
@@ -18,9 +18,17 @@ repositories {
     }
     mavenCentral()
     google()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
+    intellijPlatform {
+        local "${System.getenv("ANDROID_STUDIO_PATH")}"
+        bundledPlugins 'org.jetbrains.android'
+        instrumentationTools()
+    }
     implementation deps.globallydynamic.server
 
     testImplementation deps.truth
@@ -40,20 +48,28 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "17"
 }
 
-intellij {
-    plugins = ['android']
-    localPath = "${System.getenv("ANDROID_STUDIO_PATH")}"
+intellijPlatform {
+    /*pluginConfiguration {
+        name = "example"
+        group = "com.example"
+    }*/
+    instrumentCode = true
 }
 
-def instrumentCompilerVersion = "241.18034.62"
-
-instrumentCode {
-    compilerVersion = instrumentCompilerVersion
-}
-
-instrumentTestCode {
-    compilerVersion = instrumentCompilerVersion
-}
+//intellij {
+//    plugins = ['android']
+//    localPath = "${System.getenv("ANDROID_STUDIO_PATH")}"
+//}
+//
+//def instrumentCompilerVersion = "242.21829.142"
+//
+//instrumentCode {
+//    compilerVersion = instrumentCompilerVersion
+//}
+//
+//instrumentTestCode {
+//    compilerVersion = instrumentCompilerVersion
+//}
 
 publishPlugin {
     // channels 'alpha'
@@ -64,6 +80,10 @@ buildSearchableOptions.systemProperty("idea.is.internal", "")
 
 patchPluginXml {
     changeNotes = """
+    <h1>1.12.0</h1>
+    <ul>
+        <li>Android Studio Ladybug (2024.2.1) compatibility</li>
+    </ul>
     <h1>1.11.0</h1>
     <ul>
         <li>Android Studio Koala Feature Drop (2024.1.2) compatibility</li>
