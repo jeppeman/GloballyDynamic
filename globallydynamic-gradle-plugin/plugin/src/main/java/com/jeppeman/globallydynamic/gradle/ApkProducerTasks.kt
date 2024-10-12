@@ -144,7 +144,7 @@ abstract class ApkProducerTask : DefaultTask() {
             task.signed = signed
             task.bundleDir = task.project.intermediaryBundleDir(applicationVariant)
             task.signingConfig = task.project.intermediarySigningConfig(applicationVariant)
-            createProjectServices(task.project).initializeAapt2Input(task.aapt2)
+            createProjectServices(task.project).initializeAapt2Input(task.aapt2, task)
         }
     }
 }
