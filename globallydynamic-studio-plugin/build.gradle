@@ -49,27 +49,8 @@ compileTestKotlin {
 }
 
 intellijPlatform {
-    /*pluginConfiguration {
-        name = "example"
-        group = "com.example"
-    }*/
     instrumentCode = true
 }
-
-//intellij {
-//    plugins = ['android']
-//    localPath = "${System.getenv("ANDROID_STUDIO_PATH")}"
-//}
-//
-//def instrumentCompilerVersion = "242.21829.142"
-//
-//instrumentCode {
-//    compilerVersion = instrumentCompilerVersion
-//}
-//
-//instrumentTestCode {
-//    compilerVersion = instrumentCompilerVersion
-//}
 
 publishPlugin {
     // channels 'alpha'
