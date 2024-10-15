@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 buildscript {
     apply from: 'deps.gradle'
 
@@ -11,9 +13,9 @@ buildscript {
 }
 
 ext {
-    sourceCompatibilityVersion = JavaVersion.VERSION_17
-    targetCompatibilityVersion = JavaVersion.VERSION_17
-    jvmTargetVersion = JavaVersion.VERSION_17.toString()
+    sourceCompatibilityVersion = JavaVersion.VERSION_21
+    targetCompatibilityVersion = JavaVersion.VERSION_21
+    jvmTargetVersion = JvmTarget.JVM_21.target
 }
 
 subprojects {

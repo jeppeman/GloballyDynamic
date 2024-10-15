@@ -6,6 +6,14 @@ import LinkRenderer from "../components/LinkRenderer";
 import ImageRenderer from "../components/ImageRenderer";
 
 const markdown = `
+Gradle plugin 1.10.0 (October 2024)
+---
+* AGP 8.7 compatibility.
+
+Studio plugin 1.12.0 (October 2024)
+---
+* Android Studio Ladybug Feature Drop (2024.2.1) compatibility.
+
 Gradle plugin 1.9.0 (September 2024)
 ---
 * Fix broken APK producer tasks.
